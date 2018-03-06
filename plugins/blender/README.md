@@ -58,7 +58,7 @@ Click on the ```Manage Data``` menu item, or if you are already in BatchLabs, th
 
 Give the file group a name, this could be something like a project name for the scene. For this example, we'll use ```blender-project```.
 
-Select the root folder of your assets. Ensure ```Include sub directories``` is checked. Under File options keep the Prefix empty, Flatten and Full path disabled. If you have multiple asset locations, then get in touch and we can help you sort out the best way to get you working.
+Select the root folder of your assets. Ensure ```Include sub directories``` is checked. Under File options keep the ```Prefix``` empty, ```Flatten``` and ```Full path``` disabled. If you have multiple asset locations, then get in touch and we can help you sort out the best way to get you working.
 
 ![](../images/blender/file-group-create.png)
 
