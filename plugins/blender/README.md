@@ -84,7 +84,7 @@ Now that the scene files have been uploaded you can submit the job. From the ```
 
 Click on the big green button.
 
-Note: Once the pool is created, you don't have to delete it in-between jobs. You can just use BatchLabs to rescale the pool down to 0 nodes and you will no longer pay for any compute node uptime. Next time you want to run a Blender job, just select: ```Pools -> blender-pool-ubuntu``` and click on the scale button to re-scale the pool up again with new compute nodes. If you contact us we can help you with an auto scale formula that will scale up when new jobs attempt to use the pool, and automatically scale down again once the jobs have completed.
+**Note** - Once the pool is created, you don't have to delete it in-between jobs. You can just use BatchLabs to rescale the pool down to 0 nodes and you will no longer pay for any compute node uptime. Next time you want to run a Blender job, just select: ```Pools -> blender-pool-ubuntu``` and click on the scale button to re-scale the pool up again with new compute nodes. If you contact us we can help you with an auto scale formula that will scale up when new jobs attempt to use the pool, and automatically scale down again once the jobs have completed.
 
 ![](../images/blender/pool-details.png)
 
@@ -117,4 +117,4 @@ Once completed you can click on any task to look at the details and outputs of t
 
 ![](../images/blender/file-group.png)
 
-And that's it. If you have any queries or questions. Please get in touch at ```Azure Batch Rendering <rendering at microsoft.com>```, and we will be happy to help you out
+And that's it. If you have any queries or questions. Please get in touch at ```Azure Batch Rendering <rendering at microsoft.com>```, and we will be happy to help you out.
