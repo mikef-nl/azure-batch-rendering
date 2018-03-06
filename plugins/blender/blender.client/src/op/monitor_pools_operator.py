@@ -2,7 +2,7 @@ import logging
 
 import bpy
 
-from batched_blender.constants import Constants
+from src.constants import Constants
 
 class MonitorPoolsOperator(bpy.types.Operator):
     bl_idname = Constants.OP_ID_MONITOR_POOLS

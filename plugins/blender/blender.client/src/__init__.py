@@ -15,16 +15,16 @@ bl_info = {
 
 _APP_DIR = os.path.dirname(__file__)
 
-from batched_blender.preferences import UserPreferences
-from batched_blender.shared import BatchSettings
+from src.preferences import UserPreferences
+from src.shared import BatchSettings
 
-from batched_blender.menu import BatchLabsBlenderSubMenu
-from batched_blender.menu import BatchLabsBlenderMenu
+from src.menu import BatchLabsBlenderSubMenu
+from src.menu import BatchLabsBlenderMenu
 
-from batched_blender.op.download_renders_operator import DownloadRendersOperator
-from batched_blender.op.monitor_jobs_operator import MonitorJobsOperator
-from batched_blender.op.monitor_pools_operator import MonitorPoolsOperator
-from batched_blender.op.submit_job_operator import SubmitJobOperator
+from src.op.download_renders_operator import DownloadRendersOperator
+from src.op.monitor_jobs_operator import MonitorJobsOperator
+from src.op.monitor_pools_operator import MonitorPoolsOperator
+from src.op.submit_job_operator import SubmitJobOperator
 
 @bpy.app.handlers.persistent
 def start_session(self):

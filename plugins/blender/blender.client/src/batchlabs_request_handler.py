@@ -5,7 +5,7 @@ import webbrowser
 
 import bpy
 
-from batched_blender.constants import Constants
+from src.constants import Constants
 
 class SubmitMenuOption:
     def __init__(self, key, name):

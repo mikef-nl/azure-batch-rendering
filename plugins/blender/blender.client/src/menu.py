@@ -1,7 +1,7 @@
 ﻿import logging
 import bpy
 
-from batched_blender.constants import Constants
+from src.constants import Constants
 
 
 class BatchLabsBlenderSubMenu(bpy.types.Menu):

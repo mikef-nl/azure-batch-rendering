@@ -4,8 +4,8 @@ import uuid
 
 import bpy
 
-from batched_blender.batchlabs_request_handler import BatchLabsRequestHandler
-from batched_blender.constants import Constants
+from src.batchlabs_request_handler import BatchLabsRequestHandler
+from src.constants import Constants
 
 
 class BatchSettings(object):

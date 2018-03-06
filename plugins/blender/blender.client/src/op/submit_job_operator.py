@@ -3,8 +3,8 @@ import os
 
 import bpy
 
-from batched_blender.constants import Constants
-from batched_blender.shared import BatchSettings
+from src.constants import Constants
+from src.shared import BatchSettings
 
 class SubmitJobOperator(bpy.types.Operator):
     bl_idname = Constants.OP_ID_SUBMIT_JOB
