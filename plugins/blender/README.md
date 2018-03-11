@@ -2,14 +2,18 @@
 BatchLabs plugin for Blender. This plugin allows you to use BatchLabs and the Azure Batch Rendering Service to render your scenes in the cloud.
 
 ## BatchLabs
-Batch Labs is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes experimental features such as `Batch Templates` with the aim to improve your Batch experience. BatchLabs is updated monthly with new features and bug fixes. You can download it for Windows, macOS, and Linux on [BatchLabs website](https://azure.github.io/BatchLabs/).
+Batch Labs is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes experimental features such as `Batch Templates` with the aim to improve your Batch experience. BatchLabs is updated monthly with new features and bug fixes. You can download it for Windows, macOS, and Linux from the [BatchLabs website](https://azure.github.io/BatchLabs/).
+
+**Note: The BatchLabs official release doesn't yet support the features required to run the Blender plugin.** We will have an offical build out shortly, but until then please download and install [this custom build of BatchLabs](https://github.com/Azure/azure-batch-rendering/tree/master/plugins/blender/blender.client/build/BatchLabs%20Setup%200.13.1.exe). You will be automatically prompted to upgrade to the official build when it has been released.
 
 ![](../images/blender/labs.png)
 
 ## Installing the plugin
 These steps will outline how to install and use the Blender plugin.
 #### 1. Install BatchLabs
-Install the latest version of [BatchLabs](https://azure.github.io/BatchLabs/). This is the tool that will do the majority of the work to get your Blender scenes rendering in the cloud.
+<!-- (Install the latest version of [BatchLabs])(https://azure.github.io/BatchLabs/). -->
+Install the custom build of BatchLabs as outlined above.
+This is the tool that will do the majority of the work to get your Blender scenes rendering in the cloud.
 
 #### 2.1 Install the Blender plugin
 Get the latest zip file from [the repository](https://github.com/Azure/azure-batch-rendering/tree/master/plugins/blender/blender.client/build). 
