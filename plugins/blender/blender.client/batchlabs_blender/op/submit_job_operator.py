@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 
 import bpy
 
@@ -13,6 +14,10 @@ class SubmitJobOperator(bpy.types.Operator):
     
     _log = None
     _preferences = None
+
+    _prefix = "blender-"
+    _maxFileGroupLength = 55
+    _maxUsableLength = _maxFileGroupLength - len(_prefix)
 
     def __init__(self):
         self._log = logging.getLogger(Constants.LOG_NAME)
@@ -44,5 +49,24 @@ class SubmitJobOperator(bpy.types.Operator):
         Given the main data file path, turn it into a valid storage container name
         for us to use as a file group name.
         """
-        sansPath = os.path.basename(bpy.data.filepath)
-        return sansPath
+        if not blendFile:
+            return ""
+
+        sansPath = os.path.basename(blendFile)
+        # get the filename only and lower case it
+        sansExtension = os.path.splitext(sansPath)[0].lower()
+        
+        # replace underscores and multiple dashes
+        sansExtension = re.sub(r'[_-]{1,}', "-", sansExtension)
+
+        # check that the filename is not too long, if it is then trim it
+        if len(sansExtension) > self._maxUsableLength:
+            self._log.info("SubmitJobOperator: file name length is longer than: " + str(self._maxUsableLength) + ", trimming")
+            sansExtension = sansExtension[0:self._maxUsableLength]
+
+        # replace any start and end hyphens
+        sansExtension = re.sub(r'^[-]|[-]+$', "", sansExtension)
+        self._log.info("SubmitJobOperator: after sanitizing filename: " + sansExtension)
+        self._log.info("SubmitJobOperator: returning: " + self._prefix + sansExtension)
+
+        return self._prefix + sansExtension

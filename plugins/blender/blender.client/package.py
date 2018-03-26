@@ -19,7 +19,7 @@ def main():
             return
 
     package = os.path.join(package_dir, "blender-{0}.zip".format(VERSION))
-    source = os.path.abspath("src")
+    source = os.path.abspath("batchlabs_blender")
 
     with zipfile.ZipFile(package, mode='w') as blend_zip:
         for root, dirs, files in os.walk(source):
