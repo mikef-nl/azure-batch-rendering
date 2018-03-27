@@ -16,7 +16,7 @@ Install the custom build of BatchLabs `as outlined above`.
 This is the tool that will do the majority of the work to get your Blender scenes rendering in the cloud.
 
 #### 2.1 Install the Blender plugin
-Get the latest zip file from [the repository](https://github.com/Azure/azure-batch-rendering/tree/master/plugins/blender/blender.client/build). 
+Download the latest zip file from [the repository](https://github.com/Azure/azure-batch-rendering/blob/master/plugins/blender/blender.client/build/blender-0.2.0.zip).
 
 - Open the Blender application
 - Open the user preferences window: ```File -> User Preferences```
@@ -38,7 +38,9 @@ The plugin contains a couple of handy user preferences.
 
 **Batch account** - If you have many Batch accounts and would like the plugin to default to using a single account, you can set the fully qualified resource ID of the account. An example of which would be: ```/subscriptions/<sub-id>/resourceGroups/<resource-group>/providers/Microsoft.Batch/batchAccounts/<account-name>```.
 
-This will ensure that every time you open BatchLabs from the Blender plugin, it will use this account. Otherwise it will default to the last account you were using in BatchLabs. You can get the resource ID for your Batch account from the [Azure Portal](http://portal.azure.com).
+This will ensure that every time you open BatchLabs from the Blender plugin, it will use this account. Otherwise it will default to the last account you were using in BatchLabs. You can get the ```resource ID``` from BatchLabs. Run BatchLabs and select the account you want to use. From the details screen, select the ```Credentials and code samples``` button. Copy the ```resource ID``` and paste it into the Batch account input box.
+
+![](../images/blender/labs-credentials.png)
 
 **Pool type** - When submitting a job, you can use a persistent pre-existing pool, or an auto-pool that is created when the job is submitted and then deleted when the job is completed. While auto-pools can be handy, they can also make it hard to diagnose some issues with the job should you have any. It is recommended that while you are rendering your test scenes that you use a persistent pool. Once you are happy with the process you can switch to using an auto-pool should you wish.
 
