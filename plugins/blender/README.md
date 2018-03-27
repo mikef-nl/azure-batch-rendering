@@ -2,7 +2,9 @@
 BatchLabs plugin for Blender. This plugin allows you to use BatchLabs and the Azure Batch Rendering Service to render your scenes in the cloud.
 
 ## BatchLabs
-Batch Labs is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes experimental features such as `Batch Templates` with the aim to improve your Batch experience. BatchLabs is updated monthly with new features and bug fixes. You can download it for Windows, macOS, and Linux from the [BatchLabs website](https://azure.github.io/BatchLabs/).
+BatchLabs is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes experimental features such as `Batch Templates` with the aim to improve your Batch experience. BatchLabs is updated monthly with new features and bug fixes. You can download it for Windows, Mac OS, and Linux from the [BatchLabs website](https://azure.github.io/BatchLabs/).
+
+**Note: The BatchLabs official release doesn't yet support the features required to run the Blender plugin.** We will have an offical build out shortly, but until then please download and install [this custom build of BatchLabs](https://github.com/Azure/azure-batch-rendering/tree/master/plugins/blender/blender.client/build/BatchLabs%20Setup%200.14.0.exe). You will be automatically prompted to upgrade to the official build when it has been released.
 
 ![](../images/blender/labs.png)
 
@@ -10,7 +12,7 @@ Batch Labs is a tool to manage your Azure Batch accounts. The goal is to impleme
 These steps will outline how to install and use the Blender plugin.
 #### 1. Install BatchLabs
 <!-- (Install the latest version of [BatchLabs])(https://azure.github.io/BatchLabs/). -->
-Install the custom build of BatchLabs as outlined above.
+Install the custom build of BatchLabs `as outlined above`.
 This is the tool that will do the majority of the work to get your Blender scenes rendering in the cloud.
 
 #### 2.1 Install the Blender plugin
@@ -53,29 +55,25 @@ The Blender plugin gives you 4 menu options. It can be accessed via: ```Render -
 
 **Monitor pools** - Takes you to your pools dashboard.
 
-#### 1. Upload inputs to a File Group
-Before you submit your job, you'll need to upload your scenes input data to a file group. We are working on new and improved ways to make it easier to get your data into the cloud, though at this stage we will need to manually create a file group.
+#### 1. Submit your job
+Before you submit your job, you'll need to get the latest versions of your scenes input data into a blob storage container. These are called file groups and are used to get your assets onto the compute nodes in your pool so that the tasks in your job can access them. From the ```Render``` menu in Blender, select ```Azure Batch Rendering -> Submit Job -> Render movie on Ubuntu 16.4```. This will take you to the correct location in BatchLabs and will automatically populate the required data for your Blender scene.
 
-Click on the ```Manage Data``` menu item, or if you are already in BatchLabs, then click on the ```Data``` menu and then click on the ```+ -> From Local Folder``` option to create a new file group.
+![](../images/blender/blender-submit-2.png)
 
-Give the file group a name, this could be something like a project name for the scene. For this example, we'll use ```blender-project```.
+Note that the file group name and ```.blend``` file will have been automatically set. If you have any external asset directories such as characters and textures that you need to be included with the ```.blend``` file, you can drag and drop them onto the path table.
 
-Select the root folder of your assets. Ensure ```Include sub directories``` is checked. Under File options keep the ```Prefix``` empty, ```Flatten``` and ```Full path``` disabled. If you have multiple asset locations, then get in touch and we can help you sort out the best way to get you working.
+![](../images/blender/file-group-drag.png)
 
-![](../images/blender/file-group-create.png)
+The name of the file group is based on the blend file and can be changed should you wish. Note that running the job from Blender multiple times will use the same file group. This is fine and only those files that have been modifed will be uploaded to your file group.
 
-Click ```Upload and close```. You'll see the form close and the upload progressing under background tasks in the application footer.
+Ensure ```Include sub directories``` is checked. Under File options keep the ```Prefix``` empty, ```Flatten``` and ```Full path``` disabled. Then click ```Create and close```.
 
-You can view your new file group and the data in it under ```Data -> blender-project```. Below you should see all the files and folders that you just uploaded.
+At a later time, should you wish to view the files and folders in the file group, you can access this under the main ```Data``` menu and selecting the file group name from the list.
 
 ![](../images/blender/file-group-view.png)
 
-#### 2.1 Submit your job
-Now that the scene files have been uploaded, you can submit the job. From the ```Render``` menu, select ```Azure Batch Rendering -> Submit Job -> Render movie on Ubuntu 16.4```. This will take you to the correct location in BatchLabs and provided you left the default user preference of ```Use persistent pool```, you will see a UI like this.
-
-![](../images/blender/blender-submit-job.png)
-
-**Note** - If you have not created a pool to run your job on, then we can do that now. Rendering jobs need to be run on the correct type of pool. Only a pool that was created with the correct Blender template will work. Click on the ```Create pool for later use``` button and you will see this form:
+#### 2.1. Create a pool
+If you have not created a pool to run your job on, then we can do that now. Rendering jobs need to be run on the correct type of pool. Only a pool that was created with the correct Blender template will work. Click on the ```Create pool for later use``` button and you will see this form:
 
 ![](../images/blender/blender-create-pool.png)
 
@@ -83,11 +81,11 @@ Now that the scene files have been uploaded, you can submit the job. From the ``
 - Choose the number of compute nodes, the template defaults to 5, but for the sake of an initial test we can use 1 or 2. For very large jobs we can select virtually any number of compute nodes. Any new Batch account will have a default Quota of 20 cores. If you are using 2 core machines, then you can create a pool with up to 10 compute nodes should you wish. Note that you will pay for the time the compute nodes are running. You can send in a support request to have this number increased should you wish. Quota increase requests can be raised from the [Azure Portal Support Page](https://portal.azure.com/?feature.customportal=false#blade/Microsoft_Azure_Support/HelpAndSupportBlade/newsupportrequest)
 
 - Select a compute node size. For this example, we'll use a single ```Standard_D2_v2``` compute node which has 2 cores. You can see more information about the various Azure Compute Node sizes [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes).
-- Select the ```Max tasks per node```. This is how many simultanious tasks that can be run on a single compute node. For small, less CPU bound jobs, you can normally get away with running 1 task per CPU, but for normal rendering purposes a single task per compute node should would out to be optimal.
+- Select the ```Max tasks per node```. This is how many simultanious tasks that can be run on a single compute node. For small, less CPU bound jobs, you can sometimes get away with running 1 task per CPU, but for normal rendering purposes, a single task per compute node would be optimal.
 
-Click on the big green button and you will be taken to the dashboard and heatmap for you new pool.
+Tick the ```Do not redirect``` checkbox and click on the big green button and your pool will be submitted to the Batch service for creation.
 
-**Note** - Once the pool is created, you don't have to delete it in-between jobs. You can just use BatchLabs to rescale the pool down to 0 nodes and you will no longer pay for any compute node uptime. Next time you want to run a Blender job, just select: ```Pools -> blender-pool-ubuntu``` and click on the scale button to re-scale the pool up again with new compute nodes. If you contact us we can help you with an auto scale formula that will scale up when new jobs attempt to use the pool, and automatically scale down again once the jobs have completed.
+**Note** - Once a pool is created, you don't have to delete it in-between jobs. You can just use BatchLabs to rescale the pool down to 0 nodes and you will no longer pay for any compute node uptime. Next time you want to run a Blender job, just select: ```Pools -> blender-pool-ubuntu``` and click on the scale button to re-scale the pool up again with new compute nodes. If you contact us we can help you with an auto scale formula that will scale up when new jobs attempt to use the pool, and automatically scale down again once the jobs have completed.
 
 ![](../images/blender/pool-details.png)
 
@@ -95,18 +93,22 @@ After a minute or so you should see the compute nodes appear in the pool heatmap
 
 There is no reason why you cannot submit a job now, tasks will start to be run as soon as any of the compute nodes become ```Idle```.
 
-#### 2.2 Actually Submitting your job
-If you created a pool, then we need to click on the ```Azure Batch Rendering -> Submit Job -> Render movie on Ubuntu 16.4``` in Blender again as this action pre-populates some of your initial job data. The act of creating a pool as wiped this data from BatchLabs so we need do it again. As BatchLabs is already open then this action will be very quick.
+#### 2.2. Actually Submitting your job
+If you created a pool, then we need to click on the ```Run job with existing pool``` button. Any data that was previously entered into the form will still be visible.
 
 From the submit job form, select the following:
 
 - Select the pool you created earlier from the Pool list. In our case it was ```blender-pool-ubuntu```
-- For the ```Job name```, either keep the default or enter something meaningful. **Note that each job within a given Batch account must have a unique name.**
-- For the ```Input data```, select the ```blender-project``` file group that you created earlier. The warning under the ```Blend file``` option should now go away. Should no blend file be selected, then click on the button and browse to the main ```.blend``` file for your scene. Note that each file group will now be prefixed with ```fgrp-```.
+- For the ```Job name```, either keep the default or enter something meaningful. **Note that each job within a given Batch account must have a unique name.** You will get an error should you re-use a job ID more than once.
+- The ```Input data``` file group should be already set. If not, then select the ```blender-<scene-file>``` file group that you created earlier. The warning under the ```Blend file``` option should now go away. Should no blend file be selected, then click on the button and browse to the main ```.blend``` file for your scene. Note that each file group will now be prefixed with ```fgrp-```.
 - ```Frame start``` and ```Frame end``` can either define a frame range, or you can just enter a single frame number in each to only render that frame. Each frame will have its own task created within the job.
-- Select the ```Outputs``` file group. This is a file group that any job outputs will be written to including the logs for the job. You can use the same file group you created earlier should you wish. I normally would use a file group called ```outputs``` that I write all job outputs to. I find this easier to manage as each job writes outputs under a folder with the same name as the job. If you are running multiple jobs for a given scene then you could call your output file group: ```outputs-<scene-name>```, that way all the outputs relating to that scene are in the same place.
+- Select the ```Outputs``` file group. This is a file group that any job outputs will be written to including the logs for the job. I would suggest using a different file group for each of your scenes. You can run the same scene job multiple times using the same file group. This makes it easier to keep track of where your outputs are. Each job will upload files to a folder in the files group named with the ID of the job. To create a new empty file group, select the ```Outputs``` form field and select ```Create a new file group``` from the drop down items. Enter the name of the file group and check the ```Create an empty file group``` checkbox. Then click ```Create and close```. Your empty file group will be created and populated into the form.
 
-Once each form field is completed, the submit button will be enabled and you can click on the green button to submit the job. Once successfully submitted, you will be taken to the job details page where you can view the progress of the job.
+**Note:** I would not recommend using the same file group as you used for your scene assets. Output images and log files are uploaded from each of your tasks, if you had used the same input file group for your outputs, the next time you re-ran the job, these outputs would be downloaded to the compute node with the rest of your input files, whereby possibly affecting task runtime performance.
+
+**Example:** Should your ```.blend``` file be called ```my-scene.blend```, your main asset file group would be called ```blender-my-scene```, you can then call your output file group ```blender-my-scene-outputs```. Using this approach will group your input and output file group containers together in the ```Data``` view of BatchLabs.
+
+Once each form field is completed, the submit button will be enabled and you can click on the green button to submit the job. Deselect the ```Do not redirect``` checkbox if checked, and click on the submit button. Once successfully submitted, you will be taken to the job details page where you can view the progress of the job.
 
 ![](../images/blender/completed-form.png)
 
@@ -122,4 +124,4 @@ Click on the ```Data``` menu and select the file group you selected for the job 
 
 ![](../images/blender/file-group.png)
 
-And that's it. If you have any queries or questions. Please get in touch at ```Azure Batch Rendering <rendering at microsoft.com>```, and we will be happy to help you out.
+And that's it. If you have any queries or questions. Please get in touch at ```Azure Batch Rendering <rendering [at] microsoft.com>```, and we will be happy to help you out.
