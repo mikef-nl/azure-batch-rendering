@@ -35,9 +35,11 @@ class SubmitJobOperator(bpy.types.Operator):
         }
 
         if bpy.data.filepath:
+            sceneName = self._containerizeBlendFile(bpy.data.filepath)
             arguments[Constants.KEY_SCENE_FILE] = os.path.basename(bpy.data.filepath)
-            arguments[Constants.KEY_ASSET_CONTAINER] = self._containerizeBlendFile(bpy.data.filepath)
+            arguments[Constants.KEY_ASSET_CONTAINER] = sceneName
             arguments[Constants.KEY_ASSET_PATHS] = bpy.data.filepath
+            arguments[Constants.KEY_JOB_NAME] = sceneName
 
         self._log.debug("SubmitJobOperator - passing args: " + str(arguments))
         handler.call_batch_labs(launch_url, arguments)

@@ -26,4 +26,5 @@
     KEY_INPUT_PARAMETER = "input-parameter"
     KEY_ASSET_CONTAINER = "asset-container"
     KEY_ASSET_PATHS = "asset-paths"
+    KEY_JOB_NAME = "jobName"
 

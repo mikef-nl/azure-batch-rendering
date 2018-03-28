@@ -66,7 +66,7 @@ Note that the file group name and ```.blend``` file will have been automatically
 
 ![](../images/blender/file-group-drag.png)
 
-The name of the file group is based on the blend file and can be changed should you wish. Note that running the job from Blender multiple times will use the same file group. This is fine and only those files that have been modifed will be uploaded to your file group.
+The name of the file group is based on the blend file and can be changed should you wish. Note that running the job from Blender multiple times will use the same file group. This is fine and only those files that have been modified will be uploaded to your file group.
 
 Ensure ```Include sub directories``` is checked. Under File options keep the ```Prefix``` empty, ```Flatten``` and ```Full path``` disabled. Then click ```Create and close```.
 
@@ -83,9 +83,9 @@ If you have not created a pool to run your job on, then we can do that now. Rend
 - Choose the number of compute nodes, the template defaults to 5, but for the sake of an initial test we can use 1 or 2. For very large jobs we can select virtually any number of compute nodes. Any new Batch account will have a default Quota of 20 cores. If you are using 2 core machines, then you can create a pool with up to 10 compute nodes should you wish. Note that you will pay for the time the compute nodes are running. You can send in a support request to have this number increased should you wish. Quota increase requests can be raised from the [Azure Portal Support Page](https://portal.azure.com/?feature.customportal=false#blade/Microsoft_Azure_Support/HelpAndSupportBlade/newsupportrequest)
 
 - Select a compute node size. For this example, we'll use a single ```Standard_D2_v2``` compute node which has 2 cores. You can see more information about the various Azure Compute Node sizes [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes).
-- Select the ```Max tasks per node```. This is how many simultanious tasks that can be run on a single compute node. For small, less CPU bound jobs, you can sometimes get away with running 1 task per CPU, but for normal rendering purposes, a single task per compute node would be optimal.
+- Select the ```Max tasks per node```. This is how many simultaneous tasks that can be run on a single compute node. For small, less CPU bound jobs, you can sometimes get away with running 1 task per CPU, but for normal rendering purposes, a single task per compute node would be optimal.
 
-Tick the ```Do not redirect``` checkbox and click on the big green button and your pool will be submitted to the Batch service for creation.
+Click on the big green button and your pool will be submitted to the Batch service for creation. Once submitted you will be redirected back to the job details form.
 
 **Note** - Once a pool is created, you don't have to delete it in-between jobs. You can just use BatchLabs to rescale the pool down to 0 nodes and you will no longer pay for any compute node uptime. Next time you want to run a Blender job, just select: ```Pools -> blender-pool-ubuntu``` and click on the scale button to re-scale the pool up again with new compute nodes. If you contact us we can help you with an auto scale formula that will scale up when new jobs attempt to use the pool, and automatically scale down again once the jobs have completed.
 
@@ -95,14 +95,15 @@ After a minute or so you should see the compute nodes appear in the pool heatmap
 
 There is no reason why you cannot submit a job now, tasks will start to be run as soon as any of the compute nodes become ```Idle```.
 
-#### 2.2. Actually Submitting your job
-If you created a pool, then we need to click on the ```Run job with existing pool``` button. Any data that was previously entered into the form will still be visible.
+#### 2.2. Actually submitting your job
+If you were not automatically redirected back to the job details form, click on the ```Run job with existing pool``` button. Any data that was previously entered into the form will still be visible.
 
-From the submit job form, select the following:
+From the submit job form, enter the following information:
 
-- Select the pool you created earlier from the Pool list. In our case it was ```blender-pool-ubuntu```
+- If you just created a pool, then it will be automatically selected for you. If not, select an existing pool from the Pool list.
 - For the ```Job name```, either keep the default or enter something meaningful. **Note that each job within a given Batch account must have a unique name.** You will get an error should you re-use a job ID more than once.
-- The ```Input data``` file group should be already set. If not, then select the ```blender-<scene-file>``` file group that you created earlier. The warning under the ```Blend file``` option should now go away. Should no blend file be selected, then click on the button and browse to the main ```.blend``` file for your scene. Note that each file group will now be prefixed with ```fgrp-```.
+- The ```Input data``` file group should be already set. If not, then select the ```blender-<scene-file>``` file group that you created earlier. The warning under the ```Blend file``` option should now go away.
+- The ```Blend file``` should be selected. If not, click on the button and browse to the main ```.blend``` file for your scene. Note that each file group will now be prefixed with ```fgrp-```.
 - ```Frame start``` and ```Frame end``` can either define a frame range, or you can just enter a single frame number in each to only render that frame. Each frame will have its own task created within the job.
 - Select the ```Outputs``` file group. This is a file group that any job outputs will be written to including the logs for the job. I would suggest using a different file group for each of your scenes. You can run the same scene job multiple times using the same file group. This makes it easier to keep track of where your outputs are. Each job will upload files to a folder in the file group named with the ID of the job. To create a new empty file group, select the ```Outputs``` form field and select ```Create a new file group``` from the drop down items. Enter the name of the file group and check the ```Create an empty file group``` checkbox. Then click ```Create and close```. Your empty file group will be created and populated into the form.
 
@@ -110,7 +111,7 @@ From the submit job form, select the following:
 
 **Example:** Should your ```.blend``` file be called ```my-scene.blend```, your main asset file group would be called ```blender-my-scene```, you can then call your output file group ```blender-my-scene-outputs```. Using this approach will group your input and output file group containers together in the ```Data``` view of BatchLabs.
 
-Once each form field is completed, the submit button will be enabled and you can click on the green button to submit the job. Deselect the ```Do not redirect``` checkbox if checked, and click on the submit button. Once successfully submitted, you will be taken to the job details page where you can view the progress of the job.
+Once each form field is completed, the submit button will be enabled and you can click on the green button to submit the job. Once successfully submitted, you will be taken to the job details page where you can view the progress of the job.
 
 ![](../images/blender/completed-form.png)
 
