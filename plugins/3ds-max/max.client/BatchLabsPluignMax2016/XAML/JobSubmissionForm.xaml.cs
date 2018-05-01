@@ -1,11 +1,14 @@
-﻿using System.Windows;
+﻿
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+using Autodesk.Max;
+
+using BatchLabsRendering.Common;
+
 using DrawingColor = System.Drawing.Color;
 using MediaColor = System.Windows.Media.Color;
-
-using Autodesk.Max;
 
 namespace BatchLabsRendering.XAML
 {
@@ -21,7 +24,7 @@ namespace BatchLabsRendering.XAML
             _parent = parent;
             InitializeComponent();
 
-            var global = GlobalInterface.Instance;
+            var global = MaxGlobalInterface.Instance;
                         
             // Get current background color and match our dialog to it
             var bgColor = GetUiColorBrush(global.ColorManager, GuiColors.Background);

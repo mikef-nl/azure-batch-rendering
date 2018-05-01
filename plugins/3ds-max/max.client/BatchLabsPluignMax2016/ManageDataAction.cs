@@ -1,4 +1,5 @@
-﻿using Autodesk.Max;
+﻿
+using BatchLabsRendering.Common;
 
 namespace BatchLabsRendering
 {
@@ -6,7 +7,7 @@ namespace BatchLabsRendering
     {
         public override void InternalExecute()
         {            
-            var Interface = GlobalInterface.Instance.COREInterface16;
+            var Interface = MaxGlobalInterface.Instance.COREInterface16;
             Interface.PushPrompt("Calling out to data UI in BatchLabs");
 
             LabsRequestHandler.CallBatchLabs("data");

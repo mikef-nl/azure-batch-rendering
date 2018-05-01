@@ -1,7 +1,9 @@
-﻿using System;
+﻿
+using System;
 using System.Windows;
 using System.Windows.Interop;
-using Autodesk.Max;
+
+using BatchLabsRendering.Common;
 using BatchLabsRendering.XAML;
 
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -12,7 +14,7 @@ namespace BatchLabsRendering
     {
         public override void InternalExecute()
         {
-            var Interface = GlobalInterface.Instance.COREInterface16;
+            var Interface = MaxGlobalInterface.Instance.COREInterface16;
             Interface.PushPrompt("Gathering up information about the job");
             OpenJobConfigWindow();
         }
