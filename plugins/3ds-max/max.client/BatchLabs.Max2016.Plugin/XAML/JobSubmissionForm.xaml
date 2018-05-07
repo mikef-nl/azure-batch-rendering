@@ -6,9 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:BatchLabs.Max2016.Plugin.XAML"
     mc:Ignorable="d" 
-    d:DesignHeight="350" d:DesignWidth="300">
+    d:DesignHeight="350" d:DesignWidth="350">
 
-    <Grid x:Name="LayoutRoot" Background="#FF434242" Height="350" Width="300">
-        <Label x:Name="LabelJobDetails" Content="Job Details" Height="24"  VerticalAlignment="Top" HorizontalAlignment="Left" Width="125" Margin="10,10,0,0" Foreground="#CCCCCC" />
+    <Grid x:Name="LayoutRoot" Background="#FF434242" Height="350" Width="350">
+        <StackPanel>
+            <Label x:Name="LabelJobDetails" Content="Job Details" Height="24"  VerticalAlignment="Top" HorizontalAlignment="Left" Width="125" Margin="10,10,0,0" Foreground="#CCCCCC" />
+
+        </StackPanel>
     </Grid>
 </UserControl>

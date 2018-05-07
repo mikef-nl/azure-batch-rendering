@@ -1,7 +1,9 @@
 ﻿
 using Autodesk.Max;
 
+#if (DEBUG)
 using BatchLabs.Max2016.Plugin.GlobalInterface;
+#endif
 
 namespace BatchLabs.Max2016.Plugin.Contract
 {
@@ -17,8 +19,18 @@ namespace BatchLabs.Max2016.Plugin.Contract
         public static IGlobal Instance => 
             _instance ?? (_instance = GetGlobalInterface);
 
-        private static IGlobal GetGlobalInterface => Autodesk.Max.GlobalInterface.Instance != null
-            ? Autodesk.Max.GlobalInterface.Instance
-            : new FakeGlobalInterface();
+        private static IGlobal GetGlobalInterface
+        {
+            get
+            {
+#if (DEBUG)
+                return Autodesk.Max.GlobalInterface.Instance != null
+                    ? Autodesk.Max.GlobalInterface.Instance
+                    : new FakeGlobalInterface();
+#else
+                return Autodesk.Max.GlobalInterface.Instance;
+#endif
+            }
+        }
     }
 }
