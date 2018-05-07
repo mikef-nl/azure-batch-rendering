@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -38,20 +36,11 @@ namespace BatchLabs.Max2016.Plugin
                 var ctlExplode = new JobSubmissionForm(dialog);
                 dialog.Content = ctlExplode;
 
+#if (RELEASE)
                 var windowHandle = new WindowInteropHelper(dialog);
-                // TODO :: WHY DOESNT THIS CATCH WORK?? 
-                try
-                {
-                    // TODO: FIGURE OUT A WAY TO MAKE THIS WORK
-                    //windowHandle.Owner = ManagedServices.AppSDK.GetMaxHWND();
-                    //ManagedServices.AppSDK.ConfigureWindowForMax(dialog);
-                }
-                catch (Exception ex)
-                {
-                    // Will fail if we are not running inside 3ds Max as 'ManagedServices' doesn't exist.
-                    Debug.WriteLine("Failed to find ManagedServices.AppSDK. {0}", ex);
-                }
-
+                windowHandle.Owner = ManagedServices.AppSDK.GetMaxHWND();
+                ManagedServices.AppSDK.ConfigureWindowForMax(dialog);
+#endif
                 dialog.ShowDialog();
 
             }
