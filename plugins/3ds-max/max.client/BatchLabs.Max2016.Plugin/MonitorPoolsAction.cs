@@ -1,14 +1,14 @@
 ﻿
-using BatchLabsRendering.Common;
+using BatchLabs.Max2016.Plugin.Contract;
 
-namespace BatchLabsRendering
+namespace BatchLabs.Max2016.Plugin
 {
     public class MonitorPoolsAction : ActionBase
     {
         public override void InternalExecute()
         {
-            var Interface = MaxGlobalInterface.Instance.COREInterface16;
-            Interface.PushPrompt("Calling out to pools UI in BatchLabs");
+            var coreInterface = MaxGlobalInterface.Instance.COREInterface16;
+            coreInterface.PushPrompt("Calling out to pools UI in BatchLabs");
 
             LabsRequestHandler.CallBatchLabs("pools");
         }

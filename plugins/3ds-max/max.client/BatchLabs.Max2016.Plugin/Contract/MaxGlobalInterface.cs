@@ -1,7 +1,9 @@
 ﻿
 using Autodesk.Max;
 
-namespace BatchLabsRendering.Common
+using BatchLabs.Max2016.Plugin.GlobalInterface;
+
+namespace BatchLabs.Max2016.Plugin.Contract
 {
     /// <summary>
     /// Want to change this to be dependancy injected
@@ -15,8 +17,8 @@ namespace BatchLabsRendering.Common
         public static IGlobal Instance => 
             _instance ?? (_instance = GetGlobalInterface);
 
-        private static IGlobal GetGlobalInterface => GlobalInterface.Instance != null
-            ? GlobalInterface.Instance
+        private static IGlobal GetGlobalInterface => Autodesk.Max.GlobalInterface.Instance != null
+            ? Autodesk.Max.GlobalInterface.Instance
             : new FakeGlobalInterface();
     }
 }

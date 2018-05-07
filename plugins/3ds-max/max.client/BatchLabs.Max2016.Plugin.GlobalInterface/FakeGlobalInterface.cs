@@ -9,7 +9,9 @@ using Autodesk.Max.MaxSDK;
 using Autodesk.Max.MaxSDK.Graphics;
 using Autodesk.Max.MaxSDK.Util;
 
-namespace BatchLabsRendering.Common
+using BatchLabs.Max2016.Plugin.GlobalInterface.Stubs;
+
+namespace BatchLabs.Max2016.Plugin.GlobalInterface
 {
     /// <summary>
     /// Implement what we need in here to get the test handler running. Would prefer to use 
@@ -17,6 +19,21 @@ namespace BatchLabsRendering.Common
     /// </summary>
     public class FakeGlobalInterface : IGlobal
     {
+        private IInterface16 _interface16;
+        private IIColorManager _colorMananger;
+
+        public FakeGlobalInterface()
+        {
+            _interface16 = new Interface16Stub();
+            _colorMananger = new ColorManagerStub();
+        }
+
+        public override IInterface16 COREInterface16 => _interface16;
+
+        public override IIColorManager ColorManager => _colorMananger;
+
+        #region Unused Properties and Overrides
+
         public override void _QuatToEuler(IQuat q, IntPtr ang)
         {
             throw new NotImplementedException();
@@ -5136,7 +5153,6 @@ namespace BatchLabsRendering.Common
         public override IIAssemblyMgr AssemblyMgr { get; }
         public override IIBrowserMgr BrowserMgr { get; }
         public override IFPInterfaceDesc BrowserInterfaceDesc { get; }
-        public override IIColorManager ColorManager { get; }
         public override IICommandPanel ICommandPanel { get; }
         public override IIDragAndDropMgr DragAndDropMgr { get; }
         public override IMacroDir MacroScriptDir { get; }
@@ -5259,7 +5275,7 @@ namespace BatchLabsRendering.Common
         public override IInterface13 COREInterface13 { get; }
         public override IInterface14 COREInterface14 { get; }
         public override IInterface15 COREInterface15 { get; }
-        public override IInterface16 COREInterface16 { get; }
+        
         public override int NumCOREInterfaces { get; }
         public override IIAutodesk360 Autodesk360Interface { get; }
         public override IIBatchRenderManager BatchRenderManager { get; }
@@ -7245,5 +7261,7 @@ namespace BatchLabsRendering.Common
         public override IGlobalUVTangentVectors UVTangentVectors { get; }
         public override IGlobalViewWindowMetaData ViewWindowMetaData { get; }
         public override IGlobalWeekSchedule WeekSchedule { get; }
+
+        #endregion
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace BatchLabsRendering
+namespace BatchLabs.Max2016.Plugin
 {
     public class BatchLabsRequestHandler
     {

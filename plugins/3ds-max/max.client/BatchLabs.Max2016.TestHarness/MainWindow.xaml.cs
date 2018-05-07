@@ -1,9 +1,12 @@
 ﻿
+using System.Diagnostics;
 using System.Windows;
 
-using BatchLabsRendering;
+using BatchLabs.Max2016.Plugin;
+using BatchLabs.Max2016.Plugin.Contract;
+using BatchLabs.Max2016.Plugin.GlobalInterface.Stubs;
 
-namespace TestPluginActions
+namespace BatchLabs.Max2016.TestHarness
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -13,9 +16,17 @@ namespace TestPluginActions
         public MainWindow()
         {
             InitializeComponent();
+            var myInterface16 = (MaxGlobalInterface.Instance.COREInterface16 as Interface16Stub);
+            if (myInterface16 != null)
+            {
+                myInterface16.PushMessage += (sender, message) => { ShowPrompt(message); };
+            }
         }
 
-        // NOTE: for these to work I need to inject a new GlobalInterface.Instance into the app somehow.
+        private void ShowPrompt(string prompt)
+        {
+            Footer.Content = prompt;
+        }
 
         private void JobsButton_Click(object sender, RoutedEventArgs e)
         {

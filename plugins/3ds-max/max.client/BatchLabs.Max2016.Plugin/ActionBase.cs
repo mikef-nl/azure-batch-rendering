@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using UiViewModels.Actions;
 
-namespace BatchLabsRendering
+namespace BatchLabs.Max2016.Plugin
 {
     /// <inheritdoc />
     /// <summary>

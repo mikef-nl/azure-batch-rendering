@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestPluginActions.Properties {
+namespace BatchLabs.Max2016.TestHarness.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

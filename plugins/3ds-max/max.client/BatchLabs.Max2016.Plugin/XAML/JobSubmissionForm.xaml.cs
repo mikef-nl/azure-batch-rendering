@@ -5,12 +5,12 @@ using System.Windows.Media;
 
 using Autodesk.Max;
 
-using BatchLabsRendering.Common;
+using BatchLabs.Max2016.Plugin.Contract;
 
 using DrawingColor = System.Drawing.Color;
 using MediaColor = System.Windows.Media.Color;
 
-namespace BatchLabsRendering.XAML
+namespace BatchLabs.Max2016.Plugin.XAML
 {
     /// <summary>
     /// Interaction logic for JobSubmissionForm.xaml

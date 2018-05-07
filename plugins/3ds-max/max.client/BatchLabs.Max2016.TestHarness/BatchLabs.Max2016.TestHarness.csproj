@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0AB69AC3-79A6-444E-B07A-49845022459D}</ProjectGuid>
+    <ProjectGuid>{EABDA289-5F10-4663-B2E4-F7BFFA0953CC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestPluginActions</RootNamespace>
-    <AssemblyName>TestPluginActions</AssemblyName>
+    <RootNamespace>BatchLabs.Max2016.TestHarness</RootNamespace>
+    <AssemblyName>BatchLabs.Max2016.TestHarness</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,17 +36,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autodesk.Max">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\3ds Max 2016\Autodesk.Max.dll</HintPath>
+    <Reference Include="Autodesk.Max, Version=18.0.873.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Max2016\Autodesk.Max.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedServices">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\3ds Max 2016\ManagedServices.dll</HintPath>
+    <Reference Include="ManagedServices, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Max2016\ManagedServices.dll</HintPath>
     </Reference>
-    <Reference Include="MaxCustomControls">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\3ds Max 2016\MaxCustomControls.dll</HintPath>
+    <Reference Include="MaxCustomControls, Version=18.0.873.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Max2016\MaxCustomControls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,8 +61,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UiViewModels">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\3ds Max 2016\UiViewModels.dll</HintPath>
+    <Reference Include="UiViewModels, Version=18.0.873.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Max2016\UiViewModels.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -109,9 +115,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BatchLabsPluignMax2016\BatchLabsPluignMax2016.csproj">
-      <Project>{c9b6fd85-2188-4172-b930-595a9376deb0}</Project>
-      <Name>BatchLabsPluignMax2016</Name>
+    <ProjectReference Include="..\BatchLabs.Max2016.Plugin.GlobalInterface\BatchLabs.Max2016.Plugin.GlobalInterface.csproj">
+      <Project>{6608a64b-da6b-48fb-91ea-453d68b7d69c}</Project>
+      <Name>BatchLabs.Max2016.Plugin.GlobalInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BatchLabs.Max2016.Plugin\BatchLabs.Max2016.Plugin.csproj">
+      <Project>{c05459e5-6a56-486f-9595-6bac9ac36e33}</Project>
+      <Name>BatchLabs.Max2016.Plugin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
