@@ -1,10 +1,10 @@
 ﻿
-using System.Diagnostics;
 using System.Windows;
 
 using BatchLabs.Max2016.Plugin;
+using BatchLabs.Max2016.Plugin.Max;
 using BatchLabs.Max2016.Plugin.Contract;
-using BatchLabs.Max2016.Plugin.GlobalInterface.Stubs;
+using BatchLabs.Max2016.Plugin.Contract.Stubs;
 
 namespace BatchLabs.Max2016.TestHarness
 {

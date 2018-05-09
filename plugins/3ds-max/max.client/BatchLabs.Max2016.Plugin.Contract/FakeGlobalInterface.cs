@@ -9,9 +9,9 @@ using Autodesk.Max.MaxSDK;
 using Autodesk.Max.MaxSDK.Graphics;
 using Autodesk.Max.MaxSDK.Util;
 
-using BatchLabs.Max2016.Plugin.GlobalInterface.Stubs;
+using BatchLabs.Max2016.Plugin.Contract.Stubs;
 
-namespace BatchLabs.Max2016.Plugin.GlobalInterface
+namespace BatchLabs.Max2016.Plugin.Contract
 {
     /// <summary>
     /// Implement what we need in here to get the test handler running. Would prefer to use 

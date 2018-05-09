@@ -1,11 +1,11 @@
 ﻿
 using Autodesk.Max;
 
-#if (DEBUG)
-using BatchLabs.Max2016.Plugin.GlobalInterface;
+#if DEBUG
+using BatchLabs.Max2016.Plugin.Contract;
 #endif
 
-namespace BatchLabs.Max2016.Plugin.Contract
+namespace BatchLabs.Max2016.Plugin.Max
 {
     /// <summary>
     /// Want to change this to be dependancy injected
@@ -16,19 +16,19 @@ namespace BatchLabs.Max2016.Plugin.Contract
 
         private MaxGlobalInterface() { }
 
-        public static IGlobal Instance => 
+        public static IGlobal Instance =>
             _instance ?? (_instance = GetGlobalInterface);
 
         private static IGlobal GetGlobalInterface
         {
             get
             {
-#if (DEBUG)
-                return Autodesk.Max.GlobalInterface.Instance != null
-                    ? Autodesk.Max.GlobalInterface.Instance
+#if DEBUG
+                return GlobalInterface.Instance != null
+                    ? GlobalInterface.Instance
                     : new FakeGlobalInterface();
 #else
-                return Autodesk.Max.GlobalInterface.Instance;
+                return GlobalInterface.Instance;
 #endif
             }
         }

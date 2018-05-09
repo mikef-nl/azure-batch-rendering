@@ -11,7 +11,7 @@ using Autodesk.Max.MaxSDK.AssetManagement;
 
 using PivotMode = Autodesk.Max.Interface7.PivotMode;
 
-namespace BatchLabs.Max2016.Plugin.GlobalInterface.Stubs
+namespace BatchLabs.Max2016.Plugin.Contract.Stubs
 {
     public class Interface16Stub : IInterface16
     {
@@ -44,6 +44,10 @@ namespace BatchLabs.Max2016.Plugin.GlobalInterface.Stubs
         {
             PushMessage(this, promptString);
         }
+
+        public string CurFileName => "PipecatFX_FullMovie_v01_t10.max";
+
+        public string CurFilePath => "D:/Azure/rendering/3dsmax/NOV/PipecatFX_FullMovie_v01_t10.max";
 
         #region Unused Properties and Overrides
 
@@ -1744,8 +1748,6 @@ namespace BatchLabs.Max2016.Plugin.GlobalInterface.Stubs
         public int PlugInEntryCount { get; }
         public float LightConeConstraint { get; }
         public IMtlBaseLib SceneMtls { get; }
-        public string CurFileName { get; }
-        public string CurFilePath { get; }
         public string MatLibFileName { get; }
         public bool FileSave { get; }
         public bool FileSaveAs { get; }

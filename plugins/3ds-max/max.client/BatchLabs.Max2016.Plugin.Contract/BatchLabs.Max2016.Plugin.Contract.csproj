@@ -7,8 +7,8 @@
     <ProjectGuid>{6608A64B-DA6B-48FB-91EA-453D68B7D69C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BatchLabs.Max2016.Plugin.GlobalInterface</RootNamespace>
-    <AssemblyName>BatchLabs.Max2016.Plugin.GlobalInterface</AssemblyName>
+    <RootNamespace>BatchLabs.Max2016.Plugin.Contract</RootNamespace>
+    <AssemblyName>BatchLabs.Max2016.Plugin.Contract</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -32,7 +32,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autodesk.Max">
-      <HintPath>..\Libs\Max2016\Autodesk.Max.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\Autodesk.Max.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ManagedServices">
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\ManagedServices.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MaxCustomControls">
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\MaxCustomControls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -44,6 +52,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UiViewModels">
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\UiViewModels.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FakeGlobalInterface.cs" />

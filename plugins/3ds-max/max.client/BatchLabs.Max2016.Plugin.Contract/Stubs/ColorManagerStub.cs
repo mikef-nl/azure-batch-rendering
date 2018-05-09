@@ -6,7 +6,7 @@ using Autodesk.Max;
 using Autodesk.Max.BaseInterface;
 using Autodesk.Max.IColorManager;
 
-namespace BatchLabs.Max2016.Plugin.GlobalInterface.Stubs
+namespace BatchLabs.Max2016.Plugin.Contract.Stubs
 {
     public class ColorManagerStub : IIColorManager
     {
@@ -15,10 +15,10 @@ namespace BatchLabs.Max2016.Plugin.GlobalInterface.Stubs
             switch (kind)
             {
                 case GuiColors.Background:
-                    return Color.Navy;
+                    return Color.FromArgb(255, 67, 66, 66);
 
                 case GuiColors.Text:
-                    return Color.FloralWhite;
+                    return Color.FromArgb(208, 208, 208);
 
                 default:
                     return Color.DeepPink;

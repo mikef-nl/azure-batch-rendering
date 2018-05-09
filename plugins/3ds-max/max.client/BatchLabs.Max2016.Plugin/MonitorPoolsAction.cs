@@ -1,5 +1,5 @@
 ﻿
-using BatchLabs.Max2016.Plugin.Contract;
+using BatchLabs.Max2016.Plugin.Max;
 
 namespace BatchLabs.Max2016.Plugin
 {
@@ -13,6 +13,6 @@ namespace BatchLabs.Max2016.Plugin
             LabsRequestHandler.CallBatchLabs("pools");
         }
 
-        public override string InternalActionText => "Monitor your Pools";
+        public override string InternalActionText => "Monitor Your Pools";
     }
 }

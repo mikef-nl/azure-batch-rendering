@@ -1,9 +1,13 @@
 ﻿
 using System;
 using System.Windows;
-using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
-using BatchLabs.Max2016.Plugin.Contract;
+#if !DEBUG
+using System.Windows.Interop;
+#endif
+
+using BatchLabs.Max2016.Plugin.Max;
 using BatchLabs.Max2016.Plugin.XAML;
 
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -26,17 +30,23 @@ namespace BatchLabs.Max2016.Plugin
             {
                 var dialog = new Window
                 {
-                    Title = "Submit me a job plz",
+                    Title = "Submit a Job to BatchLabs",
                     SizeToContent = SizeToContent.WidthAndHeight,
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    ShowInTaskbar = false,
-                    ResizeMode = ResizeMode.NoResize
+                    ResizeMode = ResizeMode.CanResizeWithGrip,
+                    ShowInTaskbar = false
                 };
 
-                var ctlExplode = new JobSubmissionForm(dialog);
-                dialog.Content = ctlExplode;
+                var jobSubmissionForm = new JobSubmissionForm(LabsRequestHandler);
+                dialog.Content = jobSubmissionForm;
 
-#if (RELEASE)
+#if !DEBUG
+                var maxIcon = GetMAxIcon();
+                if (maxIcon != null)
+                {
+                    dialog.Icon = maxIcon;
+                }
+
                 var windowHandle = new WindowInteropHelper(dialog);
                 windowHandle.Owner = ManagedServices.AppSDK.GetMaxHWND();
                 ManagedServices.AppSDK.ConfigureWindowForMax(dialog);
@@ -47,6 +57,21 @@ namespace BatchLabs.Max2016.Plugin
             catch (Exception ex)
             {
                 MessageBox.Show($"Error showing job submission form.\n{ex.Message}\n{ex}");
+            }
+        }
+
+        private BitmapSource GetMAxIcon()
+        {
+            try
+            {
+                var hBitmap = ManagedServices.AppSDK.GetMainApplicationIcon().ToBitmap().GetHbitmap();
+                return Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
+            }
+            catch (Exception)
+            {
+                // TODO: Figure out how to send logs to Max
+                return null;
             }
         }
 

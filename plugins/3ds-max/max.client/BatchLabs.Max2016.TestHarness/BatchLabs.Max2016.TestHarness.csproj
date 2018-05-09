@@ -38,15 +38,15 @@
   <ItemGroup>
     <Reference Include="Autodesk.Max, Version=18.0.873.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Max2016\Autodesk.Max.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\Autodesk.Max.dll</HintPath>
     </Reference>
     <Reference Include="ManagedServices, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Max2016\ManagedServices.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\ManagedServices.dll</HintPath>
     </Reference>
     <Reference Include="MaxCustomControls, Version=18.0.873.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Max2016\MaxCustomControls.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\MaxCustomControls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,7 +63,7 @@
     </Reference>
     <Reference Include="UiViewModels, Version=18.0.873.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Max2016\UiViewModels.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\UiViewModels.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -115,9 +115,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BatchLabs.Max2016.Plugin.GlobalInterface\BatchLabs.Max2016.Plugin.GlobalInterface.csproj">
+    <ProjectReference Include="..\BatchLabs.Max2016.Plugin.Contract\BatchLabs.Max2016.Plugin.Contract.csproj">
       <Project>{6608a64b-da6b-48fb-91ea-453d68b7d69c}</Project>
-      <Name>BatchLabs.Max2016.Plugin.GlobalInterface</Name>
+      <Name>BatchLabs.Max2016.Plugin.Contract</Name>
     </ProjectReference>
     <ProjectReference Include="..\BatchLabs.Max2016.Plugin\BatchLabs.Max2016.Plugin.csproj">
       <Project>{c05459e5-6a56-486f-9595-6bac9ac36e33}</Project>

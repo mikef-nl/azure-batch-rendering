@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Program Files\Autodesk\3ds Max 2016\bin\assemblies\</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,15 +34,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autodesk.Max">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\3ds Max 2016\Autodesk.Max.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\Autodesk.Max.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ManagedServices">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\3ds Max 2016\ManagedServices.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\ManagedServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MaxCustomControls">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\3ds Max 2016\MaxCustomControls.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\MaxCustomControls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -59,7 +59,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UiViewModels">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\3ds Max 2016\UiViewModels.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\UiViewModels.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="ActionBase.cs" />
     <Compile Include="BatchLabsRequestHandler.cs" />
-    <Compile Include="Contract\MaxGlobalInterface.cs" />
+    <Compile Include="Max\MaxGlobalInterface.cs" />
     <Compile Include="SubmitJobAction.cs" />
     <Compile Include="MonitorPoolsAction.cs" />
     <Compile Include="ManageDataAction.cs" />
@@ -84,9 +84,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BatchLabs.Max2016.Plugin.GlobalInterface\BatchLabs.Max2016.Plugin.GlobalInterface.csproj">
+    <ProjectReference Include="..\BatchLabs.Max2016.Plugin.Contract\BatchLabs.Max2016.Plugin.Contract.csproj">
       <Project>{6608a64b-da6b-48fb-91ea-453d68b7d69c}</Project>
-      <Name>BatchLabs.Max2016.Plugin.GlobalInterface</Name>
+      <Name>BatchLabs.Max2016.Plugin.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
