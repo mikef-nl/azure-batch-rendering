@@ -1,9 +1,9 @@
 ﻿
 using System;
 using System.Windows;
-using System.Windows.Media.Imaging;
 
 #if !DEBUG
+using System.Windows.Media.Imaging;
 using System.Windows.Interop;
 #endif
 
@@ -41,7 +41,7 @@ namespace BatchLabs.Max2016.Plugin
                 dialog.Content = jobSubmissionForm;
 
 #if !DEBUG
-                var maxIcon = GetMAxIcon();
+                var maxIcon = GetMaxIcon();
                 if (maxIcon != null)
                 {
                     dialog.Icon = maxIcon;
@@ -60,7 +60,8 @@ namespace BatchLabs.Max2016.Plugin
             }
         }
 
-        private BitmapSource GetMAxIcon()
+#if !DEBUG
+        private BitmapSource GetMaxIcon()
         {
             try
             {
@@ -74,6 +75,7 @@ namespace BatchLabs.Max2016.Plugin
                 return null;
             }
         }
+#endif
 
         public override string InternalActionText => "Submit a Job";
     }
