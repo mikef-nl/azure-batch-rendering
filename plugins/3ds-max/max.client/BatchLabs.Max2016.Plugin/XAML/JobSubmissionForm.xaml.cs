@@ -53,14 +53,25 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 new KeyValuePair<string, string>("vray-dr", "VRay Distributed Render")
             };
 
+            Renderers = new []
+            {
+                new KeyValuePair<string, string>("arnold", "Arnold"),
+                new KeyValuePair<string, string>("vray", "V-Ray")
+            };
+
             SelectedTemplate = Templates[0].Key;
+            SelectedRenderer = Renderers[1].Key;
             SceneFile.Content = global.COREInterface16.CurFileName;
             JobId.Text = ContainerizeMaxFile(SceneFile.Content.ToString());
         }
 
+        public KeyValuePair<string, string>[] Renderers { get; }
+
         public KeyValuePair<string, string>[] Templates { get; }
 
         public string SelectedTemplate { get; set; }
+
+        public string SelectedRenderer { get; set; }
 
         /// <summary>
         /// Get the brush color associated with the desired GuiColor and match our
@@ -138,6 +149,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 ["jobName"] = JobId.Text,
                 ["frameStart"] = FrameStart.Text,
                 ["frameEnd"] = FrameEnd.Text,
+                ["renderer"] = SelectedRenderer
             };
 
             // if we have a max file loaded then we pass this as well

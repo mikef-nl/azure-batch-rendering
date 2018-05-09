@@ -34,6 +34,7 @@ namespace BatchLabs.Max2016.Plugin
                     SizeToContent = SizeToContent.WidthAndHeight,
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
                     ResizeMode = ResizeMode.CanResizeWithGrip,
+                    WindowStyle = WindowStyle.ToolWindow,
                     ShowInTaskbar = false
                 };
 
