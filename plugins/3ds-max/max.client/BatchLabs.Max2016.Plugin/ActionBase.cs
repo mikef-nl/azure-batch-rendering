@@ -4,6 +4,8 @@ using System.Windows.Forms;
 
 using UiViewModels.Actions;
 
+using BatchLabs.Max2016.Plugin.Common;
+
 namespace BatchLabs.Max2016.Plugin
 {
     /// <inheritdoc />
@@ -35,9 +37,10 @@ namespace BatchLabs.Max2016.Plugin
             {
                 InternalExecute();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show("Uncaught exception occurred: " + e.Message);
+                Log.Instance.Error($"{ex.Message}\n{ex}", "Uncaught exception occurred", true);
+                MessageBox.Show("Uncaught exception occurred: " + ex.Message);
             }
         }
 

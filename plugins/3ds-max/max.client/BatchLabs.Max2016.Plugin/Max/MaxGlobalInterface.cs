@@ -14,8 +14,6 @@ namespace BatchLabs.Max2016.Plugin.Max
     {
         private static IGlobal _instance;
 
-        private MaxGlobalInterface() { }
-
         public static IGlobal Instance =>
             _instance ?? (_instance = GetGlobalInterface);
 

@@ -38,7 +38,11 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
             AcquireInterface = null;
             ActionTable = null;
             Desc = null;
+
+            Log = new LogSys();
         }
+
+        public ILogSys Log { get; }
 
         void IInterface.PushPrompt(string promptString)
         {
@@ -1823,7 +1827,6 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
         public IMouseManager MouseManager { get; }
         public IMtlBaseLib MaterialLibrary { get; }
         public bool IsNetworkRenderServer { get; }
-        public ILogSys Log { get; }
         public IDllDir DllDir { get; }
         public IReferenceTarget ScenePointer { get; }
         public IITrackViewNode TrackViewRootNode { get; }

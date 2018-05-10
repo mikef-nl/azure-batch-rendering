@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Interop;
 #endif
 
+using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
 using BatchLabs.Max2016.Plugin.XAML;
 
@@ -20,6 +21,7 @@ namespace BatchLabs.Max2016.Plugin
         {
             var coreInterface = MaxGlobalInterface.Instance.COREInterface16;
             coreInterface.PushPrompt("Gathering up information about the job");
+            Log.Instance.Debug("Gathering up information about the job");
 
             OpenJobConfigWindow();
         }
@@ -57,6 +59,7 @@ namespace BatchLabs.Max2016.Plugin
             }
             catch (Exception ex)
             {
+                Log.Instance.Error($"{ex.Message}\n{ex}", "Error showing job submission form", true);
                 MessageBox.Show($"Error showing job submission form.\n{ex.Message}\n{ex}");
             }
         }
