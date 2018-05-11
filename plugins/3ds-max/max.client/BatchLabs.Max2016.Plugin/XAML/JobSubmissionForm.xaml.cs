@@ -1,9 +1,6 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -12,7 +9,6 @@ using System.Windows.Media;
 using Autodesk.Max;
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
-using BatchLabs.Max2016.Plugin.Models;
 
 using MediaColor = System.Windows.Media.Color;
 
@@ -24,7 +20,6 @@ namespace BatchLabs.Max2016.Plugin.XAML
     public partial class JobSubmissionForm
     {
         private const int MaxFileGroupLength = 55;
-        private const string AppIndexJsonUrl = "https://raw.githubusercontent.com/Azure/BatchLabs-data/master/ncj/3dsmax/index.json";
         private const string Prefix = "3dsmax-";
 
         private static readonly Regex UnderscoresAndMultipleDashes = new Regex("[_-]+");
@@ -43,14 +38,12 @@ namespace BatchLabs.Max2016.Plugin.XAML
             SetWindowColor();
             SetLabelColors();
 
-            Templates = GetApplicationTemplates();
-            Renderers = new List<KeyValuePair<string, string>> {
-                new KeyValuePair<string, string>("arnold", "Arnold"),
-                new KeyValuePair<string, string>("vray", "V-Ray")
-            };
-
-            SelectedRenderer = "vray";
+            Templates = TemplateHelper.GetApplicationTemplates();
             SelectedTemplate = "standard";
+
+            Renderers = TemplateHelper.GetRenderers();
+            SelectedRenderer = "vray";
+            
             SceneFile.Content = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
             JobId.Text = ContainerizeMaxFile(SceneFile.Content.ToString());
         }
@@ -96,7 +89,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
         /// <param name="colorManager"></param>
         /// <param name="guiColor"></param>
         /// <returns></returns>
-        private Brush GetUiColorBrush(IIColorManager colorManager, GuiColors guiColor)
+        private static Brush GetUiColorBrush(IIColorManager colorManager, GuiColors guiColor)
         {
             var color = colorManager.GetColor(guiColor);
             var mcolorText = MediaColor.FromRgb(color.R, color.G, color.B);
@@ -142,50 +135,6 @@ namespace BatchLabs.Max2016.Plugin.XAML
 
             // return after replacing any start and end hyphens
             return sansExtension.Trim(ForbiddenLeadingTrailingContainerNameChars);
-        }
-
-        /// <summary>
-        /// Read the collection of 3ds Max application templates from our GitHub repo. They 
-        /// are all listed in a file called index.json.
-        /// </summary>
-        /// <returns></returns>
-        private List<KeyValuePair<string, string>> GetApplicationTemplates()
-        {
-            var templates = new List<KeyValuePair<string, string>>();
-
-            try
-            {
-                var request = WebRequest.Create(AppIndexJsonUrl);
-                using (var response = (HttpWebResponse) request.GetResponse())
-                {
-                    using (var responseSteam = response.GetResponseStream())
-                    {
-                        // in the unlkely event, just return an empty collection
-                        if (responseSteam == null)
-                        {
-                            return templates;
-                        }
-
-                        // deserialize the json response into a collection of application templates
-                        var jsonSerializer = new DataContractJsonSerializer(new List<ApplicationTemplate>().GetType());
-                        var templateList = jsonSerializer.ReadObject(responseSteam) as List<ApplicationTemplate>;
-                        if (templateList != null)
-                        {
-                            foreach (var template in templateList)
-                            {
-                                Log.Instance.Debug($"Got template: {template.Id}, with name: {template.Name} ");
-                                templates.Add(new KeyValuePair<string, string>(template.Id, template.Name));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Instance.Error($"{ex.Message}\n{ex}", "Failed to get 3ds Max templates", true);
-            }
-
-            return templates;
         }
 
         /// <summary>
