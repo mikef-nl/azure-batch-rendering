@@ -1,27 +1,33 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
 using Autodesk.Max;
-
+using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
+using BatchLabs.Max2016.Plugin.Models;
 
 using MediaColor = System.Windows.Media.Color;
 
 namespace BatchLabs.Max2016.Plugin.XAML
 {
     /// <summary>
-    /// Interaction logic for JobSubmissionForm.xaml
+    /// Window for populating job data before it's sent to BatchLabs for processing.
     /// </summary>
     public partial class JobSubmissionForm
     {
         private const int MaxFileGroupLength = 55;
+        private const string AppIndexJsonUrl = "https://raw.githubusercontent.com/Azure/BatchLabs-data/master/ncj/3dsmax/index.json";
         private const string Prefix = "3dsmax-";
 
+        private static readonly Regex UnderscoresAndMultipleDashes = new Regex("[_-]+");
         private static readonly char[] ForbiddenLeadingTrailingContainerNameChars = { '-' };
 
         private readonly BatchLabsRequestHandler _labsRequestHandler;
@@ -34,44 +40,54 @@ namespace BatchLabs.Max2016.Plugin.XAML
             InitializeComponent();
             DataContext = this;
 
-            var global = MaxGlobalInterface.Instance;
+            SetWindowColor();
+            SetLabelColors();
 
-            // Get current background color and match our dialog to it
-            var bgColor = GetUiColorBrush(global.ColorManager, GuiColors.Background);
-            LayoutRoot.Background = bgColor;
-
-
-            var textColor = GetUiColorBrush(global.ColorManager, GuiColors.Text);
-            JobDetailsTitle.Foreground = textColor;
-            JobNameLabel.Foreground = textColor;
-            TemplateLabel.Foreground = textColor;
-            AssetsTitle.Foreground = textColor;
-
-            Templates = new []
-            {
-                new KeyValuePair<string, string>("standard", "VRay or Arnold scene"),
-                new KeyValuePair<string, string>("vray-dr", "VRay Distributed Render")
-            };
-
-            Renderers = new []
-            {
+            Templates = GetApplicationTemplates();
+            Renderers = new List<KeyValuePair<string, string>> {
                 new KeyValuePair<string, string>("arnold", "Arnold"),
                 new KeyValuePair<string, string>("vray", "V-Ray")
             };
 
-            SelectedTemplate = Templates[0].Key;
-            SelectedRenderer = Renderers[1].Key;
-            SceneFile.Content = global.COREInterface16.CurFileName;
+            SelectedRenderer = "vray";
+            SelectedTemplate = "standard";
+            SceneFile.Content = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
             JobId.Text = ContainerizeMaxFile(SceneFile.Content.ToString());
         }
 
-        public KeyValuePair<string, string>[] Renderers { get; }
+        public string SelectedRenderer { get; set; }
 
-        public KeyValuePair<string, string>[] Templates { get; }
+        public List<KeyValuePair<string, string>> Renderers { get; }
 
         public string SelectedTemplate { get; set; }
 
-        public string SelectedRenderer { get; set; }
+        public List<KeyValuePair<string, string>> Templates { get; }
+
+        /// <summary>
+        /// Get current 3ds Max background color and match our dialog to it
+        /// </summary>
+        private void SetWindowColor()
+        {
+            LayoutRoot.Background = GetUiColorBrush(MaxGlobalInterface.Instance.ColorManager, GuiColors.Background);
+        }
+
+        /// <summary>
+        /// Get current 3ds Max text color and match our labels to it
+        /// </summary>
+        private void SetLabelColors()
+        {
+            var textColor = GetUiColorBrush(MaxGlobalInterface.Instance.ColorManager, GuiColors.Text);
+            JobDetailsTitle.Foreground = textColor;
+            JobNameLabel.Foreground = textColor;
+            TemplateLabel.Foreground = textColor;
+            FrameStartLabel.Foreground = textColor;
+            FrameEndLabel.Foreground = textColor;
+            RendererLabel.Foreground = textColor;
+            AssetsTitle.Foreground = textColor;
+            SceneFileLabel.Foreground = textColor;
+            SceneFile.Foreground = textColor;
+            AssetsLabel.Foreground = textColor;
+        }
 
         /// <summary>
         /// Get the brush color associated with the desired GuiColor and match our
@@ -128,7 +144,49 @@ namespace BatchLabs.Max2016.Plugin.XAML
             return sansExtension.Trim(ForbiddenLeadingTrailingContainerNameChars);
         }
 
-        private static readonly Regex UnderscoresAndMultipleDashes = new Regex("[_-]+");
+        /// <summary>
+        /// Read the collection of 3ds Max application templates from our GitHub repo. They 
+        /// are all listed in a file called index.json.
+        /// </summary>
+        /// <returns></returns>
+        private List<KeyValuePair<string, string>> GetApplicationTemplates()
+        {
+            var templates = new List<KeyValuePair<string, string>>();
+
+            try
+            {
+                var request = WebRequest.Create(AppIndexJsonUrl);
+                using (var response = (HttpWebResponse) request.GetResponse())
+                {
+                    using (var responseSteam = response.GetResponseStream())
+                    {
+                        // in the unlkely event, just return an empty collection
+                        if (responseSteam == null)
+                        {
+                            return templates;
+                        }
+
+                        // deserialize the json response into a collection of application templates
+                        var jsonSerializer = new DataContractJsonSerializer(new List<ApplicationTemplate>().GetType());
+                        var templateList = jsonSerializer.ReadObject(responseSteam) as List<ApplicationTemplate>;
+                        if (templateList != null)
+                        {
+                            foreach (var template in templateList)
+                            {
+                                Log.Instance.Debug($"Got template: {template.Id}, with name: {template.Name} ");
+                                templates.Add(new KeyValuePair<string, string>(template.Id, template.Name));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Instance.Error($"{ex.Message}\n{ex}", "Failed to get 3ds Max templates", true);
+            }
+
+            return templates;
+        }
 
         /// <summary>
         /// Handle submit button click. Set up any values we want to pass to BatchLabs and 
@@ -168,7 +226,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 debug = string.Concat(debug, $"{arg.Key}:{arg.Value}\n");
             }
 
-            MessageBox.Show(debug);
+            Log.Instance.Debug(debug);
 #endif
 
             // call labs with all the parameters, will open correct gallery template
