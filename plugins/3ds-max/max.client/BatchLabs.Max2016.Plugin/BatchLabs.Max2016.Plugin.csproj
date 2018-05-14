@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="ActionBase.cs" />
     <Compile Include="BatchLabsRequestHandler.cs" />
+    <Compile Include="Common\AssetWrangler.cs" />
     <Compile Include="Common\TemplateHelper.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Max\MaxGlobalInterface.cs" />

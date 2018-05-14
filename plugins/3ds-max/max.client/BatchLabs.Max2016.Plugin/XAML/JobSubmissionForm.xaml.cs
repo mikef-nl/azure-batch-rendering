@@ -1,12 +1,15 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
 using Autodesk.Max;
+using Autodesk.Max.MaxSDK.AssetManagement;
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
 
@@ -46,6 +49,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
             
             SceneFile.Content = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
             JobId.Text = ContainerizeMaxFile(SceneFile.Content.ToString());
+
+            SetAssetCollection();
         }
 
         public string SelectedRenderer { get; set; }
@@ -55,6 +60,23 @@ namespace BatchLabs.Max2016.Plugin.XAML
         public string SelectedTemplate { get; set; }
 
         public List<KeyValuePair<string, string>> Templates { get; }
+
+        private async void SetAssetCollection()
+        {
+            try
+            {
+                var assets = await AssetWrangler.GetAssetDirs();
+                Log.Instance.Debug($"got assets {assets.Keys.Count}");
+                foreach (var asset in assets)
+                {
+                    Log.Instance.Debug($"asset -> {asset.Value}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Instance.Error($"Failed to get or display assets from scene: {ex.Message}. {ex}");
+            }
+        }
 
         /// <summary>
         /// Get current 3ds Max background color and match our dialog to it
