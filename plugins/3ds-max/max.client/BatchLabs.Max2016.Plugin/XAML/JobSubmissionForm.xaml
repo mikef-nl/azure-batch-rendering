@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:BatchLabs.Max2016.Plugin.XAML"
+    xmlns:common="clr-namespace:BatchLabs.Max2016.Plugin.Common"
     mc:Ignorable="d" 
     MinHeight="550" MinWidth="650"
     d:DesignHeight="600" d:DesignWidth="650"
@@ -13,6 +14,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <common:BoolToVisibilityConverter FalseValue="Collapsed" x:Key="btvc" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/BatchLabs.Max2016.Plugin;component/Resources/AppImages.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/BatchLabs.Max2016.Plugin;component/Resources/ControlResources.xaml"/>
@@ -115,7 +117,7 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}">
-                                            <Image Height="16" ToolTip="Remove this folder" Source="{StaticResource ImageCross}" />
+                                            <Image Height="16" ToolTip="Remove this folder" Source="{StaticResource ImageCross}" Visibility="{Binding Path=CanRemove, Converter={StaticResource btvc}}" />
                                         </Button>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -123,7 +125,7 @@
                             <GridViewColumn Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Path=FullFilePath}" ToolTip="{Binding Path=FileName}" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding Path=Path}" ToolTip="{Binding Path=Path}" TextTrimming="CharacterEllipsis" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

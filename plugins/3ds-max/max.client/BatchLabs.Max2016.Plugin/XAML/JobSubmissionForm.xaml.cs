@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -44,7 +46,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
             JobId.Text = Utils.ContainerizeMaxFile(SceneFile.Content.ToString());
 
             MissingAssets = new ObservableCollection<AssetFile>();
-            AssetDirectories = new ObservableCollection<AssetFile>();
+            AssetDirectories = new ObservableCollection<AssetFolder>();
             SetAssetCollection();
         }
 
@@ -56,7 +58,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
 
         public List<KeyValuePair<string, string>> Templates { get; }
 
-        public ObservableCollection<AssetFile> AssetDirectories { get; set; }
+        public ObservableCollection<AssetFolder> AssetDirectories { get; set; }
 
         public ObservableCollection<AssetFile> MissingAssets { get; set; }
 
@@ -117,16 +119,22 @@ namespace BatchLabs.Max2016.Plugin.XAML
             try
             {
                 var assets = await AssetWrangler.GetFoundAssets();
-                AssetDirectories.AddRange(assets);
+                var maxFileFolder = Path.GetDirectoryName(MaxGlobalInterface.Instance.COREInterface16.CurFilePath);
+                AssetDirectories.Add(new AssetFolder(maxFileFolder, true));
 
+                // TODO: work this out from list of assets
+                AssetDirectories.Add(new AssetFolder(@"c:\program files (x86)\itoo software\forest pack pro\maps"));
+                AssetDirectories.Add(new AssetFolder(@"c:\program files (x86)\itoo software\forest pack pro\presets"));
+
+                var missing = await AssetWrangler.GetMissingAssets();
+                MissingAssets.AddRange(missing);
+
+                // TODO: Debug ... remove below here.
                 Log.Instance.Debug($"got assets {assets.Count}");
                 foreach (var asset in assets)
                 {
                     Log.Instance.Debug($"asset -> {asset.FileName} --- {asset.FullFilePath}");
                 }
-
-                var missing = await AssetWrangler.GetMissingAssets();
-                MissingAssets.AddRange(missing);
 
                 Log.Instance.Debug($"got missing assets {missing.Count}");
                 foreach (var asset in missing)
@@ -167,7 +175,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
             {
                 arguments["sceneFile"] = coreInterface.CurFileName;
                 arguments["asset-container"] = Utils.ContainerizeMaxFile(coreInterface.CurFileName);
-                arguments["asset-paths"] = coreInterface.CurFilePath;
+                arguments["asset-paths"] = string.Join(",", from folder in AssetDirectories select folder.Path);
+                
             }
 
 #if DEBUG
@@ -175,7 +184,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
             var debug = $"Launch:{launchUrl}\n";
             foreach (var arg in arguments)
             {
-                debug = string.Concat(debug, $"{arg.Key}:{arg.Value}\n");
+                debug = string.Concat(debug, $"{arg.Key}:{Uri.EscapeDataString(arg.Value)}\n");
             }
 
             Log.Instance.Debug(debug);

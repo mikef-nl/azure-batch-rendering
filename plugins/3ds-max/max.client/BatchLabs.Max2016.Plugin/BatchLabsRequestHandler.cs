@@ -21,7 +21,7 @@ namespace BatchLabs.Max2016.Plugin
             {
                 foreach (var keyValue in arguments)
                 {
-                    baseUrl = $"{baseUrl}&{keyValue.Key}={keyValue.Value}";
+                    baseUrl = $"{baseUrl}&{keyValue.Key}={Uri.EscapeDataString(keyValue.Value)}";
                 }
             }
 

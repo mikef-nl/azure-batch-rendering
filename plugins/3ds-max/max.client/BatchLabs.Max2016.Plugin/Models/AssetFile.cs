@@ -17,5 +17,7 @@ namespace BatchLabs.Max2016.Plugin.Models
         public string FileName { get; set; }
 
         public string FullFilePath { get; set; }
+
+        public bool IsSelected { get; set; }
     }
 }
