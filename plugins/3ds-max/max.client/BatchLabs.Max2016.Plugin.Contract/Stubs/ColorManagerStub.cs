@@ -8,6 +8,9 @@ using Autodesk.Max.IColorManager;
 
 namespace BatchLabs.Max2016.Plugin.Contract.Stubs
 {
+    /// <summary>
+    /// Override functionality from the Max SDK for when we are running in local debug mode. 
+    /// </summary>
     public class ColorManagerStub : IIColorManager
     {
         public Color GetColor(GuiColors kind)

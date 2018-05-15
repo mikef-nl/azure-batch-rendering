@@ -1,15 +1,13 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
 using Autodesk.Max;
-using Autodesk.Max.MaxSDK.AssetManagement;
+
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
 
@@ -22,15 +20,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
     /// </summary>
     public partial class JobSubmissionForm
     {
-        private const int MaxFileGroupLength = 55;
-        private const string Prefix = "3dsmax-";
-
-        private static readonly Regex UnderscoresAndMultipleDashes = new Regex("[_-]+");
-        private static readonly char[] ForbiddenLeadingTrailingContainerNameChars = { '-' };
-
         private readonly BatchLabsRequestHandler _labsRequestHandler;
-        private readonly int _maxUsableLength = MaxFileGroupLength - Prefix.Length;
-
+        
         public JobSubmissionForm(BatchLabsRequestHandler labsRequestHandler)
         {
             _labsRequestHandler = labsRequestHandler;
@@ -48,7 +39,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
             SelectedRenderer = "vray";
             
             SceneFile.Content = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
-            JobId.Text = ContainerizeMaxFile(SceneFile.Content.ToString());
+            JobId.Text = Utils.ContainerizeMaxFile(SceneFile.Content.ToString());
 
             SetAssetCollection();
         }
@@ -60,23 +51,6 @@ namespace BatchLabs.Max2016.Plugin.XAML
         public string SelectedTemplate { get; set; }
 
         public List<KeyValuePair<string, string>> Templates { get; }
-
-        private async void SetAssetCollection()
-        {
-            try
-            {
-                var assets = await AssetWrangler.GetAssetDirs();
-                Log.Instance.Debug($"got assets {assets.Keys.Count}");
-                foreach (var asset in assets)
-                {
-                    Log.Instance.Debug($"asset -> {asset.Value}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Instance.Error($"Failed to get or display assets from scene: {ex.Message}. {ex}");
-            }
-        }
 
         /// <summary>
         /// Get current 3ds Max background color and match our dialog to it
@@ -130,33 +104,28 @@ namespace BatchLabs.Max2016.Plugin.XAML
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        /// <summary>
-        /// Sanitize the 3ds max file name into a valid storage container name so we can
-        /// use it for a file group name should we choose to.
-        /// </summary>
-        /// <param name="maxFile"></param>
-        /// <returns></returns>
-        private string ContainerizeMaxFile(string maxFile)
+        private async void SetAssetCollection()
         {
-            if (string.IsNullOrEmpty(maxFile))
+            try
             {
-                return string.Empty;
+                var assets = await AssetWrangler.GetFoundAssets();
+                Log.Instance.Debug($"got assets {assets.Count}");
+                foreach (var asset in assets)
+                {
+                    Log.Instance.Debug($"asset -> {asset.FileName} --- {asset.FullFilePath}");
+                }
+
+                var missing = await AssetWrangler.GetMissingAssets();
+                Log.Instance.Debug($"got missing assets {missing.Count}");
+                foreach (var asset in missing)
+                {
+                    Log.Instance.Debug($"missing -> {asset.FileName} --- {asset.FullFilePath}");
+                }
             }
-
-            // get the filename only and lower case it
-            var sansExtension = Path.GetFileNameWithoutExtension(maxFile).ToLower();
-            
-            // replace underscores and multiple dashes
-            sansExtension = UnderscoresAndMultipleDashes.Replace(sansExtension, "-");
-
-            // check that the filename is not too long, if it is then trim it
-            if (sansExtension.Length > _maxUsableLength)
+            catch (Exception ex)
             {
-                sansExtension = sansExtension.Substring(0, _maxUsableLength);
+                Log.Instance.Error($"Failed to get or display assets from scene: {ex.Message}. {ex}");
             }
-
-            // return after replacing any start and end hyphens
-            return sansExtension.Trim(ForbiddenLeadingTrailingContainerNameChars);
         }
 
         /// <summary>
@@ -185,7 +154,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
             if (false == string.IsNullOrEmpty(coreInterface.CurFileName))
             {
                 arguments["sceneFile"] = coreInterface.CurFileName;
-                arguments["asset-container"] = ContainerizeMaxFile(coreInterface.CurFileName);
+                arguments["asset-container"] = Utils.ContainerizeMaxFile(coreInterface.CurFileName);
                 arguments["asset-paths"] = coreInterface.CurFilePath;
             }
 

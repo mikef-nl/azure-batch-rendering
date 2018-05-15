@@ -68,11 +68,15 @@
   <ItemGroup>
     <Compile Include="ActionBase.cs" />
     <Compile Include="BatchLabsRequestHandler.cs" />
+    <Compile Include="Common\AssetFlags.cs" />
+    <Compile Include="Common\AssetWranglerCallback.cs" />
     <Compile Include="Common\AssetWrangler.cs" />
     <Compile Include="Common\TemplateHelper.cs" />
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\Utils.cs" />
     <Compile Include="Max\MaxGlobalInterface.cs" />
     <Compile Include="Models\ApplicationTemplate.cs" />
+    <Compile Include="Models\Asset.cs" />
     <Compile Include="SubmitJobAction.cs" />
     <Compile Include="MonitorPoolsAction.cs" />
     <Compile Include="ManageDataAction.cs" />

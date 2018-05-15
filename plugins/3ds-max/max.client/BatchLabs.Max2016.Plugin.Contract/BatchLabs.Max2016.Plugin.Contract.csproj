@@ -61,6 +61,7 @@
     <Compile Include="FakeGlobalInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stubs\ColorManagerStub.cs" />
+    <Compile Include="Stubs\FakeAsset.cs" />
     <Compile Include="Stubs\Interface16Stub.cs" />
     <Compile Include="Stubs\LogSys.cs" />
   </ItemGroup>
