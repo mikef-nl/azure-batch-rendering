@@ -3,9 +3,9 @@ using Autodesk.Max.MaxSDK.AssetManagement;
 
 namespace BatchLabs.Max2016.Plugin.Models
 {
-    public class Asset
+    public class AssetFile
     {
-        public Asset(IAssetUser asset)
+        public AssetFile(IAssetUser asset)
         {
             Id = asset.IdAsString;
             FullFilePath = asset.FullFilePath;

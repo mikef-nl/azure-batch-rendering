@@ -3,7 +3,6 @@ using System.Windows;
 
 using BatchLabs.Max2016.Plugin;
 using BatchLabs.Max2016.Plugin.Max;
-using BatchLabs.Max2016.Plugin.Contract;
 using BatchLabs.Max2016.Plugin.Contract.Stubs;
 
 namespace BatchLabs.Max2016.TestHarness
@@ -16,6 +15,8 @@ namespace BatchLabs.Max2016.TestHarness
         public MainWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             var myInterface16 = (MaxGlobalInterface.Instance.COREInterface16 as Interface16Stub);
             if (myInterface16 != null)
             {

@@ -10,23 +10,23 @@ namespace BatchLabs.Max2016.Plugin.Common
 {
     public class AssetWranglerCallback : AssetEnumCallback
     {
-        private readonly Dictionary<string, Asset> _assets;
+        private readonly Dictionary<string, AssetFile> _assets;
 
         public AssetWranglerCallback()
         {
-            _assets = new Dictionary<string, Asset>();
+            _assets = new Dictionary<string, AssetFile>();
         }
 
         public override void RecordAsset(IAssetUser asset)
         {
             if (_assets.ContainsKey(asset.IdAsString) == false)
             {
-                _assets.Add(asset.IdAsString, new Asset(asset));
+                _assets.Add(asset.IdAsString, new AssetFile(asset));
             }
         }
 
-        public Dictionary<string, Asset> AssetDictionary => _assets;
+        public Dictionary<string, AssetFile> AssetDictionary => _assets;
 
-        public List<Asset> AssetList => new List<Asset>(_assets.Values);
+        public List<AssetFile> AssetList => new List<AssetFile>(_assets.Values);
     }
 }

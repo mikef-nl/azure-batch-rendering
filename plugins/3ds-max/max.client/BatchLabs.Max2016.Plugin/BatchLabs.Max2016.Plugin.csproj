@@ -71,12 +71,14 @@
     <Compile Include="Common\AssetFlags.cs" />
     <Compile Include="Common\AssetWranglerCallback.cs" />
     <Compile Include="Common\AssetWrangler.cs" />
+    <Compile Include="Common\ObservableCollectionExtensions.cs" />
     <Compile Include="Common\TemplateHelper.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Max\MaxGlobalInterface.cs" />
     <Compile Include="Models\ApplicationTemplate.cs" />
-    <Compile Include="Models\Asset.cs" />
+    <Compile Include="Models\AssetFolder.cs" />
+    <Compile Include="Models\AssetFile.cs" />
     <Compile Include="SubmitJobAction.cs" />
     <Compile Include="MonitorPoolsAction.cs" />
     <Compile Include="ManageDataAction.cs" />
@@ -87,6 +89,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Resources\AppImages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ControlResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="XAML\JobSubmissionForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -97,6 +107,10 @@
       <Project>{6608a64b-da6b-48fb-91ea-453d68b7d69c}</Project>
       <Name>BatchLabs.Max2016.Plugin.Contract</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\cross.png" />
+    <Resource Include="Resources\Images\refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

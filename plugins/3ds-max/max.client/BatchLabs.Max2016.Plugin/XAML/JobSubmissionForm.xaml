@@ -6,10 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:BatchLabs.Max2016.Plugin.XAML"
     mc:Ignorable="d" 
-    MinHeight="400" MinWidth="550"
-    d:DesignHeight="400" d:DesignWidth="550"
+    MinHeight="550" MinWidth="650"
+    d:DesignHeight="600" d:DesignWidth="650"
     Background="#FF434242"
     Name="LayoutRoot">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/BatchLabs.Max2016.Plugin;component/Resources/AppImages.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/BatchLabs.Max2016.Plugin;component/Resources/ControlResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -78,13 +88,86 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Label Name="SceneFileLabel" Content="Max File:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="0" Grid.Column="0" />
                 <Label Name="SceneFile" Height="27" Margin="0,2" Padding="0"  Foreground="#CCCCCC" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" />
 
-                <Label Name="AssetsLabel" Content="Assets:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="1" Grid.Column="0" />
+                <Label Name="AssetsLabel" Content="Assets Folders:" HorizontalAlignment="Right" VerticalContentAlignment="Top" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="1" Grid.Column="0" />
+                <ListView 
+                    Name="AssetListView"
+                    AlternationCount="2"
+                    VirtualizingStackPanel.VirtualizationMode="Recycling"
+                    ScrollViewer.CanContentScroll="False"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ItemsSource="{Binding Path=AssetDirectories}"
+                    ItemContainerStyle="{StaticResource AssetListStyle}"
+                    Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                    Padding="0" Margin="0,0,0,5"
+                    Height="125">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="28">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}">
+                                            <Image Height="16" ToolTip="Remove this folder" Source="{StaticResource ImageCross}" />
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=FullFilePath}" ToolTip="{Binding Path=FileName}" TextTrimming="CharacterEllipsis" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Label Name="MissingLabel" Content="Missing Assets:" HorizontalAlignment="Right" VerticalContentAlignment="Top" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="2" Grid.Column="0" />
+                <ListView 
+                    Name="MissingListView"
+                    AlternationCount="2"
+                    VirtualizingStackPanel.VirtualizationMode="Recycling"
+                    ScrollViewer.CanContentScroll="False"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ItemsSource="{Binding Path=MissingAssets}"
+                    ItemContainerStyle="{StaticResource AssetListStyle}"
+                    Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
+                    Padding="0" Margin="0"
+                    Height="125">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="28">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}">
+                                            <Image Height="16" ToolTip="Remove this file" Source="{StaticResource ImageCross}" />
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=FileName}" ToolTip="{Binding Path=FileName}" TextTrimming="CharacterEllipsis" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Label Name="MissingNoteLabel" Content="Locate and copy any missing asset folders into the project directory for uploading to the render nodes." 
+                       Width="Auto" Height="Auto" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" />
             </Grid>
         </StackPanel>
         <Border BorderThickness="0,1,0,0" BorderBrush="#CCCCCC" Height="40" Grid.Row="1" Grid.Column="0">

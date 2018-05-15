@@ -10,7 +10,7 @@ namespace BatchLabs.Max2016.Plugin.Common
 {
     public class AssetWrangler
     {
-        public static async Task<List<Asset>> GetFoundAssets()
+        public static async Task<List<AssetFile>> GetFoundAssets()
         {
             try
             {
@@ -26,10 +26,10 @@ namespace BatchLabs.Max2016.Plugin.Common
                 Log.Instance.Error($"Failed to get assets from scene: {ex.Message}. {ex}");
             }
 
-            return new List<Asset>();
+            return new List<AssetFile>();
         }
 
-        public static async Task<List<Asset>> GetMissingAssets()
+        public static async Task<List<AssetFile>> GetMissingAssets()
         {
             try
             {
@@ -46,7 +46,7 @@ namespace BatchLabs.Max2016.Plugin.Common
             }
 
             
-            return new List<Asset>();
+            return new List<AssetFile>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -10,6 +11,7 @@ using Autodesk.Max;
 
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
+using BatchLabs.Max2016.Plugin.Models;
 
 using MediaColor = System.Windows.Media.Color;
 
@@ -41,6 +43,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
             SceneFile.Content = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
             JobId.Text = Utils.ContainerizeMaxFile(SceneFile.Content.ToString());
 
+            MissingAssets = new ObservableCollection<AssetFile>();
+            AssetDirectories = new ObservableCollection<AssetFile>();
             SetAssetCollection();
         }
 
@@ -51,6 +55,10 @@ namespace BatchLabs.Max2016.Plugin.XAML
         public string SelectedTemplate { get; set; }
 
         public List<KeyValuePair<string, string>> Templates { get; }
+
+        public ObservableCollection<AssetFile> AssetDirectories { get; set; }
+
+        public ObservableCollection<AssetFile> MissingAssets { get; set; }
 
         /// <summary>
         /// Get current 3ds Max background color and match our dialog to it
@@ -109,6 +117,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
             try
             {
                 var assets = await AssetWrangler.GetFoundAssets();
+                AssetDirectories.AddRange(assets);
+
                 Log.Instance.Debug($"got assets {assets.Count}");
                 foreach (var asset in assets)
                 {
@@ -116,6 +126,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 }
 
                 var missing = await AssetWrangler.GetMissingAssets();
+                MissingAssets.AddRange(missing);
+
                 Log.Instance.Debug($"got missing assets {missing.Count}");
                 foreach (var asset in missing)
                 {
