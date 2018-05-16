@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:BatchLabs.Max2016.TestHarness"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525"
-        Background="AliceBlue">
+        Background="AliceBlue" ShowInTaskbar="True"
+        WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

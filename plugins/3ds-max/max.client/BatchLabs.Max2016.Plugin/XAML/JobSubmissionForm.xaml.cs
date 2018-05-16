@@ -24,6 +24,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
     /// </summary>
     public partial class JobSubmissionForm
     {
+        private readonly string _maxFileFolderPath;
         private readonly BatchLabsRequestHandler _labsRequestHandler;
         
         public JobSubmissionForm(BatchLabsRequestHandler labsRequestHandler)
@@ -41,12 +42,14 @@ namespace BatchLabs.Max2016.Plugin.XAML
 
             Renderers = TemplateHelper.GetRenderers();
             SelectedRenderer = "vray";
-            
+
+
+            _maxFileFolderPath = Path.GetDirectoryName(MaxGlobalInterface.Instance.COREInterface16.CurFilePath);
             SceneFile.Content = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
             JobId.Text = Utils.ContainerizeMaxFile(SceneFile.Content.ToString());
 
             MissingAssets = new ObservableCollection<AssetFile>();
-            AssetDirectories = new ObservableCollection<AssetFolder>();
+            AssetDirectories = new ObservableCollection<AssetFolder> { new AssetFolder(_maxFileFolderPath, true) };
             SetAssetCollection();
         }
 
@@ -86,6 +89,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
             SceneFileLabel.Foreground = textColor;
             SceneFile.Foreground = textColor;
             AssetsLabel.Foreground = textColor;
+            MissingLabel.Foreground = textColor;
         }
 
         /// <summary>
@@ -118,34 +122,125 @@ namespace BatchLabs.Max2016.Plugin.XAML
         {
             try
             {
-                var assets = await AssetWrangler.GetFoundAssets();
-                var maxFileFolder = Path.GetDirectoryName(MaxGlobalInterface.Instance.COREInterface16.CurFilePath);
-                AssetDirectories.Add(new AssetFolder(maxFileFolder, true));
+                // get the assets in the project directory on disk
+                Log.Instance.Debug($"maxFileFolder {_maxFileFolderPath}");
+                var projectFolderFiles = FileActions.GetFileDictionaryWithLocations(_maxFileFolderPath);
+                Log.Instance.Debug($"project dir files {projectFolderFiles.Keys.Count}");
+                // TODO: Debug ... remove foreach log.
+                foreach (var keyValue in projectFolderFiles)
+                {
+                    Log.Instance.Debug($"asset -> {keyValue.Key} --- paths -> {string.Join(":::", keyValue.Value)}");
+                }
+
+                // get the assets from the scene
+                var sceneFiles = await AssetWrangler.GetFoundAssets();
+                // TODO: Debug ... remove foreach log.
+                Log.Instance.Debug($"got assets {sceneFiles.Count}");
+                foreach (var asset in sceneFiles)
+                {
+                    var assetName = Path.GetFileName(asset.FileName) ?? "";
+                    // Log.Instance.Debug($"checking asset -> {assetName} --- {asset.FileName} --- {asset.FullFilePath}");
+                    if (projectFolderFiles.ContainsKey(assetName))
+                    {
+                        // found a file with the same name in the project directory, get the locations as it could exist in more than one folder on disk
+                        var locations = projectFolderFiles[assetName];
+                        if (string.IsNullOrEmpty(locations.Find(file => file == asset.FullFilePath)))
+                        {
+                            // the filename exists in the project direrctory, but not with the same path
+                            // see if we can match up any directories and make a guess if its the correct one.
+                            Log.Instance.Debug($"Did not find: {asset.FullFilePath}, locations: {locations.Count}, path separator: {Path.DirectorySeparatorChar}");
+                            var matchingDirCount = FindMatchingDirectories(asset.FullFilePath, locations);
+                            if (matchingDirCount == 0)
+                            {
+                                // add it to the missing asset list for the user to find
+                                MissingAssets.Add(asset);
+                                Log.Instance.Debug($"Add to missing asset list: {asset.FileName} :: {asset.FullFilePath}");
+                            }
+                            else
+                            {
+                                Log.Instance.Debug($"found partial match for [{asset.FileName}] in [{string.Join(":::", locations)}] with '{matchingDirCount}' matching dirs");
+                            }
+                        }
+                        else
+                        {
+                            // found it and it mathces the path. do nothing.
+                            Log.Instance.Debug($"Found in project dir {asset.FileName}");
+                        }
+
+                    }
+                    else
+                    {
+                        // asset was not found in project directory. add to missing files.
+                        Log.Instance.Debug($"Doesn't contain key: {assetName}");
+                    }
+                }
+
+
 
                 // TODO: work this out from list of assets
-                AssetDirectories.Add(new AssetFolder(@"c:\program files (x86)\itoo software\forest pack pro\maps"));
-                AssetDirectories.Add(new AssetFolder(@"c:\program files (x86)\itoo software\forest pack pro\presets"));
+                //AssetDirectories.Add(new AssetFolder(@"c:\program files (x86)\itoo software\forest pack pro\maps"));
+                //AssetDirectories.Add(new AssetFolder(@"c:\program files (x86)\itoo software\forest pack pro\presets"));
 
-                var missing = await AssetWrangler.GetMissingAssets();
-                MissingAssets.AddRange(missing);
+                //var missing = await AssetWrangler.GetMissingAssets();
+                //MissingAssets.AddRange(missing);
 
-                // TODO: Debug ... remove below here.
-                Log.Instance.Debug($"got assets {assets.Count}");
-                foreach (var asset in assets)
-                {
-                    Log.Instance.Debug($"asset -> {asset.FileName} --- {asset.FullFilePath}");
-                }
 
-                Log.Instance.Debug($"got missing assets {missing.Count}");
-                foreach (var asset in missing)
-                {
-                    Log.Instance.Debug($"missing -> {asset.FileName} --- {asset.FullFilePath}");
-                }
+
+                //Log.Instance.Debug($"got missing assets {missing.Count}");
+                //foreach (var asset in missing)
+                //{
+                //    Log.Instance.Debug($"missing -> {asset.FileName} --- {asset.FullFilePath}");
+                //}
             }
             catch (Exception ex)
             {
                 Log.Instance.Error($"Failed to get or display assets from scene: {ex.Message}. {ex}");
             }
+        }
+
+        /// <summary>
+        /// Wander backwards up the directory tree looking for matches. This is for files that are in the project directory
+        /// already, but 3ds Max is using them from another location, i.e. a pre-installed texture pack on the local machine.
+        /// I.E. This file is marked as an asset by the max scene:
+        ///     C:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_5.jpg
+        /// 
+        /// But it also exists in the project directory: 
+        ///     D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\itoo software\forest pack pro\maps\presets\fp_grass_leaf_5.jpg
+        /// 
+        /// If we find this is the case then we ignore the file in the program files folder as we don't need to upload 
+        /// it again. 3ds Max will find it in the project directory, or in its propper location after the texture pack is 
+        /// installed on the node.
+        /// </summary>
+        /// <param name="sceneFilePath"></param>
+        /// <param name="diskLocations"></param>
+        /// <returns></returns>
+        private int FindMatchingDirectories(string sceneFilePath, List<string> diskLocations)
+        {
+            var locationMatch = new Dictionary<string, int>();
+            diskLocations.ForEach(location =>
+            {
+                locationMatch[location] = 0;
+                var sceneFileDirectory = FileActions.GetFileInfo(sceneFilePath).Directory;
+                var diskLocationDirectory = FileActions.GetFileInfo(location).Directory;
+                while (sceneFileDirectory != null && diskLocationDirectory != null)
+                {
+                    if (sceneFileDirectory.Name.Equals(diskLocationDirectory.Name, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        locationMatch[location]++;
+                    }
+                    else
+                    {
+                        // the moment we don't match, break out of loop.
+                        break;
+                    }
+
+                    // move to the parent directory.
+                    sceneFileDirectory = sceneFileDirectory.Parent;
+                    diskLocationDirectory = diskLocationDirectory.Parent;
+                }
+            });
+            
+            return locationMatch.Values.Max();
         }
 
         /// <summary>

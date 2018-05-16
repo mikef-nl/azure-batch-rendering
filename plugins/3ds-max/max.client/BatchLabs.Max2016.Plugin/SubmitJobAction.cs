@@ -37,7 +37,7 @@ namespace BatchLabs.Max2016.Plugin
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
                     ResizeMode = ResizeMode.CanResizeWithGrip,
                     WindowStyle = WindowStyle.ToolWindow,
-                    ShowInTaskbar = false
+                    ShowInTaskbar = true
                 };
 
                 var jobSubmissionForm = new JobSubmissionForm(LabsRequestHandler);
