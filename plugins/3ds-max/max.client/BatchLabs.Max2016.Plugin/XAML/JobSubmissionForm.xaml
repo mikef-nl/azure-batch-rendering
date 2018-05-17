@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:BatchLabs.Max2016.Plugin.XAML"
     xmlns:common="clr-namespace:BatchLabs.Max2016.Plugin.Common"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
     mc:Ignorable="d" 
     MinHeight="550" MinWidth="650"
     d:DesignHeight="600" d:DesignWidth="650"
@@ -14,9 +14,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <common:BoolToVisibilityConverter FalseValue="Collapsed" x:Key="btvc" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/BatchLabs.Max2016.Plugin;component/Resources/AppImages.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/BatchLabs.Max2016.Plugin;component/Resources/ControlResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -44,6 +42,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
@@ -64,9 +63,14 @@
                 <Label Name="FrameStartLabel" Content="Frame Start:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="2" Grid.Column="0" />
                 <TextBox Name="FrameStart" Text="1" Height="27" Margin="0,2" VerticalContentAlignment="Center" PreviewTextInput="ValidateNumber" Grid.Row="2" Grid.Column="1" />
                 <Label Name="FrameEndLabel" Content="Frame End:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="2" Grid.Column="2" />
-                <TextBox Name="FrameEnd" Text="1" Height="27" Margin="0,2" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="3" />
+                <TextBox Name="FrameEnd" Text="1" Height="27" Margin="0,2" VerticalContentAlignment="Center" PreviewTextInput="ValidateNumber" Grid.Row="2" Grid.Column="3" />
 
-                <Label Name="RendererLabel" Content="Renderer:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="3" Grid.Column="0" />
+                <Label Name="FrameWidthLabel" Content="Frame Width:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="3" Grid.Column="0" />
+                <TextBox Name="FrameWidth" Text="" Height="27" Margin="0,2" VerticalContentAlignment="Center" PreviewTextInput="ValidateNumber" Grid.Row="3" Grid.Column="1" />
+                <Label Name="FrameHeightLabel" Content="Frame Height:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="3" Grid.Column="2" />
+                <TextBox Name="FrameHeight" Text="" Height="27" Margin="0,2" VerticalContentAlignment="Center" PreviewTextInput="ValidateNumber" Grid.Row="3" Grid.Column="3" />
+
+                <Label Name="RendererLabel" Content="Renderer:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="4" Grid.Column="0" />
                 <ComboBox 
                     ItemsSource="{Binding Path=Renderers}" 
                     SelectedValue="{Binding Path=SelectedRenderer}" 
@@ -74,8 +78,21 @@
                     DisplayMemberPath="Value"
                     VerticalContentAlignment="Center"
                     Height="27" Margin="0,2"
-                    Grid.Row="3" Grid.Column="1">
+                    Grid.Row="4" Grid.Column="1">
                 </ComboBox>
+            </Grid>
+
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Name="AdditionalArgsLabel" Content="Additional Args:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="0" Grid.Column="0" />
+                <TextBox Name="AdditionalArgs" Height="27" Margin="0,2" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" />
             </Grid>
 
             <Label Name="AssetsTitle" Content="Scene Details" Foreground="#CCCCCC" FontWeight="Bold" Margin="0,10,0,0" />
@@ -99,83 +116,93 @@
                 <Label Name="SceneFile" Height="27" Margin="0,2" Padding="0"  Foreground="#CCCCCC" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" />
 
                 <Label Name="AssetsLabel" Content="Assets Folders:" HorizontalAlignment="Right" VerticalContentAlignment="Top" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="1" Grid.Column="0" />
-                <ListView 
-                    Name="AssetListView"
-                    AlternationCount="2"
-                    VirtualizingStackPanel.VirtualizationMode="Recycling"
-                    ScrollViewer.CanContentScroll="False"
-                    ScrollViewer.VerticalScrollBarVisibility="Visible"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    ItemsSource="{Binding Path=AssetDirectories}"
-                    ItemContainerStyle="{StaticResource AssetListStyle}"
-                    Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                    Padding="0" Margin="0,0,0,5"
-                    Height="125">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="28">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}">
-                                            <Image Height="16" ToolTip="Remove this folder" Source="{StaticResource ImageCross}" Visibility="{Binding Path=CanRemove, Converter={StaticResource btvc}}" />
-                                        </Button>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Path=Path}" ToolTip="{Binding Path=Path}" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <Canvas Name="AssetCanvas" Margin="0,0,0,5" Height="100" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                    <ListView 
+                        Name="AssetListView"
+                        AlternationCount="2"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling"
+                        ScrollViewer.CanContentScroll="False"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ItemsSource="{Binding Path=AssetDirectories}"
+                        ItemContainerStyle="{StaticResource AssetListStyle}" 
+                        Width="{Binding ActualWidth, ElementName=AssetCanvas}"
+                        Height="{Binding ActualHeight, ElementName=AssetCanvas}"
+                        Visibility="Visible">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="28">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}" Command="{Binding Path=RemoveDirectoryCommand}" CommandParameter="{Binding Path=Path}">
+                                                <fa:ImageAwesome Icon="Close" ToolTip="Remove this folder" Height="10" Foreground="#C45151" />
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Path}" ToolTip="{Binding Path=Path}" TextTrimming="CharacterEllipsis" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid Width="{Binding ActualWidth, ElementName=AssetCanvas}" Height="{Binding ActualHeight, ElementName=AssetCanvas}">
+                        <fa:ImageAwesome Icon="Spinner" Spin="True" Height="40" Width="40" Foreground="#268bd2" SpinDuration="3" Visibility="{Binding AssetSpinnerVisibility, Mode=TwoWay}" />
+                    </Grid>
+                </Canvas>
 
                 <Label Name="MissingLabel" Content="Missing Assets:" HorizontalAlignment="Right" VerticalContentAlignment="Top" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="2" Grid.Column="0" />
-                <ListView 
-                    Name="MissingListView"
-                    AlternationCount="2"
-                    VirtualizingStackPanel.VirtualizationMode="Recycling"
-                    ScrollViewer.CanContentScroll="False"
-                    ScrollViewer.VerticalScrollBarVisibility="Visible"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    ItemsSource="{Binding Path=MissingAssets}"
-                    ItemContainerStyle="{StaticResource AssetListStyle}"
-                    Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
-                    Padding="0" Margin="0"
-                    Height="125">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="28">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}">
-                                            <Image Height="16" ToolTip="Remove this file" Source="{StaticResource ImageCross}" />
-                                        </Button>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Path=FileName}" ToolTip="{Binding Path=FileName}" TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-
+                <Canvas Name="MissingCanvas" Margin="0,0,0,5" Height="150" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
+                    <ListView 
+                        Name="MissingListView"
+                        AlternationCount="2"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling"
+                        ScrollViewer.CanContentScroll="False"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ItemsSource="{Binding Path=MissingAssets}"
+                        ItemContainerStyle="{StaticResource AssetListStyle}"
+                        Width="{Binding ActualWidth, ElementName=MissingCanvas}"
+                        Height="{Binding ActualHeight, ElementName=MissingCanvas}"
+                        Visibility="Visible">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="28">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}" Command="{Binding Path=RemoveMissingFileCommand}" CommandParameter="{Binding Path=FullFilePath}">
+                                                <fa:ImageAwesome Icon="Close" ToolTip="Remove this file" Height="10" Foreground="#C45151" />
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=FileName}" ToolTip="{Binding Path=FileName}" TextTrimming="CharacterEllipsis" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid Width="{Binding ActualWidth, ElementName=MissingCanvas}" Height="{Binding ActualHeight, ElementName=MissingCanvas}">
+                        <fa:ImageAwesome Icon="Spinner" Spin="True" Height="40" Width="40" Foreground="#268bd2" SpinDuration="3" Visibility="{Binding MissingSpinnerVisibility, Mode=TwoWay}" />
+                    </Grid>
+                </Canvas>
                 <Label Name="MissingNoteLabel" Content="Locate and copy any missing asset folders into the project directory for uploading to the render nodes." 
                        Width="Auto" Height="Auto" Foreground="#CCCCCC" FontWeight="Bold" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" />
             </Grid>
         </StackPanel>
         <Border BorderThickness="0,1,0,0" BorderBrush="#CCCCCC" Height="40" Grid.Row="1" Grid.Column="0">
-            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Name="SubmitButton" Content="Submit Job" Height="27" Width="125" Margin="0,0,5,0" Click="SubmitButton_Click"></Button>
-            </StackPanel>
+            <DockPanel>
+                <Label Name="Status" Content="" Margin="5,0,0,0" Width="Auto" Height="Auto" VerticalAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" HorizontalAlignment="Left" />
+                <Button Name="SubmitButton" Content="Submit Job" Height="27" Width="125" Margin="0,0,5,0" HorizontalAlignment="Right"  Click="SubmitButton_Click"></Button>
+            </DockPanel>
         </Border>
     </Grid>
 </UserControl>

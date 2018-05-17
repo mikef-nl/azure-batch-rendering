@@ -56,6 +56,18 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
 
         public string CurFilePath => @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\PipecatFX_FullMovie_v01_t10.max";
 
+        public int RendWidth
+        {
+            get { return 1024; }
+            set { value = 0;  }
+        }
+
+        public int RendHeight
+        {
+            get { return 768; }
+            set { value = 0; }
+        }
+
         public void EnumAuxFiles(IAssetEnumCallback assetEnum, uint flags)
         {
             Log.LogEntry(0, false, null, $"flags :: {flags}");
@@ -76,7 +88,6 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
             {
                 // Normal assets
                 assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\HDRI\HDRI Skies\141-free-hdri-skies-com.hdr", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\HDRI\HDRI Skies\141-free-hdri-skies-com.hdr"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\HDRI\HDRI Skies\141-free-hdri-skies-com.hdr", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\HDRI\HDRI Skies\banana\141-free-hdri-skies-com.hdr"));
                 assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_branch_01_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_branch_01_diffuse.png"));
                 assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_branch_01_bump.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_branch_01_bump.png"));
                 assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_leaf_01_opacity.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_leaf_01_opacity.png"));
@@ -110,7 +121,6 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
                 assetEnum.RecordAsset(new FakeAsset(@"fp_grass_leaf_5.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_5.jpg"));
                 assetEnum.RecordAsset(new FakeAsset(@"fp_grass_leaf_6.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_6.jpg"));
                 assetEnum.RecordAsset(new FakeAsset(@"fp_generic_stem_1.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_generic_stem_1.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_generic_stem_1.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\apple\fp_generic_stem_1.jpg"));
                 assetEnum.RecordAsset(new FakeAsset(@"fp_fescue_spikelet2.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_fescue_spikelet2.jpg"));
                 assetEnum.RecordAsset(new FakeAsset(@"fp_fescue_spikelet.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_fescue_spikelet.jpg"));
                 assetEnum.RecordAsset(new FakeAsset(@"fp_common_catstail_spikelet_brown_diffuse.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_common_catstail_spikelet_brown_diffuse.jpg"));
@@ -1922,8 +1932,6 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
         public bool RendUseNet { get; set; }
         public IBitmapInfo RendFileBI { get; }
         public IBitmapInfo RendDeviceBI { get; }
-        public int RendWidth { get; set; }
-        public int RendHeight { get; set; }
         public float RendApect { get; }
         public float RendImageAspect { get; }
         public float RendApertureWidth { get; set; }

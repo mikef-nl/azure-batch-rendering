@@ -55,6 +55,10 @@
       <HintPath>C:\Program Files\Autodesk\3ds Max 2016\Autodesk.Max.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ManagedServices">
       <HintPath>C:\Program Files\Autodesk\3ds Max 2016\ManagedServices.dll</HintPath>
       <Private>False</Private>
@@ -86,6 +90,8 @@
   <ItemGroup>
     <Compile Include="ActionBase.cs" />
     <Compile Include="BatchLabsRequestHandler.cs" />
+    <Compile Include="Commands\EventExtensions.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Common\AssetFlags.cs" />
     <Compile Include="Common\AssetWranglerCallback.cs" />
     <Compile Include="Common\AssetWrangler.cs" />
@@ -93,6 +99,7 @@
     <Compile Include="Common\DirectoryInfoExtensions.cs" />
     <Compile Include="Common\FileActions.cs" />
     <Compile Include="Common\ObservableCollectionExtensions.cs" />
+    <Compile Include="Common\StarWidthConverter.cs" />
     <Compile Include="Common\TemplateHelper.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\Utils.cs" />
@@ -110,10 +117,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Resources\AppImages.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Resources\ControlResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -130,8 +133,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\cross.png" />
-    <Resource Include="Resources\Images\refresh.png" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

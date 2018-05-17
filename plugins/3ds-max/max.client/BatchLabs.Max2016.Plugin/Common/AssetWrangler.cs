@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using BatchLabs.Max2016.Plugin.Max;
@@ -14,11 +15,14 @@ namespace BatchLabs.Max2016.Plugin.Common
         {
             try
             {
-                Log.Instance.Debug("Calling EnumAuxFiles");
                 var assetCallback = new AssetWranglerCallback();
-                await Task.Run(() => MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetFlags.FileEnumAll));
+                await Task.Run(() =>
+                {
+                    // TODO: testing, remove sleep
+                    Thread.Sleep(2500);
+                    MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetFlags.FileEnumAll);
+                });
 
-                Log.Instance.Debug("Returning");
                 return assetCallback.AssetList;
             }
             catch (Exception ex)
@@ -33,11 +37,14 @@ namespace BatchLabs.Max2016.Plugin.Common
         {
             try
             {
-                Log.Instance.Debug("Calling EnumAuxFiles");
                 var assetCallback = new AssetWranglerCallback();
-                await Task.Run(() => MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetFlags.FileEnumMissingActive));
+                await Task.Run(() =>
+                {
+                    // TODO: testing, remove sleep
+                    Thread.Sleep(2500);
+                    MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetFlags.FileEnumMissingActive);
+                });
 
-                Log.Instance.Debug("Returning");
                 return assetCallback.AssetList;
             }
             catch (Exception ex)

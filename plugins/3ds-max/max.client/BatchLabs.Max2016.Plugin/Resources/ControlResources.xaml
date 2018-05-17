@@ -27,8 +27,8 @@
                                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                         <LinearGradientBrush.GradientStops>
                                             <GradientStopCollection>
-                                                <GradientStop Color="#BFFF84" Offset="0"/>
-                                                <GradientStop Color="#9CEA0A" Offset="1"/>
+                                                <GradientStop Color="#ADD8E6" Offset="0"/>
+                                                <GradientStop Color="#7BC2E5" Offset="1"/>
                                             </GradientStopCollection>
                                         </LinearGradientBrush.GradientStops>
                                     </LinearGradientBrush>
@@ -36,7 +36,7 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#BFFF84" />
+                            <Setter TargetName="Bd" Property="Background" Value="#ADD8E6" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -48,8 +48,8 @@
                                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                         <LinearGradientBrush.GradientStops>
                                             <GradientStopCollection>
-                                                <GradientStop Color="#BFFF84" Offset="0"/>
-                                                <GradientStop Color="#9CEA0A" Offset="1"/>
+                                                <GradientStop Color="#ADD8E6" Offset="0"/>
+                                                <GradientStop Color="#7BC2E5" Offset="1"/>
                                             </GradientStopCollection>
                                         </LinearGradientBrush.GradientStops>
                                     </LinearGradientBrush>
@@ -65,6 +65,7 @@
     </Style>
 
     <Style x:Key="NoChromeButton" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
