@@ -42,7 +42,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
 
             InitializeComponent();
             DataContext = this;
-
+            
             SetWindowColor();
             SetLabelColors();
 
@@ -52,23 +52,33 @@ namespace BatchLabs.Max2016.Plugin.XAML
             Renderers = TemplateHelper.GetRenderers();
             SelectedRenderer = "vray";
 
-
-            _maxFileFolderPath = Path.GetDirectoryName(MaxGlobalInterface.Instance.COREInterface16.CurFilePath);
-            SceneFile.Content = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
-            JobId.Text = Utils.ContainerizeMaxFile(SceneFile.Content.ToString());
-
-            FrameWidth.Text = MaxGlobalInterface.Instance.COREInterface16.RendWidth.ToString();
-            FrameHeight.Text = MaxGlobalInterface.Instance.COREInterface16.RendHeight.ToString();
-
             MissingAssets = new ObservableCollection<AssetFile>();
             MissingAssets.CollectionChanged += OnMissingCollectionChanged;
             MissingSpinnerVisibility = Visibility.Collapsed;
 
-            AssetDirectories = new ObservableCollection<AssetFolder> { new AssetFolder(_maxFileFolderPath, true) };
+            AssetDirectories = new ObservableCollection<AssetFolder>();
             AssetDirectories.CollectionChanged += OnDirectoryCollectionChanged;
             AssetSpinnerVisibility = Visibility.Collapsed;
 
-            SetAssetCollection();
+            // only load assets if we have a current scene
+            if (!string.IsNullOrEmpty(MaxGlobalInterface.Instance.COREInterface16.CurFilePath))
+            {
+                _maxFileFolderPath = Path.GetDirectoryName(MaxGlobalInterface.Instance.COREInterface16.CurFilePath);
+                AssetDirectories.Add(new AssetFolder(_maxFileFolderPath, true));
+
+                SceneFile.Content = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
+                JobId.Text = Utils.ContainerizeMaxFile(SceneFile.Content.ToString());
+
+                FrameWidth.Text = MaxGlobalInterface.Instance.COREInterface16.RendWidth.ToString();
+                FrameHeight.Text = MaxGlobalInterface.Instance.COREInterface16.RendHeight.ToString();
+
+                SetAssetCollection();
+            }
+            else
+            {
+                SetButtonState(false);
+                Status.Content = "No scene loaded, unable to submit a job.";
+            }
         }
 
         public string SelectedRenderer { get; set; }
@@ -108,6 +118,12 @@ namespace BatchLabs.Max2016.Plugin.XAML
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void SetButtonState(bool enabled)
+        {
+            SubmitButton.IsEnabled = enabled;
+            ReprocessButton.IsEnabled = enabled;
+        }
+
         /// <summary>
         /// Get current 3ds Max background color and match our dialog to it
         /// </summary>
@@ -135,7 +151,9 @@ namespace BatchLabs.Max2016.Plugin.XAML
             SceneFileLabel.Foreground = textColor;
             SceneFile.Foreground = textColor;
             AssetsLabel.Foreground = textColor;
+            AssetsLabelNote.Foreground = textColor;
             MissingLabel.Foreground = textColor;
+            MissingLabelNote.Foreground = textColor;
             Status.Foreground = textColor;
         }
 
@@ -183,6 +201,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 await ProcessMissingAssets();
 
                 Status.Content = "Asset location completed";
+                SetButtonState(true);
             }
             catch (Exception ex)
             {
@@ -205,7 +224,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
             // TODO: Debug ... remove foreach log.
             foreach (var keyValue in projectFolderFiles)
             {
-                Log.Instance.Debug($"asset -> {keyValue.Key} --- paths -> {string.Join(":::", keyValue.Value)}");
+                Log.Instance.Debug($"project dir -> {keyValue.Key} --- paths -> {string.Join(":::", keyValue.Value)}");
             }
 
             return projectFolderFiles;
@@ -223,7 +242,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
             var sceneFiles = await AssetWrangler.GetFoundAssets();
 
             // TODO: Debug ... remove foreach log.
-            Log.Instance.Debug($"got assets {sceneFiles.Count}");
+            Log.Instance.Debug($"found '{sceneFiles.Count}' scene assets");
             foreach (var asset in sceneFiles)
             {
                 var assetName = Path.GetFileName(asset.FileName) ?? "";
@@ -250,14 +269,21 @@ namespace BatchLabs.Max2016.Plugin.XAML
                     }
                     else
                     {
-                        // found it and it mathces the path. do nothing.
-                        Log.Instance.Debug($"Found in project dir {asset.FullFilePath}");
+                        // no else needed as we found it and it matches the path. do nothing.
+                        Log.Instance.Debug($"Found in project directory: {asset.FullFilePath}");
                     }
+
                 }
                 else
                 {
-                    // asset was not found in project directory. add to missing files.
-                    Log.Instance.Debug($"Doesn't contain key: {assetName}");
+                    // asset was not found in project directory, but Max has a reference to it elsewhere. add folder to collection
+                    Log.Instance.Debug($"Asset '{assetName}' was not found in project directory, but Max has a reference to it elsewhere: [{asset.FullFilePath}] -> [{asset.FileName}]");
+                    var folderPath = Path.GetDirectoryName(asset.FullFilePath);
+                    if (AssetDirectories.FirstOrDefault(file => file.Path == folderPath) == null)
+                    {
+                        Log.Instance.Debug($"Adding folder to list: {folderPath}");
+                        AssetDirectories.Add(new AssetFolder(folderPath));
+                    }
                 }
             }
 
@@ -410,6 +436,26 @@ namespace BatchLabs.Max2016.Plugin.XAML
         }
 
         /// <summary>
+        /// Handle reprocess button click. Reprocesses the scene and tries to relocate the assets to upload.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReprocessButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetButtonState(false);
+            Status.Content = "Reprocessing scene ...";
+            MissingAssets.Clear();
+
+            var assets = AssetDirectories.Where(asset => asset.CanRemove).ToList();
+            foreach (var directory in assets)
+            {
+                AssetDirectories.Remove(directory);
+            }
+            
+            SetAssetCollection();
+        }
+
+        /// <summary>
         /// Handle submit button click. Set up any values we want to pass to BatchLabs and 
         /// then call the request handler to make the call.
         /// </summary>
@@ -417,7 +463,6 @@ namespace BatchLabs.Max2016.Plugin.XAML
         /// <param name="e"></param>
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            var coreInterface = MaxGlobalInterface.Instance.COREInterface16;
             var launchUrl = $"market/3dsmax/actions/{SelectedTemplate}/submit";
 
             // set up the basic arguments
@@ -428,14 +473,22 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 ["jobName"] = JobId.Text,
                 ["frameStart"] = FrameStart.Text,
                 ["frameEnd"] = FrameEnd.Text,
+                ["frameWidth"] = FrameWidth.Text,
+                ["frameHeight"] = FrameHeight.Text,
                 ["renderer"] = SelectedRenderer
             };
 
-            // if we have a max file loaded then we pass this as well
-            if (false == string.IsNullOrEmpty(coreInterface.CurFileName))
+            if (!string.IsNullOrEmpty(AdditionalArgs.Text))
             {
-                arguments["sceneFile"] = coreInterface.CurFileName;
-                arguments["asset-container"] = Utils.ContainerizeMaxFile(coreInterface.CurFileName);
+                arguments["additionalArgs"] = AdditionalArgs.Text;
+            }
+
+            // if we have a max file loaded then we pass this as well
+            var sceneFile = MaxGlobalInterface.Instance.COREInterface16.CurFileName;
+            if (false == string.IsNullOrEmpty(sceneFile))
+            {
+                arguments["sceneFile"] = sceneFile;
+                arguments["asset-container"] = Utils.ContainerizeMaxFile(sceneFile);
                 arguments["asset-paths"] = string.Join(",", from folder in AssetDirectories select folder.Path);
                 
             }

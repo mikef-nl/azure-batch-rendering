@@ -2,10 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="{x:Type GridViewColumnHeader}" TargetType="GridViewColumnHeader">
-        <Setter Property="Visibility" Value="Collapsed" />
-    </Style>
-
     <Style x:Key="AssetListStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="Background" Value="#ffffff" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -58,6 +54,101 @@
                             <Setter Property="BorderBrush" TargetName="Bd" Value="#FF434242"/>
                             <Setter Property="Foreground" Value="Black"/>
                         </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Note: this is a global style. Remove to show grid headers -->
+    <!--<Style x:Key="{x:Type DataGridColumnHeader}" TargetType="DataGridColumnHeader">
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>-->
+
+    <Style x:Key="{x:Type DataGridCell}" TargetType="DataGridCell">
+        <Setter Property="Foreground" Value="Black" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{x:Null}" />
+                <Setter Property="BorderBrush" Value="{x:Null}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="AssetGridStyle" TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="#FFFFFF" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=OneWay}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <Border 
+                        x:Name="Bd"
+                        Background="{TemplateBinding Background}" 
+                        SnapsToDevicePixels="true" 
+                        Padding="0,4,0,4" 
+                        Margin="2,0,2,0" 
+                        BorderThickness="0,0,0,1" 
+                        BorderBrush="#FF434242">
+                        <SelectiveScrollingGrid>
+                            <SelectiveScrollingGrid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </SelectiveScrollingGrid.ColumnDefinitions>
+                            <SelectiveScrollingGrid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </SelectiveScrollingGrid.RowDefinitions>
+                            <DataGridCellsPresenter 
+                                Grid.Column="1"
+                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <DataGridDetailsPresenter 
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                Visibility="{TemplateBinding DetailsVisibility}" />
+                        </SelectiveScrollingGrid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Background" TargetName="Bd">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#ADD8E6" Offset="0"/>
+                                                <GradientStop Color="#7BC2E5" Offset="1"/>
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#ADD8E6" />
+                        </Trigger>
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true" />
+                                <Condition Property="Selector.IsSelectionActive" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="Bd">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#ADD8E6" Offset="0"/>
+                                                <GradientStop Color="#7BC2E5" Offset="1"/>
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="#FF434242"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </MultiTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using BatchLabs.Max2016.Plugin.Max;
@@ -18,8 +17,6 @@ namespace BatchLabs.Max2016.Plugin.Common
                 var assetCallback = new AssetWranglerCallback();
                 await Task.Run(() =>
                 {
-                    // TODO: testing, remove sleep
-                    Thread.Sleep(2500);
                     MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetFlags.FileEnumAll);
                 });
 
@@ -40,8 +37,6 @@ namespace BatchLabs.Max2016.Plugin.Common
                 var assetCallback = new AssetWranglerCallback();
                 await Task.Run(() =>
                 {
-                    // TODO: testing, remove sleep
-                    Thread.Sleep(2500);
                     MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetFlags.FileEnumMissingActive);
                 });
 
