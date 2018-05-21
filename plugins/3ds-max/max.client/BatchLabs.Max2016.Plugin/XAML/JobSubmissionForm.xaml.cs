@@ -215,7 +215,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 // find and add any missing assets to the list
                 await ProcessMissingAssets();
 
-                Status.Text = "Asset location completed";
+                Status.Text = "Asset scanning completed";
                 SetButtonState(true);
             }
             catch (Exception ex)

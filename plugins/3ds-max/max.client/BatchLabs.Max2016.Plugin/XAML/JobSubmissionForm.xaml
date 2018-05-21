@@ -8,8 +8,8 @@
     xmlns:common="clr-namespace:BatchLabs.Max2016.Plugin.Common"
     xmlns:fa="http://schemas.fontawesome.io/icons/"
     mc:Ignorable="d" 
-    MinHeight="550" MinWidth="700"
-    d:DesignHeight="700" d:DesignWidth="700"
+    MinHeight="600" MinWidth="700"
+    d:DesignHeight="750" d:DesignWidth="700"
     Background="#FF434242"
     Name="LayoutRoot">
 
@@ -26,10 +26,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Stretch" Margin="10" Width="Auto" Grid.Row="0" Grid.Column="0">
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,0" Width="Auto" Grid.Row="0" Grid.Column="0">
             <Label Name="JobDetailsTitle" Content="Job Details" Foreground="#CCCCCC" FontWeight="Bold" />
             <Grid HorizontalAlignment="Stretch" Margin="0,5">
                 <Grid.ColumnDefinitions>
@@ -90,40 +91,39 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Label Name="AdditionalArgsLabel" Content="Additional Args:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" Grid.Row="0" Grid.Column="0" />
                 <TextBox Name="AdditionalArgs" Height="24" Margin="0,2" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" />
+
+                <Label Name="AssetsTitle" Content="Scene Details" Foreground="#CCCCCC" FontWeight="Bold" Margin="0,10,0,0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+
+                <Label Name="SceneFileLabel" Content="Max File:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" Grid.Row="2" Grid.Column="0" />
+                <Label Name="SceneFile" Height="27" Margin="0,2" Padding="0"  Foreground="#CCCCCC" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="1" />
             </Grid>
+        </StackPanel>
 
-            <Label Name="AssetsTitle" Content="Scene Details" Foreground="#CCCCCC" FontWeight="Bold" Margin="0,10,0,0" />
+        <Grid Margin="10,0,10,10" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="115" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-            <Grid Margin="0,5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <Label Name="SceneFileLabel" Content="Max File:" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#CCCCCC" Grid.Row="0" Grid.Column="0" />
-                <Label Name="SceneFile" Height="27" Margin="0,2" Padding="0"  Foreground="#CCCCCC" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" />
-
-                <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
-                    <Label Name="AssetsLabel" Content="Assets Folders:" HorizontalAlignment="Right" VerticalContentAlignment="Top" Foreground="#CCCCCC" />
-                    <TextBlock Name="AssetsLabelNote" TextWrapping="WrapWithOverflow" FontSize="10" Padding="0,0,4,0" TextAlignment="Right" Foreground="#CCCCCC">
+            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                <Label Name="AssetsLabel" Content="Assets Folders:" HorizontalAlignment="Right" VerticalContentAlignment="Top" Foreground="#CCCCCC" />
+                <TextBlock Name="AssetsLabelNote" TextWrapping="WrapWithOverflow" FontSize="10" Padding="0,0,4,0" TextAlignment="Right" Foreground="#CCCCCC">
                         These folders will be uploaded to storage. Right-click for options.
-                    </TextBlock>
-                </StackPanel>
-                <Canvas Name="AssetCanvas" Margin="0,0,0,5" MinHeight="125" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
-                    <DataGrid 
+                </TextBlock>
+            </StackPanel>
+            <Canvas Name="AssetCanvas" Margin="0,0,0,5" Height="Auto" Grid.Row="0" Grid.Column="1">
+                <DataGrid 
                         Name="AssetListView"
                         SelectionMode="Single"
                         GridLinesVisibility="None"
@@ -137,39 +137,39 @@
                         Height="{Binding ActualHeight, ElementName=AssetCanvas}"
                         Background="#FFFFFF"
                         Visibility="Visible">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Add Folder" Command="{Binding Path=AddDirectoryCommand}" />
-                                <MenuItem Header="Select Parent Folder"  Command="{Binding Path=SelectParentCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                                <MenuItem Header="Remove Folder" Command="{Binding Path=RemoveDirectoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                            </ContextMenu> 
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Width="28" IsReadOnly="True">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}" Command="{Binding Path=RemoveDirectoryCommand}" CommandParameter="{Binding Path=Path}">
-                                            <fa:ImageAwesome Icon="Close" ToolTip="Remove this folder" Height="10" Foreground="#C45151" />
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Folders"  Width="*" IsReadOnly="True" Binding="{Binding Path=Path}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Grid Width="{Binding ActualWidth, ElementName=AssetCanvas}" Height="{Binding ActualHeight, ElementName=AssetCanvas}">
-                        <fa:ImageAwesome Icon="Spinner" Spin="True" Height="40" Width="40" Foreground="#268bd2" SpinDuration="3" Visibility="{Binding AssetSpinnerVisibility, Mode=TwoWay}" />
-                    </Grid>
-                </Canvas>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add Folder" Command="{Binding Path=AddDirectoryCommand}" />
+                            <MenuItem Header="Select Parent Folder"  Command="{Binding Path=SelectParentCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                            <MenuItem Header="Remove Folder" Command="{Binding Path=RemoveDirectoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="28" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}" Command="{Binding Path=RemoveDirectoryCommand}" CommandParameter="{Binding Path=Path}">
+                                        <fa:ImageAwesome Icon="Close" ToolTip="Remove this folder" Height="10" Foreground="#C45151" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Folders"  Width="*" IsReadOnly="True" Binding="{Binding Path=Path}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Width="{Binding ActualWidth, ElementName=AssetCanvas}" Height="{Binding ActualHeight, ElementName=AssetCanvas}">
+                    <fa:ImageAwesome Icon="Spinner" Spin="True" Height="40" Width="40" Foreground="#268bd2" SpinDuration="3" Visibility="{Binding AssetSpinnerVisibility, Mode=TwoWay}" />
+                </Grid>
+            </Canvas>
 
-                <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
-                    <Label Name="MissingLabel" Content="Missing Assets:" HorizontalAlignment="Right" VerticalContentAlignment="Top" Foreground="#CCCCCC" />
-                    <TextBlock Name="MissingLabelNote" TextWrapping="WrapWithOverflow" FontSize="10" Padding="0,0,4,0" TextAlignment="Right" Foreground="#CCCCCC">
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                <Label Name="MissingLabel" Content="Missing Assets:" HorizontalAlignment="Right" VerticalContentAlignment="Top" Foreground="#CCCCCC" />
+                <TextBlock Name="MissingLabelNote" TextWrapping="WrapWithOverflow" FontSize="10" Padding="0,0,4,0" TextAlignment="Right" Foreground="#CCCCCC">
                         These items cannot be found on disk. Right-click for options.
-                    </TextBlock>
-                </StackPanel>
-                <Canvas Name="MissingCanvas" Margin="0,0,0,5" MinHeight="150" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
-                    <DataGrid 
+                </TextBlock>
+            </StackPanel>
+            <Canvas Name="MissingCanvas" Margin="0,0,0,5" MinHeight="115" Height="Auto" Grid.Row="1" Grid.Column="1">
+                <DataGrid 
                         Name="MissingListView"
                         SelectionMode="Single"
                         GridLinesVisibility="None"
@@ -183,34 +183,35 @@
                         Height="{Binding ActualHeight, ElementName=MissingCanvas}"
                         Background="#FFFFFF"
                         Visibility="Visible">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Locate missing file"  Command="{Binding Path=FindFileCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Width="28" IsReadOnly="True">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}" Command="{Binding Path=RemoveMissingFileCommand}" CommandParameter="{Binding Path=FullFilePath}">
-                                            <fa:ImageAwesome Icon="Close" ToolTip="Remove this file" Height="10" Foreground="#C45151" />
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Missing Scene Files" Width="*" IsReadOnly="True" Binding="{Binding Path=FileName}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Grid Width="{Binding ActualWidth, ElementName=MissingCanvas}" Height="{Binding ActualHeight, ElementName=MissingCanvas}">
-                        <fa:ImageAwesome Icon="Spinner" Spin="True" Height="40" Width="40" Foreground="#268bd2" SpinDuration="3" Visibility="{Binding MissingSpinnerVisibility, Mode=TwoWay}" />
-                    </Grid>
-                </Canvas>
-                <TextBlock Name="MissingNoteLabel" TextWrapping="WrapWithOverflow" Padding="0,0,4,0" FontSize="10" TextAlignment="Center" Foreground="#CCCCCC" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
-                    Right-click to locate any missing assets on disk and select the folder for upload. All asset folders will be uploaded to the<LineBreak />render nodes.
-                </TextBlock>
-            </Grid>
-        </StackPanel>
-        <Border BorderThickness="0,1,0,0" BorderBrush="#CCCCCC" Height="40" Grid.Row="1" Grid.Column="0">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Locate missing file"  Command="{Binding Path=FindFileCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="28" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="btnRemoveItem" Style="{StaticResource NoChromeButton}" Command="{Binding Path=RemoveMissingFileCommand}" CommandParameter="{Binding Path=FullFilePath}">
+                                        <fa:ImageAwesome Icon="Close" ToolTip="Remove this file" Height="10" Foreground="#C45151" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Missing Scene Files" Width="*" IsReadOnly="True" Binding="{Binding Path=FileName}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Width="{Binding ActualWidth, ElementName=MissingCanvas}" Height="{Binding ActualHeight, ElementName=MissingCanvas}">
+                    <fa:ImageAwesome Icon="Spinner" Spin="True" Height="40" Width="40" Foreground="#268bd2" SpinDuration="3" Visibility="{Binding MissingSpinnerVisibility, Mode=TwoWay}" />
+                </Grid>
+            </Canvas>
+
+            <TextBlock Name="MissingNoteLabel" TextWrapping="WrapWithOverflow" Padding="0,0,4,0" FontSize="10" TextAlignment="Center" Foreground="#CCCCCC" Grid.Row="2" Grid.Column="1">
+                Right-click to locate any missing assets on disk and select the folder for upload. All asset folders will be uploaded to the<LineBreak />render nodes.
+            </TextBlock>
+        </Grid>
+
+        <Border BorderThickness="0,1,0,0" BorderBrush="#CCCCCC" Height="40" Grid.Row="2" Grid.Column="0">
             <DockPanel>
                 <TextBlock Name="Status" DockPanel.Dock="Left" Text="" Margin="5,0,0,0" Width="Auto" Height="Auto" VerticalAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" HorizontalAlignment="Left" />
                 <Button Name="SubmitButton" DockPanel.Dock="Right" Content="Submit Job" Height="27" Width="125" Margin="0,0,5,0" HorizontalAlignment="Right" Click="SubmitButton_Click" IsEnabled="False"></Button>

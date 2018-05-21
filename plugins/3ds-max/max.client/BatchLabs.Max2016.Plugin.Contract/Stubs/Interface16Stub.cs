@@ -70,7 +70,6 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
 
         public void EnumAuxFiles(IAssetEnumCallback assetEnum, uint flags)
         {
-            Log.LogEntry(0, false, null, $"flags :: {flags}");
             if (flags == 262)
             {
                 // Missing assets

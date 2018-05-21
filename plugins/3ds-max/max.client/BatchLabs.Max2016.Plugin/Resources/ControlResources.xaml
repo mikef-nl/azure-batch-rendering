@@ -61,9 +61,9 @@
     </Style>
 
     <!-- Note: this is a global style. Remove to show grid headers -->
-    <!--<Style x:Key="{x:Type DataGridColumnHeader}" TargetType="DataGridColumnHeader">
+    <Style x:Key="{x:Type DataGridColumnHeader}" TargetType="DataGridColumnHeader">
         <Setter Property="Visibility" Value="Collapsed" />
-    </Style>-->
+    </Style>
 
     <Style x:Key="{x:Type DataGridCell}" TargetType="DataGridCell">
         <Setter Property="Foreground" Value="Black" />
