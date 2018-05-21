@@ -10,11 +10,13 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 
 using Autodesk.Max;
 
+using BatchLabs.Max2016.Plugin.Commands;
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
 using BatchLabs.Max2016.Plugin.Models;
@@ -35,6 +37,10 @@ namespace BatchLabs.Max2016.Plugin.XAML
 
         private Visibility _assetSpinnerVisible;
         private Visibility _missingSpinnerVisible;
+        private RelayCommand _addDirectoryCommand;
+        private RelayCommand _removeDirectoryCommand;
+        private RelayCommand _selectParentCommand;
+        private RelayCommand _findFileCommand;
 
         public JobSubmissionForm(BatchLabsRequestHandler labsRequestHandler)
         {
@@ -77,9 +83,18 @@ namespace BatchLabs.Max2016.Plugin.XAML
             else
             {
                 SetButtonState(false);
-                Status.Content = "No scene loaded, unable to submit a job.";
+                Status.Text = "No scene loaded, unable to submit a job.";
             }
         }
+
+        public ICommand AddDirectoryCommand => _addDirectoryCommand ?? (_addDirectoryCommand = new RelayCommand(AddDirectory));
+
+        public ICommand SelectParentCommand => _selectParentCommand ?? (_selectParentCommand = new RelayCommand(SelectParentDirectory, CanRemoveDirectory));
+
+        public ICommand RemoveDirectoryCommand => _removeDirectoryCommand ?? (_removeDirectoryCommand = new RelayCommand(RemoveDirectory, CanRemoveDirectory));
+
+        public ICommand FindFileCommand => _findFileCommand ?? (_findFileCommand = new RelayCommand(FindMissingFile));
+
 
         public string SelectedRenderer { get; set; }
 
@@ -121,7 +136,6 @@ namespace BatchLabs.Max2016.Plugin.XAML
         private void SetButtonState(bool enabled)
         {
             SubmitButton.IsEnabled = enabled;
-            ReprocessButton.IsEnabled = enabled;
         }
 
         /// <summary>
@@ -192,7 +206,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 MissingSpinnerVisibility = Visibility.Visible;
 
                 // get the assets in the project directory on disk
-                var projectFolderFiles = GetProjectFiles();
+                Status.Text = "Scanning project directory";
+                var projectFolderFiles = AssetWrangler.GetProjectFiles(_maxFileFolderPath);
 
                 // process the scene files and any missing assets
                 await ProcessSceneFiles(projectFolderFiles);
@@ -200,7 +215,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 // find and add any missing assets to the list
                 await ProcessMissingAssets();
 
-                Status.Content = "Asset location completed";
+                Status.Text = "Asset location completed";
                 SetButtonState(true);
             }
             catch (Exception ex)
@@ -209,26 +224,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
             }
         }
 
-        /// <summary>
-        /// Get a list of all files that exist in the current project directory.
-        /// </summary>
-        /// <returns></returns>
-        private Dictionary<string, List<string>> GetProjectFiles()
-        {
-            Status.Content = "Scanning project directory";
-            Log.Instance.Debug($"maxFileFolder {_maxFileFolderPath}");
 
-            var projectFolderFiles = FileActions.GetFileDictionaryWithLocations(_maxFileFolderPath);
-            Log.Instance.Debug($"Project dir file count: {projectFolderFiles.Keys.Count}");
-            
-            // TODO: Debug ... remove foreach log.
-            foreach (var keyValue in projectFolderFiles)
-            {
-                Log.Instance.Debug($"project dir -> {keyValue.Key} --- paths -> {string.Join(":::", keyValue.Value)}");
-            }
-
-            return projectFolderFiles;
-        }
 
         /// <summary>
         /// Get the assets from the scene and make sure they exist in the project directory. Any 
@@ -238,8 +234,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
         /// <param name="projectFolderFiles"></param>
         private async Task<bool> ProcessSceneFiles(IReadOnlyDictionary<string, List<string>> projectFolderFiles)
         {
-            Status.Content = "Loading assets from the scene file, this can take a while";
-            var sceneFiles = await AssetWrangler.GetFoundAssets();
+            Status.Text = "Loading assets from the scene file, this can take a while";
+            var sceneFiles = await AssetWrangler.GetFoundSceneAssets();
 
             // TODO: Debug ... remove foreach log.
             Log.Instance.Debug($"found '{sceneFiles.Count}' scene assets");
@@ -255,7 +251,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
                         // the filename exists in the project direrctory, but not with the same path
                         // see if we can match up any directories and make a guess if its the correct one.
                         Log.Instance.Debug($"Did not find: {asset.FullFilePath}, locations: {locations.Count}");
-                        var matchingDirCount = FindMatchingDirectories(asset.FullFilePath, locations);
+                        var matchingDirCount = AssetWrangler.FindMatchingDirectories(asset.FullFilePath, locations);
                         if (matchingDirCount == 0)
                         {
                             // add it to the missing asset list for the user to find
@@ -278,12 +274,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
                 {
                     // asset was not found in project directory, but Max has a reference to it elsewhere. add folder to collection
                     Log.Instance.Debug($"Asset '{assetName}' was not found in project directory, but Max has a reference to it elsewhere: [{asset.FullFilePath}] -> [{asset.FileName}]");
-                    var folderPath = Path.GetDirectoryName(asset.FullFilePath);
-                    if (AssetDirectories.FirstOrDefault(file => file.Path == folderPath) == null)
-                    {
-                        Log.Instance.Debug($"Adding folder to list: {folderPath}");
-                        AssetDirectories.Add(new AssetFolder(folderPath));
-                    }
+                    SafeAddAssetFolder(Path.GetDirectoryName(asset.FullFilePath));
                 }
             }
 
@@ -296,7 +287,7 @@ namespace BatchLabs.Max2016.Plugin.XAML
         /// </summary>
         private async Task<bool> ProcessMissingAssets()
         {
-            Status.Content = "Loading missing assets from the scene file";
+            Status.Text = "Loading missing assets from the scene file";
             var missing = await AssetWrangler.GetMissingAssets();
             MissingAssets.AddRange(missing);
 
@@ -311,52 +302,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
         }
 
         /// <summary>
-        /// Wander backwards up the directory tree looking for matches. This is for files that are in the project directory
-        /// already, but 3ds Max is using them from another location, i.e. a pre-installed texture pack on the local machine.
-        /// I.E. This file is marked as an asset by the max scene:
-        ///     C:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_5.jpg
-        /// 
-        /// But it also exists in the project directory: 
-        ///     D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\itoo software\forest pack pro\maps\presets\fp_grass_leaf_5.jpg
-        /// 
-        /// If we find this is the case then we ignore the file in the program files folder as we don't need to upload 
-        /// it again. 3ds Max will find it in the project directory, or in its propper location after the texture pack is 
-        /// installed on the node.
-        /// </summary>
-        /// <param name="sceneFilePath"></param>
-        /// <param name="diskLocations"></param>
-        /// <returns></returns>
-        private int FindMatchingDirectories(string sceneFilePath, List<string> diskLocations)
-        {
-            var locationMatch = new Dictionary<string, int>();
-            diskLocations.ForEach(location =>
-            {
-                locationMatch[location] = 0;
-                var sceneFileDirectory = FileActions.GetFileInfo(sceneFilePath).Directory;
-                var diskLocationDirectory = FileActions.GetFileInfo(location).Directory;
-                while (sceneFileDirectory != null && diskLocationDirectory != null)
-                {
-                    if (sceneFileDirectory.Name.Equals(diskLocationDirectory.Name, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        locationMatch[location]++;
-                    }
-                    else
-                    {
-                        // the moment we don't match, break out of loop.
-                        break;
-                    }
-
-                    // move to the parent directory.
-                    sceneFileDirectory = sceneFileDirectory.Parent;
-                    diskLocationDirectory = diskLocationDirectory.Parent;
-                }
-            });
-            
-            return locationMatch.Values.Max();
-        }
-
-        /// <summary>
-        /// Called when a row is either added or removed from the missing asset list
+        /// Called when a row is either added or removed from the missing asset list so we can add or 
+        /// remove the event handlers for the missing file.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -380,7 +327,8 @@ namespace BatchLabs.Max2016.Plugin.XAML
         }
 
         /// <summary>
-        /// Called when a row is either added or removed from the asset directory list
+        /// Called when a row is either added or removed from the asset directory list so we can add or 
+        /// remove the event handlers for the directory.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -432,27 +380,143 @@ namespace BatchLabs.Max2016.Plugin.XAML
             {
                 AssetDirectories.Remove(item);
                 Log.Instance.Debug($"Removed {folderPath} from folder list");
+                Status.Text = "Removed folder from list";
             }
         }
 
-        /// <summary>
-        /// Handle reprocess button click. Reprocesses the scene and tries to relocate the assets to upload.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ReprocessButton_Click(object sender, RoutedEventArgs e)
+        private void AddDirectory(object eventArgs)
         {
-            SetButtonState(false);
-            Status.Content = "Reprocessing scene ...";
-            MissingAssets.Clear();
-
-            var assets = AssetDirectories.Where(asset => asset.CanRemove).ToList();
-            foreach (var directory in assets)
+            Status.Text = "Adding directory";
+            using (var dialog = new FolderBrowserDialog())
             {
-                AssetDirectories.Remove(directory);
+                var result = dialog.ShowDialog();
+                if (result != DialogResult.OK)
+                {
+                    return;
+                }
+
+                Log.Instance.Debug($"GOT :: {result.ToString()}, {dialog.SelectedPath}");
+                if (SafeAddAssetFolder(dialog.SelectedPath))
+                {
+                    Status.Text = $"Added: {dialog.SelectedPath}";
+                    CheckMissingAssets(dialog.SelectedPath);
+                }
             }
-            
-            SetAssetCollection();
+        }
+
+        private void CheckMissingAssets(string newFolderPath)
+        {
+            Log.Instance.Debug($"checking for missing assets in new folder: [{newFolderPath}]");
+            foreach (var missingAsset in MissingAssets.ToList())
+            {
+                if (missingAsset.FileName.StartsWith(newFolderPath, StringComparison.InvariantCultureIgnoreCase) ||
+                    missingAsset.FullFilePath.StartsWith(newFolderPath, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Log.Instance.Debug($"no longer missing -> [{missingAsset.FileName} :: {missingAsset.FullFilePath}]");
+                    // if our file path starts with the new folder we are adding then we can remove it from the missing list
+                    MissingAssets.Remove(missingAsset);
+                }
+            }
+        }
+
+        private void SelectParentDirectory(object eventArgs)
+        {
+            if (eventArgs != null && CanRemoveDirectory(eventArgs))
+            {
+                var folder = eventArgs as AssetFolder;
+                Log.Instance.Debug($"Select parent for: {folder?.Path}");
+                if (folder != null)
+                {
+                    
+                    var parentDir = new DirectoryInfo(folder.Path).Parent;
+                    if (parentDir != null)
+                    {
+                        var existing = AssetDirectories.FirstOrDefault(assetDir => assetDir.Path.Equals(parentDir.FullName, StringComparison.InvariantCultureIgnoreCase));
+                        if (existing != null)
+                        {
+                            // the parent dir is already in the list so just remove this one.
+                            Status.Text = "Parent already exists, removing folder.";
+                            folder?.RemoveItem(folder.Path);
+                            return;
+                        }
+
+                        Status.Text = "Selecting parent directory";
+                        folder.Path = parentDir.FullName;
+                    }
+                }
+            }
+        }
+
+        private static void RemoveDirectory(object eventArgs)
+        {
+            if (eventArgs != null && CanRemoveDirectory(eventArgs))
+            {
+                var folder = eventArgs as AssetFolder;
+                folder?.RemoveItem(folder.Path);
+            }
+        }
+
+        private static bool CanRemoveDirectory(object eventArgs)
+        {
+            var folder = eventArgs as AssetFolder;
+            return folder != null && folder.CanRemove;
+        }
+
+        private void FindMissingFile(object eventArgs)
+        {
+            var asset = eventArgs as AssetFile;
+            if (asset == null)
+            {
+                return;
+            }
+
+            try
+            {
+                var filename = Path.GetFileName(asset.FileName);
+                var extension = Path.GetExtension(filename);
+                Status.Text = $"Locating asset: {filename}";
+                using (var dialog = new OpenFileDialog { Filter = $"{extension} files (*{extension})|*{extension}|All files (*.*)|*.*" })
+                {
+                    var result = dialog.ShowDialog();
+                    if (result != DialogResult.OK || string.IsNullOrEmpty(dialog.FileName))
+                    {
+                        return;
+                    }
+
+                    Log.Instance.Debug($"User selected :: {dialog.FileName}");
+                    if (asset.FileName.Equals(dialog.FileName, StringComparison.InvariantCultureIgnoreCase) ||
+                        asset.FullFilePath.Equals(dialog.FileName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        Status.Text = "Found missing asset";
+
+                        // selected file is the correct one, so add the directory and re-check missing assets.
+                        SafeAddAssetFolder(Path.GetDirectoryName(dialog.FileName));
+                        CheckMissingAssets(dialog.FileName);
+                    }
+                    else
+                    {
+                        Log.Instance.Debug($"Selected file '{dialog.FileName}' was not the missing asset: [{asset.FileName} :: {asset.FullFilePath}");
+                        Status.Text = "Selected file was not the missing asset";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Instance.Error($"Failed process missing asset: {ex.Message}. {ex}");
+            }
+        }
+
+        private bool SafeAddAssetFolder(string folderPath)
+        {
+            var existing = AssetDirectories.FirstOrDefault(file => file.Path.Equals(folderPath, StringComparison.InvariantCultureIgnoreCase));
+            if (existing == null)
+            {
+                AssetDirectories.Add(new AssetFolder(folderPath));
+                Log.Instance.Debug($"Added folder to list: {folderPath}");
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

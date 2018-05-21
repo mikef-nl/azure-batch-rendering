@@ -14,9 +14,9 @@ namespace BatchLabs.Max2016.Plugin.Models
 
         public AssetFile(IAssetUser asset)
         {
-            Id = asset.IdAsString;
-            FullFilePath = asset.FullFilePath;
-            FileName = asset.FileName;
+            Id = asset.IdAsString ?? "";
+            FullFilePath = asset.FullFilePath ?? "";
+            FileName = asset.FileName ?? "";
         }
 
         public string Id { get; set; }

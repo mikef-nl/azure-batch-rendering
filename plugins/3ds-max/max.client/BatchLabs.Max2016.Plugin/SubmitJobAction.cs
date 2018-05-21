@@ -44,6 +44,7 @@ namespace BatchLabs.Max2016.Plugin
                 dialog.Content = jobSubmissionForm;
 
 #if !DEBUG
+                // only works in the context of 3ds Max
                 var maxIcon = GetMaxIcon();
                 if (maxIcon != null)
                 {
@@ -67,6 +68,7 @@ namespace BatchLabs.Max2016.Plugin
 #if !DEBUG
         private BitmapSource GetMaxIcon()
         {
+            // only works in the context of 3ds Max
             try
             {
                 var hBitmap = ManagedServices.AppSDK.GetMainApplicationIcon().ToBitmap().GetHbitmap();

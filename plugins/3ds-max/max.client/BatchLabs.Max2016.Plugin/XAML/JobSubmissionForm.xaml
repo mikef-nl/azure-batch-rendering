@@ -106,7 +106,7 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="30" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -122,9 +122,10 @@
                         These folders will be uploaded to storage. Right-click for options.
                     </TextBlock>
                 </StackPanel>
-                <Canvas Name="AssetCanvas" Margin="0,0,0,5" Height="150" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                <Canvas Name="AssetCanvas" Margin="0,0,0,5" MinHeight="125" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
                     <DataGrid 
                         Name="AssetListView"
+                        SelectionMode="Single"
                         GridLinesVisibility="None"
                         AutoGenerateColumns="False"
                         ScrollViewer.CanContentScroll="False"
@@ -136,6 +137,13 @@
                         Height="{Binding ActualHeight, ElementName=AssetCanvas}"
                         Background="#FFFFFF"
                         Visibility="Visible">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add Folder" Command="{Binding Path=AddDirectoryCommand}" />
+                                <MenuItem Header="Select Parent Folder"  Command="{Binding Path=SelectParentCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                <MenuItem Header="Remove Folder" Command="{Binding Path=RemoveDirectoryCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                            </ContextMenu> 
+                        </DataGrid.ContextMenu>
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Width="28" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -160,9 +168,10 @@
                         These items cannot be found on disk. Right-click for options.
                     </TextBlock>
                 </StackPanel>
-                <Canvas Name="MissingCanvas" Margin="0,0,0,5" Height="150" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
+                <Canvas Name="MissingCanvas" Margin="0,0,0,5" MinHeight="150" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
                     <DataGrid 
                         Name="MissingListView"
+                        SelectionMode="Single"
                         GridLinesVisibility="None"
                         AutoGenerateColumns="False"
                         ScrollViewer.CanContentScroll="False"
@@ -174,6 +183,11 @@
                         Height="{Binding ActualHeight, ElementName=MissingCanvas}"
                         Background="#FFFFFF"
                         Visibility="Visible">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Locate missing file"  Command="{Binding Path=FindFileCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Width="28" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -192,16 +206,14 @@
                     </Grid>
                 </Canvas>
                 <TextBlock Name="MissingNoteLabel" TextWrapping="WrapWithOverflow" Padding="0,0,4,0" FontSize="10" TextAlignment="Center" Foreground="#CCCCCC" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
-                    Right-click to locate any missing assets on disk and select the folder for upload. You can also copy these files into the project<LineBreak />
-                    directory and click reprocess to check again. All asset folders will be uploaded to the render nodes.
+                    Right-click to locate any missing assets on disk and select the folder for upload. All asset folders will be uploaded to the<LineBreak />render nodes.
                 </TextBlock>
             </Grid>
         </StackPanel>
         <Border BorderThickness="0,1,0,0" BorderBrush="#CCCCCC" Height="40" Grid.Row="1" Grid.Column="0">
             <DockPanel>
-                <Label Name="Status" DockPanel.Dock="Left" Content="" Margin="5,0,0,0" Width="Auto" Height="Auto" VerticalAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" HorizontalAlignment="Left" />
+                <TextBlock Name="Status" DockPanel.Dock="Left" Text="" Margin="5,0,0,0" Width="Auto" Height="Auto" VerticalAlignment="Center" Foreground="#CCCCCC" FontWeight="Bold" HorizontalAlignment="Left" />
                 <Button Name="SubmitButton" DockPanel.Dock="Right" Content="Submit Job" Height="27" Width="125" Margin="0,0,5,0" HorizontalAlignment="Right" Click="SubmitButton_Click" IsEnabled="False"></Button>
-                <Button Name="ReprocessButton" DockPanel.Dock="Right" Content="Reprocess" Height="27" Width="125" Margin="0,0,5,0" HorizontalAlignment="Right" Click="ReprocessButton_Click" IsEnabled="False"></Button>
             </DockPanel>
         </Border>
     </Grid>
