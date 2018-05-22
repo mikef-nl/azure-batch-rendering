@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using Autodesk.Max.MaxSDK.AssetManagement;
 using Autodesk.Max.Plugins;
 
-using BatchLabs.Max2016.Plugin.Models;
+using BatchLabs.Max2019.Plugin.Models;
 using BatchLabs.Plugin.Common.Contract;
 
-namespace BatchLabs.Max2016.Plugin.Common
+namespace BatchLabs.Max2019.Plugin.Common
 {
     public class AssetWranglerCallback : AssetEnumCallback
     {

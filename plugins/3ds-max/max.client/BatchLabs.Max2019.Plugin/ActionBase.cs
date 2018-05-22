@@ -2,12 +2,12 @@
 using System;
 using System.Windows.Forms;
 
+using BatchLabs.Max2019.Plugin.Common;
+using BatchLabs.Max2019.Plugin.Labs;
+
 using UiViewModels.Actions;
 
-using BatchLabs.Max2016.Plugin.Common;
-using BatchLabs.Max2016.Plugin.Labs;
-
-namespace BatchLabs.Max2016.Plugin
+namespace BatchLabs.Max2019.Plugin
 {
     /// <inheritdoc />
     /// <summary>
@@ -26,7 +26,7 @@ namespace BatchLabs.Max2016.Plugin
 
         public override string Category => InternalCategory;
 
-        public override string InternalCategory => "BatchLabs - Max2016 Rendering";
+        public override string InternalCategory => "BatchLabs - Max2019 Rendering";
 
         /// <summary>
         /// Execute is called when the user clicks on the action in the UI.

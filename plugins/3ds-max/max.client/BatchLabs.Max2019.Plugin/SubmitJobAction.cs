@@ -7,14 +7,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Interop;
 #endif
 
-using BatchLabs.Max2016.Plugin.Common;
-using BatchLabs.Max2016.Plugin.Max;
+using BatchLabs.Max2019.Plugin.Common;
+using BatchLabs.Max2019.Plugin.Max;
 using BatchLabs.Plugin.Common.XAML;
 using ManagedServices;
 
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace BatchLabs.Max2016.Plugin
+namespace BatchLabs.Max2019.Plugin
 {
     public class SubmitJobAction : ActionBase
     {

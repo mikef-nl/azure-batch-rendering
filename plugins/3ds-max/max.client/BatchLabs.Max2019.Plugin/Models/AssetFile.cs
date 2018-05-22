@@ -7,7 +7,7 @@ using Autodesk.Max.MaxSDK.AssetManagement;
 using BatchLabs.Plugin.Common.Commands;
 using BatchLabs.Plugin.Common.Contract;
 
-namespace BatchLabs.Max2016.Plugin.Models
+namespace BatchLabs.Max2019.Plugin.Models
 {
     public class AssetFile : IAssetFile
     {

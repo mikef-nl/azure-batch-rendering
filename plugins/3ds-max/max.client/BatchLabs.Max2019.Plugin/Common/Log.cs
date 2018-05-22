@@ -1,10 +1,10 @@
 ﻿
 using Autodesk.Max;
 
-using BatchLabs.Max2016.Plugin.Max;
+using BatchLabs.Max2019.Plugin.Max;
 using BatchLabs.Plugin.Common.Contract;
 
-namespace BatchLabs.Max2016.Plugin.Common
+namespace BatchLabs.Max2019.Plugin.Common
 {
     /// <summary>
     /// Common logger form passing logs to Max.
