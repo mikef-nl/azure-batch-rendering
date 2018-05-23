@@ -79,9 +79,9 @@ namespace BatchLabs.Max2016.Plugin
                 return Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty,
                     BitmapSizeOptions.FromEmptyOptions());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: Figure out how to send logs to Max
+                Log.Instance.Error($"{ex.Message}\n{ex}", "Error getting max icon");
                 return null;
             }
         }
