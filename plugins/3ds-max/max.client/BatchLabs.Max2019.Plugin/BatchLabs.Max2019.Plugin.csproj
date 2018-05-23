@@ -37,6 +37,10 @@
       <HintPath>..\max-libs\2019\Autodesk.Max.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ManagedServices">
       <HintPath>..\max-libs\2019\ManagedServices.dll</HintPath>
       <Private>False</Private>
@@ -84,6 +88,9 @@
       <Project>{3d424565-1b9f-4eb4-9509-b86320bbafc0}</Project>
       <Name>BatchLabs.Plugin.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

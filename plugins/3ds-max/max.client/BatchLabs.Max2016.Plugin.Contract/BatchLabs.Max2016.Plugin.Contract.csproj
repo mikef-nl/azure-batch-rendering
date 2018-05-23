@@ -34,8 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autodesk.Max">
-      <HintPath>C:\Program Files\Autodesk\3ds Max 2016\Autodesk.Max.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\max-libs\2016\Autodesk.Max.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
