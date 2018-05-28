@@ -7,7 +7,9 @@ using System.Windows.Media;
 using Autodesk.Max;
 
 using BatchLabs.Max2016.Plugin.Common;
+using BatchLabs.Plugin.Common.Code;
 using BatchLabs.Plugin.Common.Contract;
+using BatchLabs.Plugin.Common.Resources;
 
 using MediaColor = System.Windows.Media.Color;
 
@@ -44,14 +46,14 @@ namespace BatchLabs.Max2016.Plugin.Max
                 var assetCallback = new AssetWranglerCallback();
                 await Task.Run(() =>
                 {
-                    MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetFlags.FileEnumAll);
+                    MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetSearchFlags.FileEnumAll);
                 });
 
                 return assetCallback.AssetList;
             }
             catch (Exception ex)
             {
-                Log.Instance.Error($"Failed to get assets from scene: {ex.Message}. {ex}");
+                Log.Instance.Error($"{Strings.SubmitJob_Assets_Error}: {ex.Message}. {ex}");
             }
 
             return new List<IAssetFile>();
@@ -64,14 +66,14 @@ namespace BatchLabs.Max2016.Plugin.Max
                 var assetCallback = new AssetWranglerCallback();
                 await Task.Run(() =>
                 {
-                    MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetFlags.FileEnumMissingActive);
+                    MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetSearchFlags.FileEnumMissingActive);
                 });
 
                 return assetCallback.AssetList;
             }
             catch (Exception ex)
             {
-                Log.Instance.Error($"Failed to get missing assets from scene: {ex.Message}. {ex}");
+                Log.Instance.Error($"{Strings.SubmitJob_MissingAssets_Error}: {ex.Message}. {ex}");
             }
 
 

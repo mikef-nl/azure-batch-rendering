@@ -66,7 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionBase.cs" />
-    <Compile Include="Common\AssetFlags.cs" />
     <Compile Include="Common\AssetWranglerCallback.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Labs\BatchLabsRequestHandler.cs" />

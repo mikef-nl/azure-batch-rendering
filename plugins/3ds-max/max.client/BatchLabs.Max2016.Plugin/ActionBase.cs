@@ -6,6 +6,7 @@ using UiViewModels.Actions;
 
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Labs;
+using BatchLabs.Plugin.Common.Resources;
 
 namespace BatchLabs.Max2016.Plugin
 {
@@ -40,8 +41,8 @@ namespace BatchLabs.Max2016.Plugin
             }
             catch (Exception ex)
             {
-                Log.Instance.Error($"{ex.Message}\n{ex}", "Uncaught exception occurred", true);
-                MessageBox.Show("Uncaught exception occurred: " + ex.Message);
+                Log.Instance.Error($"{ex.Message}\n{ex}", Strings.UncaughtException_Title, true);
+                MessageBox.Show($"{Strings.UncaughtException_Title}: {ex.Message}");
             }
         }
 

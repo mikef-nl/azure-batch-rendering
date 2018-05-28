@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using BatchLabs.Max2019.Plugin.Common;
 using BatchLabs.Max2019.Plugin.Labs;
-
+using BatchLabs.Plugin.Common.Resources;
 using UiViewModels.Actions;
 
 namespace BatchLabs.Max2019.Plugin
@@ -40,8 +40,8 @@ namespace BatchLabs.Max2019.Plugin
             }
             catch (Exception ex)
             {
-                Log.Instance.Error($"{ex.Message}\n{ex}", "Uncaught exception occurred", true);
-                MessageBox.Show("Uncaught exception occurred: " + ex.Message);
+                Log.Instance.Error($"{ex.Message}\n{ex}", Strings.UncaughtException_Title, true);
+                MessageBox.Show("{Strings.UncaughtException_Title}: " + ex.Message);
             }
         }
 

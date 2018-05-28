@@ -1,6 +1,8 @@
 ﻿
 using BatchLabs.Max2019.Plugin.Common;
 using BatchLabs.Max2019.Plugin.Max;
+using BatchLabs.Plugin.Common.Code;
+using BatchLabs.Plugin.Common.Resources;
 
 namespace BatchLabs.Max2019.Plugin
 {
@@ -8,13 +10,12 @@ namespace BatchLabs.Max2019.Plugin
     {
         public override void InternalExecute()
         {            
-            var coreInterface = MaxGlobalInterface.Instance.COREInterface16;
-            coreInterface.PushPrompt("Calling out to data UI in BatchLabs");
-            Log.Instance.Debug("Calling out to data UI in BatchLabs");
+            MaxGlobalInterface.Instance.COREInterface16.PushPrompt(Strings.ManageData_Log);
+            Log.Instance.Debug(Strings.ManageData_Log);
 
-            LabsRequestHandler.CallBatchLabs("data");
+            LabsRequestHandler.CallBatchLabs(Constants.BatchLabsUrs.Data);
         }
 
-        public override string InternalActionText => "Manage Your Job Data";
+        public override string InternalActionText => Strings.ManageData_ActionText;
     }
 }

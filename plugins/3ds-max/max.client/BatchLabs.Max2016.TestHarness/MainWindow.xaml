@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchLabs.Max2016.TestHarness"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525"
+        Title="MainWindow" Height="300" Width="475"
         Background="AliceBlue" ShowInTaskbar="True"
         WindowStartupLocation="CenterOwner">
     <Grid>

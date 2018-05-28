@@ -9,6 +9,7 @@ using System.Windows.Interop;
 
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
+using BatchLabs.Plugin.Common.Resources;
 using BatchLabs.Plugin.Common.XAML;
 using ManagedServices;
 
@@ -22,9 +23,8 @@ namespace BatchLabs.Max2016.Plugin
 
         public override void InternalExecute()
         {
-            var coreInterface = MaxGlobalInterface.Instance.COREInterface16;
-            coreInterface.PushPrompt("Gathering up information about the job");
-            Log.Instance.Debug("Gathering up information about the job");
+            MaxGlobalInterface.Instance.COREInterface16.PushPrompt(Strings.SubmitJob_Log);
+            Log.Instance.Debug(Strings.SubmitJob_Log);
 
             OpenJobConfigWindow();
         }
@@ -35,11 +35,10 @@ namespace BatchLabs.Max2016.Plugin
             {
                 var dialog = new Window
                 {
-                    Title = "Submit a Job to BatchLabs",
+                    Title = Strings.SubmitJob_Title,
                     SizeToContent = SizeToContent.WidthAndHeight,
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
                     ResizeMode = ResizeMode.CanResizeWithGrip,
-                    WindowStyle = WindowStyle.ToolWindow,
                     ShowInTaskbar = true
                 };
 
@@ -59,13 +58,13 @@ namespace BatchLabs.Max2016.Plugin
                 windowHandle.Owner = AppSDK.GetMaxHWND();
                 AppSDK.ConfigureWindowForMax(dialog);
 #endif
-                dialog.ShowDialog();
+                dialog.Show();
 
             }
             catch (Exception ex)
             {
-                Log.Instance.Error($"{ex.Message}\n{ex}", "Error showing job submission form", true);
-                MessageBox.Show($"Error showing job submission form.\n{ex.Message}\n{ex}");
+                Log.Instance.Error($"{ex.Message}\n{ex}", Strings.SubmitJob_Error, true);
+                MessageBox.Show($"{Strings.SubmitJob_Error}.\n{ex.Message}\n{ex}");
             }
         }
 
@@ -81,12 +80,12 @@ namespace BatchLabs.Max2016.Plugin
             }
             catch (Exception ex)
             {
-                Log.Instance.Error($"{ex.Message}\n{ex}", "Error getting max icon");
+                Log.Instance.Error($"{ex.Message}\n{ex}", Strings.SubmitJob_Icon_Error);
                 return null;
             }
         }
 #endif
 
-        public override string InternalActionText => "Submit a Job";
+        public override string InternalActionText => Strings.SubmitJob_ActionText;
     }
 }

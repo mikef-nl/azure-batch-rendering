@@ -1,7 +1,7 @@
 ﻿
-namespace BatchLabs.Max2019.Plugin.Common
+namespace BatchLabs.Plugin.Common.Code
 {
-    public class AssetFlags
+    public class AssetSearchFlags
     {
         /// <summary>
         /// Enumerate inactive files. Inactive files are those that aren't being used currently.

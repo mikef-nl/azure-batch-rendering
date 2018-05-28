@@ -1,6 +1,8 @@
 ﻿
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
+using BatchLabs.Plugin.Common.Code;
+using BatchLabs.Plugin.Common.Resources;
 
 namespace BatchLabs.Max2016.Plugin
 {
@@ -8,13 +10,12 @@ namespace BatchLabs.Max2016.Plugin
     {
         public override void InternalExecute()
         {
-            var coreInterface = MaxGlobalInterface.Instance.COREInterface16;
-            coreInterface.PushPrompt("Calling out to pools UI in BatchLabs");
-            Log.Instance.Debug("Calling out to pools UI in BatchLabs");
+            MaxGlobalInterface.Instance.COREInterface16.PushPrompt(Strings.MonitorPools_Log);
+            Log.Instance.Debug(Strings.MonitorPools_Log);
 
-            LabsRequestHandler.CallBatchLabs("pools");
+            LabsRequestHandler.CallBatchLabs(Constants.BatchLabsUrs.Pools);
         }
 
-        public override string InternalActionText => "Monitor Your Pools";
+        public override string InternalActionText => Strings.MonitorPools_ActionText;
     }
 }
