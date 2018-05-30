@@ -2,19 +2,20 @@
 using System.Windows;
 
 using BatchLabs.Max2016.Plugin;
-using BatchLabs.Max2016.Plugin.Max;
 using BatchLabs.Max2016.Plugin.Contract.Stubs;
+using BatchLabs.Max2016.Plugin.Max;
 
 namespace BatchLabs.Max2016.TestHarness
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TestRunner.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TestRunner : Window
     {
-        public MainWindow()
+        public TestRunner()
         {
             InitializeComponent();
+
             var myInterface16 = (MaxGlobalInterface.Instance.COREInterface16 as Interface16Stub);
             if (myInterface16 != null)
             {
