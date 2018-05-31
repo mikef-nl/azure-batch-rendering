@@ -5,13 +5,14 @@ using System.Windows;
 #if !DEBUG
 using System.Windows.Media.Imaging;
 using System.Windows.Interop;
+
+using ManagedServices;
 #endif
 
 using BatchLabs.Max2019.Plugin.Common;
 using BatchLabs.Max2019.Plugin.Max;
 using BatchLabs.Plugin.Common.Resources;
 using BatchLabs.Plugin.Common.XAML;
-using ManagedServices;
 
 using MessageBox = System.Windows.Forms.MessageBox;
 

@@ -3,8 +3,9 @@ using System;
 using System.Windows.Forms;
 
 using BatchLabs.Max2019.Plugin.Common;
-using BatchLabs.Max2019.Plugin.Labs;
+using BatchLabs.Plugin.Common.Labs;
 using BatchLabs.Plugin.Common.Resources;
+
 using UiViewModels.Actions;
 
 namespace BatchLabs.Max2019.Plugin
@@ -17,7 +18,7 @@ namespace BatchLabs.Max2019.Plugin
     {
         protected ActionBase()
         {
-            LabsRequestHandler = new BatchLabsRequestHandler();
+            LabsRequestHandler = new BatchLabsRequestHandler(Log.Instance);
         }
 
         public BatchLabsRequestHandler LabsRequestHandler { get; }

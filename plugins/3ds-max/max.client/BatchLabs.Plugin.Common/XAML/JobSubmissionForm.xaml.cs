@@ -547,7 +547,7 @@ namespace BatchLabs.Plugin.Common.XAML
             var debug = $"Launch:{launchUrl}\n";
             foreach (var arg in arguments)
             {
-                debug = string.Concat(debug, $"{arg.Key}:{Uri.EscapeDataString(arg.Value)}\n");
+                debug = string.Concat(debug, $"{arg.Key}:{Uri.EscapeUriString(arg.Value)}\n");
             }
 
             _logger.Debug(debug);

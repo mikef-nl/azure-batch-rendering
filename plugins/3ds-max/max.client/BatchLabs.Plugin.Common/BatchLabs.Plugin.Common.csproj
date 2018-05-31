@@ -66,6 +66,7 @@
     <Compile Include="Contract\IMaxLogger.cs" />
     <Compile Include="Contract\IMaxRequestHandler.cs" />
     <Compile Include="Contract\ILabsRequestHandler.cs" />
+    <Compile Include="Labs\BatchLabsRequestHandler.cs" />
     <Compile Include="Models\ApplicationTemplate.cs" />
     <Compile Include="Models\AssetFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

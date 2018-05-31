@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using UiViewModels.Actions;
 
 using BatchLabs.Max2016.Plugin.Common;
-using BatchLabs.Max2016.Plugin.Labs;
+using BatchLabs.Plugin.Common.Labs;
 using BatchLabs.Plugin.Common.Resources;
 
 namespace BatchLabs.Max2016.Plugin
@@ -18,7 +18,7 @@ namespace BatchLabs.Max2016.Plugin
     {
         protected ActionBase()
         {
-            LabsRequestHandler = new BatchLabsRequestHandler();
+            LabsRequestHandler = new BatchLabsRequestHandler(Log.Instance);
         }
 
         public BatchLabsRequestHandler LabsRequestHandler { get; }
