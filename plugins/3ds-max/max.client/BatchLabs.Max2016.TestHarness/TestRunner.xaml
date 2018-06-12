@@ -25,6 +25,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20px"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <!-- TODO: would be fairly easy to reflect these out of each assmebly -->
                 <Button Name="JobsButton" Content="Jobs" Grid.Row="0" Grid.Column="0" Width="100" Margin="0,4" Click="JobsButton_Click" />
@@ -35,6 +37,9 @@
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="Run the data action" VerticalAlignment="Center" />
                 <Button Name="SubmitButton" Content="Submit Job" Grid.Row="3" Grid.Column="0" Width="100" Margin="0,4" Click="SubmitButton_Click" />
                 <TextBlock Grid.Row="3" Grid.Column="1" Text="Run the submit job action" VerticalAlignment="Center" />
+
+                <Button Name="ShowColors" Content="Color Palette" Grid.Row="5" Grid.Column="0" Width="100" Margin="0,4" Click="ShowColors_Click" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="Show me the colors" VerticalAlignment="Center" />
             </Grid>
         </StackPanel>
         <Label Name="Footer" Grid.Row="1" Height="35" Background="Gainsboro" Padding="10" />

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
@@ -25,18 +26,36 @@ namespace BatchLabs.Max2019.Plugin.Max
 
         public int RenderHeight => MaxGlobalInterface.Instance.COREInterface16.RendHeight;
 
-        public Brush GetUiColorBrush()
+        public int FrameStart => MaxGlobalInterface.Instance.COREInterface16.RendStart;
+
+        public Brush GetUiColorBrush(BrushColorEnum brushColor)
         {
-            return GetUiColorBrush(MaxGlobalInterface.Instance.ColorManager, GuiColors.Background);
+            var colorManager = MaxGlobalInterface.Instance.ColorManager;
+            switch (brushColor)
+            {
+                case BrushColorEnum.Text:
+                    return GetUiColorBrush(colorManager, GuiColors.Text);
+                case BrushColorEnum.InputBox:
+                    return GetUiColorBrush(colorManager, GuiColors.Window);
+                case BrushColorEnum.Spinner:
+                    return GetUiColorBrush(colorManager, GuiColors.TrackViewScaleOriginLine);
+                case BrushColorEnum.Warning:
+                    return GetUiColorBrush(colorManager, GuiColors.TrackViewAutoTangentHandle);
+                case BrushColorEnum.Window:
+                    return GetUiColorBrush(colorManager, GuiColors.Background);
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
-        /// <summary>
-        /// get the brish for 
-        /// </summary>
-        /// <returns></returns>
-        public Brush GetTextColorBrush()
+        public IEnumerable<Tuple<string, Brush>> GetAllColorBrushes()
         {
-            return GetUiColorBrush(MaxGlobalInterface.Instance.ColorManager, GuiColors.Text);
+            var colors = Enum.GetValues(typeof(GuiColors)).Cast<GuiColors>().OrderBy(color => color.ToString());
+            var colorManager = MaxGlobalInterface.Instance.ColorManager;
+            foreach (var guiColor in colors)
+            {
+                yield return new Tuple<string, Brush>(guiColor.ToString(), GetUiColorBrush(colorManager, guiColor));
+            }
         }
 
         public async Task<List<IAssetFile>> GetFoundSceneAssets()

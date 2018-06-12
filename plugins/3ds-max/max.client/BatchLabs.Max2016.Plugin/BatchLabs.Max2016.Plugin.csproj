@@ -71,6 +71,7 @@
     <Compile Include="Max\MaxGlobalInterface.cs" />
     <Compile Include="Max\MaxRequestInterceptor.cs" />
     <Compile Include="Models\AssetFile.cs" />
+    <Compile Include="ColorPaletteAction.cs" />
     <Compile Include="SubmitJobAction.cs" />
     <Compile Include="MonitorPoolsAction.cs" />
     <Compile Include="ManageDataAction.cs" />

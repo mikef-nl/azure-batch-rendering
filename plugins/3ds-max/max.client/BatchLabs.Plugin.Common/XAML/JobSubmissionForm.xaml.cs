@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -49,7 +50,7 @@ namespace BatchLabs.Plugin.Common.XAML
             DataContext = this;
             
             SetWindowColor();
-            SetLabelColors();
+            SetControlColors();
 
             Templates = TemplateHelper.GetApplicationTemplates(logger);
             SelectedTemplate = "standard";
@@ -142,32 +143,65 @@ namespace BatchLabs.Plugin.Common.XAML
         /// </summary>
         private void SetWindowColor()
         {
-            LayoutRoot.Background = _maxRequestHandler.GetUiColorBrush();
+            LayoutRoot.Background = _maxRequestHandler.GetUiColorBrush(BrushColorEnum.Window);
         }
 
         /// <summary>
         /// Get current 3ds Max text color and match our labels to it
         /// </summary>
-        private void SetLabelColors()
+        private void SetControlColors()
         {
-            var textColor = _maxRequestHandler.GetTextColorBrush();
-            JobDetailsTitle.Foreground = textColor;
-            JobNameLabel.Foreground = textColor;
-            TemplateLabel.Foreground = textColor;
-            FrameStartLabel.Foreground = textColor;
-            FrameEndLabel.Foreground = textColor;
-            FrameWidthLabel.Foreground = textColor;
-            FrameHeightLabel.Foreground = textColor;
-            AdditionalArgsLabel.Foreground = textColor;
-            RendererLabel.Foreground = textColor;
-            AssetsTitle.Foreground = textColor;
-            SceneFileLabel.Foreground = textColor;
-            SceneFile.Foreground = textColor;
-            AssetsLabel.Foreground = textColor;
-            AssetsLabelNote.Foreground = textColor;
-            MissingLabel.Foreground = textColor;
-            MissingLabelNote.Foreground = textColor;
-            Status.Foreground = textColor;
+            var textBrush = _maxRequestHandler.GetUiColorBrush(BrushColorEnum.Text);
+            var textBoxBrush = _maxRequestHandler.GetUiColorBrush(BrushColorEnum.InputBox);
+            var spinnerBrush = _maxRequestHandler.GetUiColorBrush(BrushColorEnum.Spinner);
+
+            JobDetailsTitle.Foreground = textBrush;
+            JobNameLabel.Foreground = textBrush;
+            JobId.Foreground = textBrush;
+            JobId.Background = textBoxBrush;
+            TemplateLabel.Foreground = textBrush;
+
+            FrameStartLabel.Foreground = textBrush;
+            FrameStart.Foreground = textBrush;
+            FrameStart.Background = textBoxBrush;
+            FrameEndLabel.Foreground = textBrush;
+            FrameEnd.Foreground = textBrush;
+            FrameEnd.Background = textBoxBrush;
+            FrameWidthLabel.Foreground = textBrush;
+            FrameWidth.Foreground = textBrush;
+            FrameWidth.Background = textBoxBrush;
+            FrameHeightLabel.Foreground = textBrush;
+            FrameHeight.Foreground = textBrush;
+            FrameHeight.Background = textBoxBrush;
+
+            RendererLabel.Foreground = textBrush;
+
+            AdditionalArgsLabel.Foreground = textBrush;
+            AdditionalArgs.Foreground = textBrush;
+            AdditionalArgs.Background = textBoxBrush;
+
+            AssetsTitle.Foreground = textBrush;
+
+            SceneFileLabel.Foreground = textBrush;
+            SceneFile.Foreground = textBrush;
+            SceneFile.Background = textBoxBrush;
+
+            AssetsLabel.Foreground = textBrush;
+            AssetsLabelNote.Foreground = textBrush;
+            AssetListView.Foreground = textBrush;
+            AssetListView.Background = textBoxBrush;
+            AssetListSpinner.Foreground = spinnerBrush;
+
+            MissingLabel.Foreground = textBrush;
+            MissingLabelNote.Foreground = textBrush;
+            MissingListView.Foreground = textBrush;
+            MissingListView.Background = textBoxBrush;
+            MissingSpinner.Foreground = spinnerBrush;
+
+            MissingNoteLabel.Foreground = textBrush;
+            Status.Foreground = textBrush;
+            SubmitButton.Foreground = textBrush;
+            SubmitButton.Background = textBoxBrush;
         }
 
         /// <summary>
@@ -294,11 +328,13 @@ namespace BatchLabs.Plugin.Common.XAML
         /// <param name="e"></param>
         private void OnMissingCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            var missingBrush = _maxRequestHandler.GetUiColorBrush(BrushColorEnum.Warning);
             if (e.NewItems != null && e.NewItems.Count != 0)
             {
                 foreach (IAssetFile viewModel in e.NewItems)
                 {
                     viewModel.RemoveFileInfo += OnRemoveAsset;
+                    viewModel.RemoveButtonBrush = missingBrush;
                 }
             }
 
@@ -319,11 +355,13 @@ namespace BatchLabs.Plugin.Common.XAML
         /// <param name="e"></param>
         private void OnDirectoryCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            var missingBrush = _maxRequestHandler.GetUiColorBrush(BrushColorEnum.Warning);
             if (e.NewItems != null && e.NewItems.Count != 0)
             {
                 foreach (AssetFolder viewModel in e.NewItems)
                 {
                     viewModel.RemoveDirectory += OnRemoveDirectory;
+                    viewModel.RemoveButtonBrush = missingBrush;
                 }
             }
 
@@ -348,7 +386,7 @@ namespace BatchLabs.Plugin.Common.XAML
             if (item != null)
             {
                 MissingAssets.Remove(item);
-                _logger.Debug($"Removed {filePath} from missing asset list");
+                _logger.Debug($"Removed {item.FileName} from missing asset list");
             }
         }
 

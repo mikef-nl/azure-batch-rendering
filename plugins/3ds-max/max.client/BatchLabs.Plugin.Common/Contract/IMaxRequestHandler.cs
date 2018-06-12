@@ -1,7 +1,9 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using BatchLabs.Plugin.Common.Code;
 
 namespace BatchLabs.Plugin.Common.Contract
 {
@@ -28,16 +30,21 @@ namespace BatchLabs.Plugin.Common.Contract
         int RenderHeight { get; }
 
         /// <summary>
+        /// Gets the first frame number in the scene
+        /// </summary>
+        int FrameStart { get; }
+
+        /// <summary>
         /// Get the brush color that Max uses to paint the application background
         /// and match our dialog style colors to it.
         /// </summary>
-        Brush GetUiColorBrush();
+        Brush GetUiColorBrush(BrushColorEnum color);
 
         /// <summary>
-        /// Get the brush color that Max uses to paint the text and match our
-        /// dialog style colors to it.
+        /// Get all UI colors for testing.
         /// </summary>
-        Brush GetTextColorBrush();
+        /// <returns></returns>
+        IEnumerable<Tuple<string, Brush>> GetAllColorBrushes();
 
         /// <summary>
         /// Parse the scene for rendering assets. Note that this is pretty slow for large scenes. 

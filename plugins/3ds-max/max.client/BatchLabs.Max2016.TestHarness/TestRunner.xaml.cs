@@ -51,5 +51,11 @@ namespace BatchLabs.Max2016.TestHarness
             var action = new SubmitJobAction();
             action.InternalExecute();
         }
+
+        private void ShowColors_Click(object sender, RoutedEventArgs e)
+        {
+            var action = new ColorPaletteAction();
+            action.InternalExecute();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Windows.Input;
+using System.Windows.Media;
 
 using Autodesk.Max.MaxSDK.AssetManagement;
 
@@ -29,6 +30,8 @@ namespace BatchLabs.Max2019.Plugin.Models
         public string FullFilePath { get; set; }
 
         public bool IsSelected { get; set; }
+
+        public Brush RemoveButtonBrush { get; set; }
 
         public ICommand RemoveMissingFileCommand => _removeMissingFileCommand ?? (_removeMissingFileCommand = new RelayCommand(OnRemoveItem));
 

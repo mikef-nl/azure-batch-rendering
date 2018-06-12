@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace BatchLabs.Plugin.Common.Contract
 {
@@ -15,6 +16,8 @@ namespace BatchLabs.Plugin.Common.Contract
         string FullFilePath { get; set; }
 
         bool IsSelected { get; set; }
+
+        Brush RemoveButtonBrush { get; set; }
 
         ICommand RemoveMissingFileCommand { get; }
     }

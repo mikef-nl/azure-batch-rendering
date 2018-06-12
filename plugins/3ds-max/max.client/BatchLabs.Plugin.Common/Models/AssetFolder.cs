@@ -2,8 +2,9 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
-
+using System.Windows.Media;
 using BatchLabs.Plugin.Common.Commands;
 
 namespace BatchLabs.Plugin.Common.Models
@@ -14,12 +15,15 @@ namespace BatchLabs.Plugin.Common.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string _path;
+        private Visibility _visibility;
         private RelayCommand _removeDirectoryCommand;
+        private Brush _removeButtonBrush;
 
         public AssetFolder(string path, bool locked = false)
         {
             _path = path;
             CanRemove = !locked;
+            _visibility = CanRemove ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public string Path
@@ -28,6 +32,26 @@ namespace BatchLabs.Plugin.Common.Models
             set
             {
                 _path = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public Visibility Visibility
+        {
+            get { return _visibility; }
+            set
+            {
+                _visibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public Brush RemoveButtonBrush
+        {
+            get { return _removeButtonBrush; }
+            set
+            {
+                _removeButtonBrush = value;
                 RaisePropertyChanged();
             }
         }
