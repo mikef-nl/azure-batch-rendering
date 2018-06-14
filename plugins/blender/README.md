@@ -4,12 +4,11 @@ BatchLabs plugin for Blender. This plugin allows you to use BatchLabs and the Az
 ## BatchLabs
 BatchLabs is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes new features such as `Job and Pool Templates` with the aim to improve your Batch experience. BatchLabs is updated monthly with new features and bug fixes. You can download it for Windows, Mac OS, and Linux from the [BatchLabs website](https://azure.github.io/BatchLabs/).
 
-**Note: The BatchLabs official release doesn't yet support the features required to run the Blender plugin.** We will have an offical build out shortly, but until then please download and install [this custom build of BatchLabs](https://github.com/Azure/azure-batch-rendering/raw/master/plugins/blender/blender.client/build/BatchLabs-Setup-0.14.1.exe). You will be automatically prompted to upgrade to the official build when it has been released.
-
 ![](../images/blender/labs.png)
 
 ## Installing the plugin
 These steps will outline how to install and use the Blender plugin.
+
 #### 1. Install BatchLabs
 <!-- (Install the latest version of [BatchLabs])(https://azure.github.io/BatchLabs/). -->
 Install the custom build of BatchLabs `as outlined above`.
