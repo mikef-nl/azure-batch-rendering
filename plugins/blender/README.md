@@ -11,7 +11,7 @@ These steps will outline how to install and use the Blender plugin.
 
 #### 1. Install BatchLabs
 <!-- (Install the latest version of [BatchLabs])(https://azure.github.io/BatchLabs/). -->
-Install the custom build of BatchLabs `as outlined above`.
+Install the latest version of BatchLabs from the [BatchLabs website](https://azure.github.io/BatchLabs/).
 This is the tool that will do the majority of the work to get your Blender scenes rendering in the cloud.
 
 #### 2.1 Install the Blender plugin
