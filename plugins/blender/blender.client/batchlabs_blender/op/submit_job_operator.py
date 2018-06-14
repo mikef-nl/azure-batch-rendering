@@ -38,7 +38,7 @@ class SubmitJobOperator(bpy.types.Operator):
             sceneName = self._containerizeBlendFile(bpy.data.filepath)
             arguments[Constants.KEY_SCENE_FILE] = os.path.basename(bpy.data.filepath)
             arguments[Constants.KEY_ASSET_CONTAINER] = sceneName
-            arguments[Constants.KEY_ASSET_PATHS] = bpy.data.filepath
+            arguments[Constants.KEY_ASSET_PATHS] = os.path.dirname(bpy.data.filepath)
             arguments[Constants.KEY_JOB_NAME] = sceneName
 
         self._log.debug("SubmitJobOperator - passing args: " + str(arguments))
