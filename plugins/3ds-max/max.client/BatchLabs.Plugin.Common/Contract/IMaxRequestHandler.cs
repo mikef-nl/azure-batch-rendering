@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Media;
+
 using BatchLabs.Plugin.Common.Code;
 
 namespace BatchLabs.Plugin.Common.Contract
@@ -28,11 +29,6 @@ namespace BatchLabs.Plugin.Common.Contract
         /// Gets the render height of the scene in pixels
         /// </summary>
         int RenderHeight { get; }
-
-        /// <summary>
-        /// Gets the first frame number in the scene
-        /// </summary>
-        int FrameStart { get; }
 
         /// <summary>
         /// Get the brush color that Max uses to paint the application background

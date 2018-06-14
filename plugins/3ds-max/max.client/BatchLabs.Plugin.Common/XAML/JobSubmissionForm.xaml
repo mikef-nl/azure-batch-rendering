@@ -99,7 +99,7 @@
                 <Label Name="AssetsTitle" Content="Scene Details" Foreground="#FFC8C8C8" FontWeight="Bold" Margin="0,10,0,0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
 
                 <Label Name="SceneFileLabel" Content="Max File:" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="0" />
-                <Label Name="SceneFile" Height="27" Margin="0,2" Padding="0" Grid.Row="2" Grid.Column="1" />
+                <TextBox Name="SceneFile" IsReadOnly="True" Margin="0,0,0,5" Grid.Row="2" Grid.Column="1" />
             </Grid>
         </StackPanel>
 
@@ -146,7 +146,7 @@
                         <DataGridTemplateColumn Width="28" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Name="RemoveItem" Style="{StaticResource NoChromeButton}" Command="{Binding Path=RemoveDirectoryCommand}" CommandParameter="{Binding Path=Path}" Visibility="{Binding Path=Visibility}">
+                                    <Button Name="RemoveItem" Style="{StaticResource NoChromeButton}" Command="{Binding Path=RemoveDirectoryCommand}" CommandParameter="{Binding Path=Path}">
                                         <fa:ImageAwesome Name="RemoveAsset" Icon="Close" ToolTip="Remove this folder" Height="10" Foreground="{Binding Path=RemoveButtonBrush}" />
                                     </Button>
                                 </DataTemplate>

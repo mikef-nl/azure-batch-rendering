@@ -26,8 +26,6 @@ namespace BatchLabs.Max2016.Plugin.Max
 
         public int RenderHeight => MaxGlobalInterface.Instance.COREInterface16.RendHeight;
 
-        public int FrameStart => MaxGlobalInterface.Instance.COREInterface16.RendStart;
-
         public Brush GetUiColorBrush(BrushColorEnum brushColor)
         {
             var colorManager = MaxGlobalInterface.Instance.ColorManager;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -72,8 +71,8 @@ namespace BatchLabs.Plugin.Common.XAML
                 _maxFileFolderPath = Path.GetDirectoryName(_maxRequestHandler.CurrentSceneFilePath);
                 AssetDirectories.Add(new AssetFolder(_maxFileFolderPath, true));
 
-                SceneFile.Content = _maxRequestHandler.CurrentSceneFileName;
-                JobId.Text = Utils.ContainerizeMaxFile(SceneFile.Content.ToString());
+                SceneFile.Text = _maxRequestHandler.CurrentSceneFileName;
+                JobId.Text = Utils.ContainerizeMaxFile(SceneFile.Text);
 
                 FrameWidth.Text = _maxRequestHandler.RenderWidth.ToString();
                 FrameHeight.Text = _maxRequestHandler.RenderHeight.ToString();
@@ -419,6 +418,14 @@ namespace BatchLabs.Plugin.Common.XAML
                 }
 
                 _logger.Debug($"GOT :: {result.ToString()}, {dialog.SelectedPath}");
+                
+                // make sure the directory is not empty as this will kill the CLI
+                if (!FileActions.GetFilesInDirectory(dialog.SelectedPath, SearchOption.AllDirectories).Any())
+                {
+                    _logger.Debug($"Ignoring: '{dialog.SelectedPath}' as the folder is empty");
+                    return;
+                }
+                
                 if (SafeAddAssetFolder(dialog.SelectedPath))
                 {
                     Status.Text = $"Added: {dialog.SelectedPath}";
@@ -536,6 +543,7 @@ namespace BatchLabs.Plugin.Common.XAML
             {
                 AssetDirectories.Add(new AssetFolder(folderPath));
                 _logger.Debug($"Added folder to list: {folderPath}");
+
                 return true;
             }
 

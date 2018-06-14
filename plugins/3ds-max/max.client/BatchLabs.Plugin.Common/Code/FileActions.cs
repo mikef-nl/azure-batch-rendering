@@ -7,16 +7,15 @@ namespace BatchLabs.Plugin.Common.Code
 {
     public class FileActions
     {
-        public static Dictionary<string, List<string>> GetFileDictionaryWithLocations(string directoryPath, bool excludeHidden = true)
+        public static Dictionary<string, List<string>> GetFileDictionaryWithLocationsFromFolder(string folder)
         {
-            if (string.IsNullOrEmpty(directoryPath))
+            if (string.IsNullOrEmpty(folder))
             {
                 return null;
             }
 
             var dictionary = new Dictionary<string, List<string>>();
-            var dirInfo = new DirectoryInfo(directoryPath);
-            var files = dirInfo.GetAllDirectoryFiles(excludeHidden);
+            var files = GetFilesInDirectory(folder, SearchOption.AllDirectories);
 
             foreach (var fileInfo in files)
             {
@@ -31,6 +30,12 @@ namespace BatchLabs.Plugin.Common.Code
             }
 
             return dictionary;
+        }
+
+        public static IEnumerable<FileInfo> GetFilesInDirectory(string folder, SearchOption searchOption)
+        {
+            var dirInfo = new DirectoryInfo(folder);
+            return dirInfo.GetAllDirectoryFiles(searchOption);
         }
 
         public static IEnumerable<FileInfo> GetFileInfos(IEnumerable<string> filePaths)

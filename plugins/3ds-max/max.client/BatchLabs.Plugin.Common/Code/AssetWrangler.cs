@@ -13,7 +13,7 @@ namespace BatchLabs.Plugin.Common.Code
         /// <returns></returns>
         public static Dictionary<string, List<string>> GetProjectFiles(string projectFolder)
         {
-            return FileActions.GetFileDictionaryWithLocations(projectFolder);
+            return FileActions.GetFileDictionaryWithLocationsFromFolder(projectFolder);
         }
 
         /// <summary>
