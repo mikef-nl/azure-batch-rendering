@@ -11,6 +11,27 @@ namespace BatchLabs.Plugin.Common.Contract
     public interface IMaxRequestHandler
     {
         /// <summary>
+        /// Gets the name of the currently set renderer
+        /// </summary>
+        /// <example>
+        /// V-Ray Adv 3.60.04 
+        /// V-Ray RT 3.60.04
+        /// VUE File Renderer
+        /// Default Scanline Renderer
+        /// Quicksilver Hardware Renderer
+        /// NVIDIA mental ray
+        /// NVIDIA iray
+        /// </example>
+        string CurrentRenderer { get; }
+
+        /// <summary>
+        /// Set the name of the current renderer.
+        /// Note: only works in DEBUG mode for testing.
+        /// </summary>
+        /// <param name="renderer"></param>
+        void SetCurrentRenderer(string renderer);
+
+        /// <summary>
         /// Gets the current scene file name including the full directory path
         /// </summary>
         string CurrentSceneFilePath { get; }

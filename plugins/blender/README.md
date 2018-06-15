@@ -10,7 +10,6 @@ BatchLabs is a tool to manage your Azure Batch accounts. The goal is to implemen
 These steps will outline how to install and use the Blender plugin.
 
 #### 1. Install BatchLabs
-<!-- (Install the latest version of [BatchLabs])(https://azure.github.io/BatchLabs/). -->
 Install the latest version of BatchLabs from the [BatchLabs website](https://azure.github.io/BatchLabs/).
 This is the tool that will do the majority of the work to get your Blender scenes rendering in the cloud.
 

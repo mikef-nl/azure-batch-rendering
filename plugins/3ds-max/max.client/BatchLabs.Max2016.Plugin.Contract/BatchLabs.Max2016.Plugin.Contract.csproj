@@ -53,6 +53,7 @@
     <Compile Include="Stubs\FakeAsset.cs" />
     <Compile Include="Stubs\Interface16Stub.cs" />
     <Compile Include="Stubs\LogSys.cs" />
+    <Compile Include="Stubs\Renderer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

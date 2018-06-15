@@ -55,6 +55,7 @@
     <Compile Include="Stubs\FakeAsset.cs" />
     <Compile Include="Stubs\Interface16Stub.cs" />
     <Compile Include="Stubs\LogSys.cs" />
+    <Compile Include="Stubs\Renderer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

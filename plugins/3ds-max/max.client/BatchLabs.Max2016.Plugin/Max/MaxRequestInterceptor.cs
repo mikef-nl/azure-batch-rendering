@@ -8,9 +8,14 @@ using System.Windows.Media;
 using Autodesk.Max;
 
 using BatchLabs.Max2016.Plugin.Common;
+
 using BatchLabs.Plugin.Common.Code;
 using BatchLabs.Plugin.Common.Contract;
 using BatchLabs.Plugin.Common.Resources;
+
+#if DEBUG
+using BatchLabs.Max2016.Plugin.Contract.Stubs;
+#endif
 
 using MediaColor = System.Windows.Media.Color;
 
@@ -18,6 +23,24 @@ namespace BatchLabs.Max2016.Plugin.Max
 {
     public class MaxRequestInterceptor : IMaxRequestHandler
     {
+        public string CurrentRenderer
+        {
+            get
+            {
+                var renderer = MaxGlobalInterface.Instance.COREInterface16.GetCurrentRenderer(false);
+                return renderer != null
+                    ? $"{renderer.ClassName}"
+                    : "";
+            }
+        }
+
+        public void SetCurrentRenderer(string renderer)
+        {
+#if DEBUG
+            ((Interface16Stub)MaxGlobalInterface.Instance.COREInterface16).SetRenderer(renderer);
+#endif
+        }
+
         public string CurrentSceneFilePath => MaxGlobalInterface.Instance.COREInterface16.CurFilePath;
 
         public string CurrentSceneFileName => MaxGlobalInterface.Instance.COREInterface16.CurFileName;

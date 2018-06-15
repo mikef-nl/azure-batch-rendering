@@ -31,6 +31,7 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
         private ITab<IFPEnum> _enumerations;
         private IRollout _rollout;
         private IActionTable _actionTable1;
+        private string _renderer;
 
         public Interface16Stub()
         {
@@ -43,11 +44,12 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
             Desc = null;
 
             Log = new LogSys();
+            _renderer = "Default Scanline Renderer";
         }
 
         public ILogSys Log { get; }
 
-        void IInterface.PushPrompt(string promptString)
+        public void PushPrompt(string promptString)
         {
             PushMessage(this, promptString);
         }
@@ -66,6 +68,16 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
         {
             get { return 768; }
             set { value = 0; }
+        }
+
+        public void SetRenderer(string renderer)
+        {
+            _renderer = renderer;
+        }
+
+        public IRenderer GetCurrentRenderer(bool createRendererIfItDoesntExist)
+        {
+            return new Renderer(_renderer);
         }
 
         public void EnumAuxFiles(IAssetEnumCallback assetEnum, uint flags)
@@ -1376,11 +1388,6 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
         }
 
         void IInterface.CloseRenderer(IRenderer pRenderer)
-        {
-            throw new NotImplementedException();
-        }
-
-        IRenderer IInterface.GetCurrentRenderer(bool createRendererIfItDoesntExist)
         {
             throw new NotImplementedException();
         }

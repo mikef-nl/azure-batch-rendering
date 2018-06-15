@@ -10,7 +10,15 @@ namespace BatchLabs.Plugin.Common.Code
 {
     public class TemplateHelper
     {
-        private const string AppIndexJsonUrl = "https://raw.githubusercontent.com/Azure/BatchLabs-data/master/ncj/3dsmax/index.json";
+        public const string TemplateStandard = "standard";
+        public const string TemplateDistributed = "vray-dr";
+        public const string RendererArnold = "arnold";
+        public const string RendererVRay = "vray";
+        public const string RendererVRayAdv = "VRayAdv";
+        public const string RendererVRayRt = "VRayRT";
+
+        private const string AppIndexJsonUrl =
+            "https://raw.githubusercontent.com/Azure/BatchLabs-data/master/ncj/3dsmax/index.json";
 
         /// <summary>
         /// Read the collection of 3ds Max application templates from our GitHub repo. They 
@@ -24,7 +32,7 @@ namespace BatchLabs.Plugin.Common.Code
             try
             {
                 var request = WebRequest.Create(AppIndexJsonUrl);
-                using (var response = (HttpWebResponse)request.GetResponse())
+                using (var response = (HttpWebResponse) request.GetResponse())
                 {
                     using (var responseSteam = response.GetResponseStream())
                     {
@@ -60,12 +68,20 @@ namespace BatchLabs.Plugin.Common.Code
         /// List the renderer options for the 3ds Max templates
         /// </summary>
         /// <returns></returns>
-        public static List<KeyValuePair<string, string>> GetRenderers()
+        public static List<KeyValuePair<string, string>> GetRenderers(string template)
         {
-            return new List<KeyValuePair<string, string>> {
-                new KeyValuePair<string, string>("arnold", "Arnold"),
-                new KeyValuePair<string, string>("vray", "V-Ray")
-            };
+            // special case for DR rendering
+            return template == TemplateDistributed
+                ? new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>(RendererVRayAdv, RendererVRayAdv),
+                    new KeyValuePair<string, string>(RendererVRayRt, RendererVRayRt)
+                }
+                : new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>(RendererArnold, "Arnold"),
+                    new KeyValuePair<string, string>(RendererVRay, "V-Ray")
+                };
         }
     }
 }

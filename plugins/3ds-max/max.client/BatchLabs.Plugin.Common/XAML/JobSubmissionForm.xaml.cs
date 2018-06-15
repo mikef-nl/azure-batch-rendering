@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -17,6 +18,8 @@ using BatchLabs.Plugin.Common.Code;
 using BatchLabs.Plugin.Common.Commands;
 using BatchLabs.Plugin.Common.Contract;
 using BatchLabs.Plugin.Common.Models;
+
+using Cursors = System.Windows.Input.Cursors;
 
 namespace BatchLabs.Plugin.Common.XAML
 {
@@ -38,6 +41,7 @@ namespace BatchLabs.Plugin.Common.XAML
         private RelayCommand _removeDirectoryCommand;
         private RelayCommand _selectParentCommand;
         private RelayCommand _findFileCommand;
+        private string _selectedRenderer;
 
         public JobSubmissionForm(ILabsRequestHandler labsRequestHandler, IMaxRequestHandler maxRequestHandler, IMaxLogger logger)
         {
@@ -52,10 +56,12 @@ namespace BatchLabs.Plugin.Common.XAML
             SetControlColors();
 
             Templates = TemplateHelper.GetApplicationTemplates(logger);
-            SelectedTemplate = "standard";
+            SelectedTemplate = TemplateHelper.TemplateStandard;
 
-            Renderers = TemplateHelper.GetRenderers();
-            SelectedRenderer = "vray";
+            Renderers = new ObservableCollection<KeyValuePair<string, string>>();
+            Renderers.AddRange(TemplateHelper.GetRenderers(TemplateHelper.TemplateStandard));
+            // todo: read this from the scene
+            SelectedRenderer = GetSelectedRenderer(TemplateHelper.TemplateStandard);
 
             MissingAssets = new ObservableCollection<IAssetFile>();
             MissingAssets.CollectionChanged += OnMissingCollectionChanged;
@@ -66,8 +72,10 @@ namespace BatchLabs.Plugin.Common.XAML
             AssetSpinnerVisibility = Visibility.Collapsed;
 
             // only load assets if we have a current scene
-            if (!string.IsNullOrEmpty(_maxRequestHandler.CurrentSceneFilePath))
+            if (HasSceneFile)
             {
+                _logger.Debug($"Current renrder is set to: '{_maxRequestHandler.CurrentRenderer}'");
+
                 _maxFileFolderPath = Path.GetDirectoryName(_maxRequestHandler.CurrentSceneFilePath);
                 AssetDirectories.Add(new AssetFolder(_maxFileFolderPath, true));
 
@@ -83,6 +91,8 @@ namespace BatchLabs.Plugin.Common.XAML
             {
                 SetButtonState(false);
                 Status.Text = "No scene loaded, unable to submit a job.";
+                RenderTemplates.IsEnabled = false;
+                RendererType.IsEnabled = false;
             }
         }
 
@@ -95,11 +105,21 @@ namespace BatchLabs.Plugin.Common.XAML
         public ICommand FindFileCommand => _findFileCommand ?? (_findFileCommand = new RelayCommand(FindMissingFile));
 
 
-        public string SelectedRenderer { get; set; }
+        public string SelectedRenderer
+        {
+            get { return _selectedRenderer; }
+            set
+            {
+                _selectedRenderer = value;
+                RaisePropertyChanged();
+            }
+        }
 
-        public List<KeyValuePair<string, string>> Renderers { get; }
+        public ObservableCollection<KeyValuePair<string, string>> Renderers { get; }
 
         public string SelectedTemplate { get; set; }
+
+        public bool HasSceneFile => !string.IsNullOrEmpty(_maxRequestHandler.CurrentSceneFilePath);
 
         public List<KeyValuePair<string, string>> Templates { get; }
 
@@ -131,6 +151,49 @@ namespace BatchLabs.Plugin.Common.XAML
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private string GetSelectedRenderer(string template)
+        {
+            var current = _maxRequestHandler.CurrentRenderer?.ToLower();
+            _logger.Debug($"Getting selected renderer for template: '{template}' and renderer: '{current}'");
+            SetButtonState(HasSceneFile);
+
+            if (string.IsNullOrEmpty(current))
+            {
+                // unlikely to happen but who knows
+                return TemplateHelper.RendererVRay;
+            }
+
+            if (template == TemplateHelper.TemplateDistributed)
+            {
+                if (current.Contains("v-ray adv"))
+                {
+                    _logger.Debug($"setting selected renderer to: '{TemplateHelper.RendererVRayAdv}'");
+                    return TemplateHelper.RendererVRayAdv;
+                }
+
+                if (current.Contains("v-ray rt"))
+                {
+                    _logger.Debug($"setting selected renderer to: '{TemplateHelper.RendererVRayRt}'");
+                    return TemplateHelper.RendererVRayRt;
+                }
+
+                // block job submission as well based on this.
+                _logger.Error("Based on the Render Setup, the distributed render template will not work unless your scene is set to use either the 'V-Ray Adv' or 'V-Ray RT' renderers.", "Invalid Template Selection", true);
+                SetButtonState(false);
+
+                return string.Empty;
+            }
+
+            var renderer = current.Contains(TemplateHelper.RendererArnold)
+                ? TemplateHelper.RendererArnold
+                : TemplateHelper.RendererVRay;
+
+            _logger.Debug($"setting selected renderer to: '{renderer}'");
+
+            return renderer;
+        }
+
 
         private void SetButtonState(bool enabled)
         {
@@ -548,6 +611,15 @@ namespace BatchLabs.Plugin.Common.XAML
             }
 
             return false;
+        }
+
+        private void RenderTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var template = RenderTemplates.SelectedValue as string;
+
+            Renderers.Clear();
+            Renderers.AddRange(TemplateHelper.GetRenderers(template));
+            SelectedRenderer = GetSelectedRenderer(template);
         }
 
         /// <summary>

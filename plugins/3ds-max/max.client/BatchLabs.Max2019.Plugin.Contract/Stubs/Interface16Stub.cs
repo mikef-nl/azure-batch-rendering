@@ -21,9 +21,12 @@ namespace BatchLabs.Max2019.Plugin.Contract.Stubs
         public delegate void MessageHandler(object sender, string message);
         public event MessageHandler PushMessage = delegate { };
 
+        private string _renderer;
+
         public Interface16Stub()
         {
             Log = new LogSys();
+            _renderer = "Default Scanline Renderer";
         }
 
         public ILogSys Log { get; }
@@ -42,6 +45,16 @@ namespace BatchLabs.Max2019.Plugin.Contract.Stubs
         {
             get { return 768; }
             set { value = 0; }
+        }
+
+        public void SetRenderer(string renderer)
+        {
+            _renderer = renderer;
+        }
+
+        public IRenderer GetCurrentRenderer(bool createRendererIfItDoesntExist)
+        {
+            return new Renderer(_renderer);
         }
 
         public void EnumAuxFiles(IAssetEnumCallback assetEnum, uint flags)
@@ -1283,11 +1296,6 @@ namespace BatchLabs.Max2019.Plugin.Contract.Stubs
         }
 
         public void CloseRenderer(IRenderer pRenderer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IRenderer GetCurrentRenderer(bool createRendererIfItDoesntExist)
         {
             throw new NotImplementedException();
         }
