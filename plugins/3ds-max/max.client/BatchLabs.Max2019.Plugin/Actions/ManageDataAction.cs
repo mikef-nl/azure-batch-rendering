@@ -4,7 +4,7 @@ using BatchLabs.Max2019.Plugin.Max;
 using BatchLabs.Plugin.Common.Code;
 using BatchLabs.Plugin.Common.Resources;
 
-namespace BatchLabs.Max2019.Plugin
+namespace BatchLabs.Max2019.Plugin.Actions
 {
     public class ManageDataAction : ActionBase
     {

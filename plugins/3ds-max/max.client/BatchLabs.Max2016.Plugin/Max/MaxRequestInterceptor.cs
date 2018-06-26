@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -91,7 +92,10 @@ namespace BatchLabs.Max2016.Plugin.Max
                 var assetCallback = new AssetWranglerCallback();
                 await Task.Run(() =>
                 {
+                    var sw = Stopwatch.StartNew();
                     MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetSearchFlags.FileEnumAll);
+                    sw.Stop();
+                    Log.Instance.Debug($"Found scene assets in {sw.Elapsed.Seconds} seconds");
                 });
 
                 return assetCallback.AssetList;
@@ -111,7 +115,10 @@ namespace BatchLabs.Max2016.Plugin.Max
                 var assetCallback = new AssetWranglerCallback();
                 await Task.Run(() =>
                 {
+                    var sw = Stopwatch.StartNew();
                     MaxGlobalInterface.Instance.COREInterface16.EnumAuxFiles(assetCallback, AssetSearchFlags.FileEnumMissingActive);
+                    sw.Stop();
+                    Log.Instance.Debug($"Found missing assets in {sw.Elapsed.Seconds} seconds");
                 });
 
                 return assetCallback.AssetList;

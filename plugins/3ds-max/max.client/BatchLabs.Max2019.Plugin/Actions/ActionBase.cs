@@ -8,7 +8,7 @@ using BatchLabs.Plugin.Common.Resources;
 
 using UiViewModels.Actions;
 
-namespace BatchLabs.Max2019.Plugin
+namespace BatchLabs.Max2019.Plugin.Actions
 {
     /// <inheritdoc />
     /// <summary>
@@ -27,7 +27,7 @@ namespace BatchLabs.Max2019.Plugin
 
         public override string Category => InternalCategory;
 
-        public override string InternalCategory => "BatchLabs - Max2019 Rendering";
+        public override string InternalCategory => Loader.ActionCategory;
 
         /// <summary>
         /// Execute is called when the user clicks on the action in the UI.

@@ -16,7 +16,7 @@ using BatchLabs.Plugin.Common.XAML;
 
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace BatchLabs.Max2019.Plugin
+namespace BatchLabs.Max2019.Plugin.Actions
 {
     public class SubmitJobAction : ActionBase
     {
