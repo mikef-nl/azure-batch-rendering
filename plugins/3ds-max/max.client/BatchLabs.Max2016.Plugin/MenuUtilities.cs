@@ -5,12 +5,12 @@ using System.Linq;
 
 using Autodesk.Max;
 
-using BatchLabs.Max2019.Plugin.Actions;
-using BatchLabs.Max2019.Plugin.Common;
+using BatchLabs.Max2016.Plugin.Actions;
+using BatchLabs.Max2016.Plugin.Common;
 
 using BatchLabs.Plugin.Common.Actions;
 
-namespace BatchLabs.Max2019.Plugin
+namespace BatchLabs.Max2016.Plugin
 {
     public class MenuUtilities
     {
@@ -41,25 +41,25 @@ namespace BatchLabs.Max2019.Plugin
             global.RegisterNotification(MenuSystemStartupHandler, null, SystemNotificationCode.SystemStartup);
         }
 
-        private static void MenuPostLoadHandler(IntPtr objPtr, INotifyInfo infoPtr)
+        private static void MenuPostLoadHandler(IntPtr objPtr, IntPtr infoPtr)
         {
             Log.Instance.Debug("*** MenuPostLoadHandler ***");
             InstallMenu(MainMenuName);
         }
 
-        private static void MenuPostSaveHandler(IntPtr objPtr, INotifyInfo infoPtr)
+        private static void MenuPostSaveHandler(IntPtr objPtr, IntPtr infoPtr)
         {
             Log.Instance.Debug("*** MenuPostSaveHandler ***");
             InstallMenu(MainMenuName);
         }
 
-        private static void MenuSystemStartupHandler(IntPtr objPtr, INotifyInfo infoPtr)
+        private static void MenuSystemStartupHandler(IntPtr objPtr, IntPtr infoPtr)
         {
             Log.Instance.Debug("*** MenuSystemStartupHandler ***");
             InstallMenu(MainMenuName);
         }
 
-        private static void MenuPreSaveHandler(IntPtr objPtr, INotifyInfo infoPtr)
+        private static void MenuPreSaveHandler(IntPtr objPtr, IntPtr infoPtr)
         {
             Log.Instance.Debug("*** MenuPreSaveHandler ***");
             var menu = GlobalInterface.Instance.COREInterface13.MenuManager.FindMenu(MainMenuName);

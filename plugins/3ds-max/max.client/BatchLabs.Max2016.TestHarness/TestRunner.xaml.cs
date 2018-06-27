@@ -1,7 +1,7 @@
 ﻿
 using System.Windows;
 
-using BatchLabs.Max2016.Plugin;
+using BatchLabs.Max2016.Plugin.Actions;
 using BatchLabs.Max2016.Plugin.Contract.Stubs;
 using BatchLabs.Max2016.Plugin.Max;
 

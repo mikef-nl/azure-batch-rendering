@@ -11,6 +11,7 @@ using ManagedServices;
 
 using BatchLabs.Max2019.Plugin.Common;
 using BatchLabs.Max2019.Plugin.Max;
+using BatchLabs.Plugin.Common.Actions;
 using BatchLabs.Plugin.Common.Resources;
 using BatchLabs.Plugin.Common.XAML;
 
@@ -87,6 +88,6 @@ namespace BatchLabs.Max2019.Plugin.Actions
         }
 #endif
 
-        public override string InternalActionText => Strings.SubmitJob_ActionText;
+        public override string InternalActionText => ActionStrings.SubmitJobActionText;
     }
 }

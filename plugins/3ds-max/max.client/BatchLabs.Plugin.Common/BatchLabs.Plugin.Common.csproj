@@ -51,6 +51,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ActionStrings.cs" />
     <Compile Include="Code\AssetSearchFlags.cs" />
     <Compile Include="Code\AssetWrangler.cs" />
     <Compile Include="Code\BoolToVisibilityConverter.cs" />

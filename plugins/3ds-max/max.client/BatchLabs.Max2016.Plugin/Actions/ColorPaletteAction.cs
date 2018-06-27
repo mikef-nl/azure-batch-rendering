@@ -3,11 +3,12 @@ using System;
 
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
+
 using BatchLabs.Plugin.Common.XAML;
 
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace BatchLabs.Max2016.Plugin
+namespace BatchLabs.Max2016.Plugin.Actions
 {
     public class ColorPaletteAction : ActionBase
     {

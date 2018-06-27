@@ -70,29 +70,11 @@ namespace BatchLabs.Plugin.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage Your Job Data.
-        /// </summary>
-        public static string ManageData_ActionText {
-            get {
-                return ResourceManager.GetString("ManageData_ActionText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Calling out to data UI in BatchLabs.
         /// </summary>
         public static string ManageData_Log {
             get {
                 return ResourceManager.GetString("ManageData_Log", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monitor Your Jobs.
-        /// </summary>
-        public static string MonitorJobs_ActionText {
-            get {
-                return ResourceManager.GetString("MonitorJobs_ActionText", resourceCulture);
             }
         }
         
@@ -106,29 +88,11 @@ namespace BatchLabs.Plugin.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monitor Your Pools.
-        /// </summary>
-        public static string MonitorPools_ActionText {
-            get {
-                return ResourceManager.GetString("MonitorPools_ActionText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Calling out to pools UI in BatchLabs.
         /// </summary>
         public static string MonitorPools_Log {
             get {
                 return ResourceManager.GetString("MonitorPools_Log", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Submit a Job.
-        /// </summary>
-        public static string SubmitJob_ActionText {
-            get {
-                return ResourceManager.GetString("SubmitJob_ActionText", resourceCulture);
             }
         }
         

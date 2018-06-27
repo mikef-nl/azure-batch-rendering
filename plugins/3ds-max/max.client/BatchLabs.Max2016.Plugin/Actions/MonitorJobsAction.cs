@@ -1,10 +1,12 @@
 ﻿
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
+
+using BatchLabs.Plugin.Common.Actions;
 using BatchLabs.Plugin.Common.Code;
 using BatchLabs.Plugin.Common.Resources;
 
-namespace BatchLabs.Max2016.Plugin
+namespace BatchLabs.Max2016.Plugin.Actions
 {
     public class MonitorJobsAction : ActionBase
     {
@@ -16,6 +18,6 @@ namespace BatchLabs.Max2016.Plugin
             LabsRequestHandler.CallBatchLabs(Constants.BatchLabsUrs.Jobs);
         }
 
-        public override string InternalActionText => Strings.MonitorJobs_ActionText;
+        public override string InternalActionText => ActionStrings.MonitorJobsActionText;
     }
 }

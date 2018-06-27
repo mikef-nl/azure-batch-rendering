@@ -65,17 +65,20 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionBase.cs" />
+    <Compile Include="Actions\ActionBase.cs" />
+    <Compile Include="Actions\ActionWrapper.cs" />
     <Compile Include="Common\AssetWranglerCallback.cs" />
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Loader.cs" />
     <Compile Include="Max\MaxGlobalInterface.cs" />
     <Compile Include="Max\MaxRequestInterceptor.cs" />
+    <Compile Include="MenuUtilities.cs" />
     <Compile Include="Models\AssetFile.cs" />
-    <Compile Include="ColorPaletteAction.cs" />
-    <Compile Include="SubmitJobAction.cs" />
-    <Compile Include="MonitorPoolsAction.cs" />
-    <Compile Include="ManageDataAction.cs" />
-    <Compile Include="MonitorJobsAction.cs" />
+    <Compile Include="Actions\ColorPaletteAction.cs" />
+    <Compile Include="Actions\SubmitJobAction.cs" />
+    <Compile Include="Actions\MonitorPoolsAction.cs" />
+    <Compile Include="Actions\ManageDataAction.cs" />
+    <Compile Include="Actions\MonitorJobsAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

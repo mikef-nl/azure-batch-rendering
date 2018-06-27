@@ -5,10 +5,11 @@ using System.Windows.Forms;
 using UiViewModels.Actions;
 
 using BatchLabs.Max2016.Plugin.Common;
+
 using BatchLabs.Plugin.Common.Labs;
 using BatchLabs.Plugin.Common.Resources;
 
-namespace BatchLabs.Max2016.Plugin
+namespace BatchLabs.Max2016.Plugin.Actions
 {
     /// <inheritdoc />
     /// <summary>
@@ -27,7 +28,7 @@ namespace BatchLabs.Max2016.Plugin
 
         public override string Category => InternalCategory;
 
-        public override string InternalCategory => "BatchLabs - Max2016 Rendering";
+        public override string InternalCategory => Loader.ActionCategory;
 
         /// <summary>
         /// Execute is called when the user clicks on the action in the UI.

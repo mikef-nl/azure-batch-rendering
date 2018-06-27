@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionBase.cs" />
+    <Compile Include="Actions\ActionWrapper.cs" />
     <Compile Include="Common\AssetWranglerCallback.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Loader.cs" />

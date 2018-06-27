@@ -9,13 +9,16 @@ using System.Windows.Interop;
 
 using BatchLabs.Max2016.Plugin.Common;
 using BatchLabs.Max2016.Plugin.Max;
+
+using BatchLabs.Plugin.Common.Actions;
 using BatchLabs.Plugin.Common.Resources;
 using BatchLabs.Plugin.Common.XAML;
+
 using ManagedServices;
 
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace BatchLabs.Max2016.Plugin
+namespace BatchLabs.Max2016.Plugin.Actions
 {
     public class SubmitJobAction : ActionBase
     {
@@ -86,6 +89,6 @@ namespace BatchLabs.Max2016.Plugin
         }
 #endif
 
-        public override string InternalActionText => Strings.SubmitJob_ActionText;
+        public override string InternalActionText => ActionStrings.SubmitJobActionText;
     }
 }

@@ -120,26 +120,14 @@
   <data name="BatchLabs_RequestError" xml:space="preserve">
     <value>Error caught while calling BatchLabs</value>
   </data>
-  <data name="ManageData_ActionText" xml:space="preserve">
-    <value>Manage Your Job Data</value>
-  </data>
   <data name="ManageData_Log" xml:space="preserve">
     <value>Calling out to data UI in BatchLabs</value>
-  </data>
-  <data name="MonitorJobs_ActionText" xml:space="preserve">
-    <value>Monitor Your Jobs</value>
   </data>
   <data name="MonitorJobs_Log" xml:space="preserve">
     <value>Calling out to jobs UI in BatchLabs</value>
   </data>
-  <data name="MonitorPools_ActionText" xml:space="preserve">
-    <value>Monitor Your Pools</value>
-  </data>
   <data name="MonitorPools_Log" xml:space="preserve">
     <value>Calling out to pools UI in BatchLabs</value>
-  </data>
-  <data name="SubmitJob_ActionText" xml:space="preserve">
-    <value>Submit a Job</value>
   </data>
   <data name="SubmitJob_Assets_Error" xml:space="preserve">
     <value>Failed to get assets from scene</value>

@@ -1,6 +1,7 @@
 ﻿
 using BatchLabs.Max2019.Plugin.Common;
 using BatchLabs.Max2019.Plugin.Max;
+using BatchLabs.Plugin.Common.Actions;
 using BatchLabs.Plugin.Common.Code;
 using BatchLabs.Plugin.Common.Resources;
 
@@ -16,6 +17,6 @@ namespace BatchLabs.Max2019.Plugin.Actions
             LabsRequestHandler.CallBatchLabs(Constants.BatchLabsUrs.Jobs);
         }
 
-        public override string InternalActionText => Strings.MonitorJobs_ActionText;
+        public override string InternalActionText => ActionStrings.MonitorJobsActionText;
     }
 }
