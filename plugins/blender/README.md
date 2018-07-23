@@ -1,16 +1,16 @@
 # Azure Batch Rendering
-BatchLabs plugin for Blender. This plugin allows you to use BatchLabs and the Azure Batch Rendering Service to render your scenes in the cloud.
+BatchLabs plugin for Blender. This plugin allows you to use BatchExplorer and the Azure Batch Rendering Service to render your scenes in the cloud.
 
-## BatchLabs
-BatchLabs is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes new features such as `Job and Pool Templates` with the aim to improve your Batch experience. BatchLabs is updated monthly with new features and bug fixes. You can download it for Windows, Mac OS, and Linux from the [BatchLabs website](https://azure.github.io/BatchLabs/).
+## BatchExplorer
+BatchExplorer is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes new features such as `Job and Pool Templates` with the aim to improve your Batch experience. BatchExplorer is updated monthly with new features and bug fixes. You can download it for Windows, Mac OS, and Linux from the [BatchExplorer website](https://azure.github.io/BatchExplorer/).
 
 ![](../images/blender/labs.png)
 
 ## Installing the plugin
 These steps will outline how to install and use the Blender plugin.
 
-#### 1. Install BatchLabs
-Install the latest version of BatchLabs from the [BatchLabs website](https://azure.github.io/BatchLabs/).
+#### 1. Install BatchExplorer
+Install the latest version of BatchExplorer from the [BatchExplorer website](https://azure.github.io/BatchExplorer/).
 This is the tool that will do the majority of the work to get your Blender scenes rendering in the cloud.
 
 #### 2.1 Install the Blender plugin
@@ -36,18 +36,18 @@ The plugin contains a couple of handy user preferences.
 
 **Batch account** - If you have many Batch accounts and would like the plugin to default to using a single account, you can set the fully qualified resource ID of the account. An example of which would be: ```/subscriptions/<sub-id>/resourceGroups/<resource-group>/providers/Microsoft.Batch/batchAccounts/<account-name>```.
 
-This will ensure that every time you open BatchLabs from the Blender plugin, it will use this account. Otherwise it will default to the last account you were using in BatchLabs. You can get the ```resource ID``` from BatchLabs. Run BatchLabs and select the account you want to use. From the details screen, select the ```Credentials and code samples``` button. Copy the ```resource ID``` and paste it into the Batch account input box.
+This will ensure that every time you open BatchExplorer from the Blender plugin, it will use this account. Otherwise it will default to the last account you were using in BatchExplorer. You can get the ```resource ID``` from BatchExplorer. Run BatchExplorer and select the account you want to use. From the details screen, select the ```Credentials and code samples``` button. Copy the ```resource ID``` and paste it into the Batch account input box.
 
 ![](../images/blender/labs-credentials.png)
 
 **Pool type** - When submitting a job, you can use a persistent pre-existing pool, or an auto-pool that is created when the job is submitted and then deleted when the job is completed. While auto-pools can be handy, they can also make it hard to diagnose some issues with the job should you have any. It is recommended that while you are rendering your test scenes that you use a persistent pool. Once you are happy with the process you can switch to using an auto-pool should you wish.
 
 ## Using the plugin
-The Blender plugin gives you 4 menu options. It can be accessed via: ```Render -> Azure Batch Rendering```. All commands take you to the corresponding page in the BatchLabs application.
+The Blender plugin gives you 4 menu options. It can be accessed via: ```Render -> Azure Batch Rendering```. All commands take you to the corresponding page in the BatchExplorer application.
 
 ![](../images/blender/blender-menu.png)
 
-**Submit job** - Allows you to submit a rendering job using our job templating service. It will pre-populate some fields and get you submitting a job in no time with the click of a button. Currently we use Ubuntu 16.04 machines, but we will be adding a Windows Server option shortly. Should you have a requirement for any other machine type then let us know and we can add a template for you. The best place to raise this would be the [BatchLabs issues register on GitHub](https://github.com/Azure/BatchLabs/issues).
+**Submit job** - Allows you to submit a rendering job using our job templating service. It will pre-populate some fields and get you submitting a job in no time with the click of a button. Currently we use Ubuntu 16.04 machines, but we will be adding a Windows Server option shortly. Should you have a requirement for any other machine type then let us know and we can add a template for you. The best place to raise this would be the [BatchExplorer issues register on GitHub](https://github.com/Azure/BatchExplorer/issues).
 
 **Manage data** - Will take you to the screen where you can select and upload your data into a file group so that it can be referenced by your job.
 
@@ -56,7 +56,7 @@ The Blender plugin gives you 4 menu options. It can be accessed via: ```Render -
 **Monitor pools** - Takes you to your pools dashboard.
 
 #### 1. Submit your job
-Before you submit your job, you'll need to get the latest versions of your scenes input data into a blob storage container. These are called file groups and are used to get your assets onto the compute nodes in your pool so that the tasks in your job can access them. From the ```Render``` menu in Blender, select ```Azure Batch Rendering -> Submit Job -> Render movie on Ubuntu 16.4```. This will take you to the correct location in BatchLabs and will automatically populate the required data for your Blender scene.
+Before you submit your job, you'll need to get the latest versions of your scenes input data into a blob storage container. These are called file groups and are used to get your assets onto the compute nodes in your pool so that the tasks in your job can access them. From the ```Render``` menu in Blender, select ```Azure Batch Rendering -> Submit Job -> Render movie on Ubuntu 16.4```. This will take you to the correct location in BatchExplorer and will automatically populate the required data for your Blender scene.
 
 ![](../images/blender/blender-submit-2.png)
 
@@ -85,7 +85,7 @@ If you have not created a pool to run your job on, then we can do that now. Rend
 
 Click on the big green button and your pool will be submitted to the Batch service for creation. Once submitted you will be redirected back to the job details form.
 
-**Note** - Once a pool is created, you don't have to delete it in-between jobs. You can just use BatchLabs to rescale the pool down to 0 nodes and you will no longer pay for any compute node uptime. Next time you want to run a Blender job, just select: ```Pools -> blender-pool-ubuntu``` and click on the scale button to re-scale the pool up again with new compute nodes. If you contact us we can help you with an auto scale formula that will scale up when new jobs attempt to use the pool, and automatically scale down again once the jobs have completed.
+**Note** - Once a pool is created, you don't have to delete it in-between jobs. You can just use BatchExplorer to rescale the pool down to 0 nodes and you will no longer pay for any compute node uptime. Next time you want to run a Blender job, just select: ```Pools -> blender-pool-ubuntu``` and click on the scale button to re-scale the pool up again with new compute nodes. If you contact us we can help you with an auto scale formula that will scale up when new jobs attempt to use the pool, and automatically scale down again once the jobs have completed.
 
 ![](../images/blender/pool-details.png)
 
@@ -107,7 +107,7 @@ From the submit job form, enter the following information:
 
 **Note:** I would not recommend using the same file group as you used for your scene assets. Output images and log files are uploaded from each of your tasks, if you had used the same input file group for your outputs, the next time you re-ran the job, these outputs would be downloaded to the compute node with the rest of your input files, whereby possibly affecting task runtime performance.
 
-**Example:** Should your ```.blend``` file be called ```my-scene.blend```, your main asset file group would be called ```blender-my-scene```, you can then call your output file group ```blender-my-scene-outputs```. Using this approach will group your input and output file group containers together in the ```Data``` view of BatchLabs.
+**Example:** Should your ```.blend``` file be called ```my-scene.blend```, your main asset file group would be called ```blender-my-scene```, you can then call your output file group ```blender-my-scene-outputs```. Using this approach will group your input and output file group containers together in the ```Data``` view of BatchExplorer.
 
 Once each form field is completed, the submit button will be enabled and you can click on the green button to submit the job. Once successfully submitted, you will be taken to the job details page where you can view the progress of the job.
 
