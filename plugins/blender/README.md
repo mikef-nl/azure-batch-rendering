@@ -47,7 +47,15 @@ The Blender plugin gives you 4 menu options. It can be accessed via: ```Render -
 
 ![](../images/blender/blender-menu.png)
 
-**Submit job** - Allows you to submit a rendering job using our job templating service. It will pre-populate some fields and get you submitting a job in no time with the click of a button. Currently we use Ubuntu 16.04 machines, but we will be adding a Windows Server option shortly. Should you have a requirement for any other machine type then let us know and we can add a template for you. The best place to raise this would be the [BatchExplorer issues register on GitHub](https://github.com/Azure/BatchExplorer/issues).
+**Submit job** - Allows you to submit a rendering job using our job and pool templating service. It will pre-populate some fields and get you submitting a job in no time with the click of a button. This menu option lists the currently available templates from our [Blender template repository](https://github.com/Azure/BatchExplorer-data/tree/master/ncj/blender). We have full range of Ubuntu 16.04 and Windows Server based templates. Should you have a requirement for any other type of job or pool template, then please let us know and we can look to create one for you. The best place to raise this would be the [BatchExplorer issues register on GitHub](https://github.com/Azure/BatchExplorer/issues).
+
+Currently available templates:
+
+- Render on Linux (Render a Blender scene using Ubuntu 16.04)
+- Distributed Render on Linux (Distributed rendering for Blender. Render frame tiles on multiple Ubuntu nodes with the CYCLES rendering engine.)
+- Render on Windows Server (Render a Blender scene using Windows Server)
+- Distributed Render on Windows Server (Distributed rendering for Blender. Render tiles on multiple Windows Server nodes with the CYCLES rendering engine)
+- GPU Render on Windows Server (Render a Blender scene using Windows Server GPU machines and the Blender CYCLES rendering engine)
 
 **Manage data** - Will take you to the screen where you can select and upload your data into a file group so that it can be referenced by your job.
 
