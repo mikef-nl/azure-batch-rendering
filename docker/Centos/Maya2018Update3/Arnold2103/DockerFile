@@ -1,0 +1,8 @@
+FROM azurebatchrendering/centos_maya2018update3:latest
+
+ARG MTOA_INSTALL_SAS
+
+COPY installArnold2103.sh /tmp/installArnold2103.sh
+COPY mtoa.mod /usr/autodesk/mayaIO2018/modules/mtoa.mod
+
+RUN sh /tmp/installArnold2103.sh $MTOA_INSTALL_SAS
