@@ -19,8 +19,10 @@ echo '--------------------------------------------------------------------------
 chmod +x /tmp/maya/Maya2018/setup.sh
 /tmp/maya/Maya2018/setup.sh 127.0.0.1
 
-cp /usr/bin/render2018.sh /usr/bin/render.sh
+cp /usr/bin/maya2018.sh /usr/bin/render2018.sh
+cp /usr/bin/maya2018.sh /usr/bin/render.sh
 
+chmod +x /usr/bin/maya2018.sh
 chmod +x /usr/bin/render2018.sh
 chmod +x /usr/bin/render.sh
 
