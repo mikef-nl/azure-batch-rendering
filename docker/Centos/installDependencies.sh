@@ -31,6 +31,7 @@ yum install dotnet-sdk-2.1.4 -y
 yum install epel-release -y
 yum install p7zip -y
 yum install azure-cli -y
+yum install sudo -y
 
 echo 'Installing azcopy'
 wget -O azcopy.tar.gz https://aka.ms/downloadazcopyprlinux
