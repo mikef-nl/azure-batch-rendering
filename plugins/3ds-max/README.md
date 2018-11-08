@@ -15,6 +15,8 @@ This is the tool that will do the majority of the work to get your Blender scene
 [insider build of BatchExplorer](https://azure.github.io/BatchExplorer/insider.html) that is deployed from our continuous deployment
 system and has the most recent code pushes.
 
+**Note: Once installed, please login to BatchExplorer and select the Batch Account you wish to submit jobs to. This will asist you later when you launch the application from the plugin later.**
+
 #### 2.1 Install the 3ds Max plugin
 Download the latest zip file from the releases folder.
 
