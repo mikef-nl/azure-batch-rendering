@@ -31,7 +31,7 @@ namespace BatchLabs.Max2019.Plugin.Contract.Stubs
 
         public ILogSys Log { get; }
 
-        public string CurFileName => "PipecatFX_FullMovie_v01_t10.max";
+        public string CurFileName => "E_Overcast_full Scene_Test Mat_F_backup.max";
 
         public string CurFilePath => @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\PipecatFX_FullMovie_v01_t10.max";
 

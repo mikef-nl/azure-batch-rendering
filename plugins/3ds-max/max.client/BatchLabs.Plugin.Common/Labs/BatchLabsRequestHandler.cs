@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Forms;
 
 using BatchLabs.Plugin.Common.Code;
 using BatchLabs.Plugin.Common.Contract;
@@ -39,7 +38,7 @@ namespace BatchLabs.Plugin.Common.Labs
             catch (Exception ex)
             {
                 _logger.Error($"{ex.Message}\n{ex}", Strings.BatchLabs_RequestError, true);
-                MessageBox.Show($"{Strings.BatchLabs_RequestError}.\n{ex.Message}\n{ex}");
+                // MessageBox.Show($"{Strings.BatchLabs_RequestError}.\n{ex.Message}\n{ex}");
             }
         }
 

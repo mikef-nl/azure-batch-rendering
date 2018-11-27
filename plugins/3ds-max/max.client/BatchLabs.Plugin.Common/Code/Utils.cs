@@ -29,6 +29,9 @@ namespace BatchLabs.Plugin.Common.Code
             // get the filename only and lower case it
             var sansExtension = Path.GetFileNameWithoutExtension(maxFile).ToLower();
 
+            // replace any spaces with '_'
+            sansExtension = sansExtension.Replace(" ", "_");
+
             // replace underscores and multiple dashes
             sansExtension = UnderscoresAndMultipleDashes.Replace(sansExtension, "-");
 

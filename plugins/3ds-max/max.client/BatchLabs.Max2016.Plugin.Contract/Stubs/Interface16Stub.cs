@@ -54,9 +54,9 @@ namespace BatchLabs.Max2016.Plugin.Contract.Stubs
             PushMessage(this, promptString);
         }
 
-        public string CurFileName => "PipecatFX_FullMovie_v01_t10.max";
+        public string CurFileName => "E_Overcast_full Scene_Test Mat_F_backup.max";
 
-        public string CurFilePath => @"D:\_azure\rendering-scenes\3dsmax\NOV\PipecatFX_FullMovie_v01_t10\PipecatFX_FullMovie_v01_t10.max";
+        public string CurFilePath => @"T:\1 Projects\Random Scenes\Test Scenes\E_Overcast_full Scene_Test Mat_F_backup.max";
 
         public int RendWidth
         {
