@@ -1,9 +1,8 @@
 
 from azure.batch import BatchServiceClient
 from azure.batch.models import BatchErrorException
+from azure.batch.models import JobGetOptions
 from azure.storage.blob import BlockBlobService
-
-# TODO: add select odata filter to optimize query
 
 def does_job_exist(batch_client: BatchServiceClient, job_id: str) -> bool:
     """
@@ -16,7 +15,8 @@ def does_job_exist(batch_client: BatchServiceClient, job_id: str) -> bool:
         Unique identifier of the job to look for.
     """
     try:
-        batch_client.job.get(job_id)
+        options = JobGetOptions(select="id")
+        batch_client.job.get(job_id, job_get_options=options)
         return True
     except BatchErrorException as ex:
         if ex.response.status_code == 404:
