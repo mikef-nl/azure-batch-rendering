@@ -5,28 +5,27 @@ class AuthSettings(object):
     needed to create the various authentication tokens
     """
     def __init__(self,
-        batch_acc_name: str, batch_acc_url: str, batch_acc_subscription: str, storage_acc_name: str,
-        storage_acc_url: str, storage_acc_key: str, sp_client_id: str, sp_client_secret: str, 
-        sp_client_tenant: str):
+                 batch_acc_name: str,
+                 batch_acc_url: str,
+                 batch_acc_subscription: str,
+                 storage_acc_name: str,
+                 storage_acc_url: str,
+                 storage_acc_key: str,
+                 sp_client_id: str,
+                 sp_client_secret: str,
+                 sp_client_tenant: str):
         """
-        :param `str` batch_acc_name:
-            Name of the Batch account.
-        :param `str` batch_acc_url:
-            Base URL of the Batch account including the region.
-        :param `str` batch_acc_subscription:
-            Subscription ID of the Batch account.
-        :param `str` storage_acc_name:
-            Storage account name.
-        :param `str` storage_acc_url:
-            Base URL of the storage account.
-        :param `str` storage_acc_key:
-            Shared access key for the storage account.
-        :param `str` sp_client_id:
-            Application/Client ID of the Azure service principal.
-        :param `str` sp_client_secret:
-            Shared secret of the Azure service principal.
-        :param `str` sp_client_tenant:
-            AAD tenant of the service principal.
+        :param batch_acc_name: Name of the Batch account.
+        :param batch_acc_url: Base URL of the Batch account including the
+        region.
+        :param batch_acc_subscription: Subscription ID of the Batch account.
+        :param storage_acc_name: Storage account name.
+        :param storage_acc_url: Base URL of the storage account.
+        :param storage_acc_key: Shared access key for the storage account.
+        :param sp_client_id: Application/Client ID of the Azure service
+        principal.
+        :param sp_client_secret: Shared secret of the Azure service principal.
+        :param sp_client_tenant: AAD tenant of the service principal.
         """
         self.batch_acc_name = batch_acc_name
         self.batch_acc_url = batch_acc_url

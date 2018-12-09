@@ -1,24 +1,24 @@
-
 import datetime
 
 from azure.storage.blob import BlockBlobService
 from azure.storage.blob.models import ContainerPermissions
 
+
 class ParameterMapper:
     def map_parameters(
-        self,
-        storage_acc_url: str,
-        storage_client: BlockBlobService,
-        parameter_json: object,
-        job_id: str,
-        container_name: str,
-        scene_file: str,
-        priority: int,
-        start_frame: int,
-        end_frame: int,
-        pool_name: str,
-        addtional_args: str = None,
-        output_container: str = None) -> object:
+            self,
+            storage_acc_url: str,
+            storage_client: BlockBlobService,
+            parameter_json: object,
+            job_id: str,
+            container_name: str,
+            scene_file: str,
+            priority: int,
+            start_frame: int,
+            end_frame: int,
+            pool_name: str,
+            addtional_args: str = None,
+            output_container: str = None) -> object:
         """
         Given the job parameter json payload and the data to populate it, set 
         the values in the parameter json for applying to the job template.
@@ -60,17 +60,20 @@ class ParameterMapper:
 
         # we need the input file group to not have the fgrp prefix
         if container_name.startswith("fgrp-"):
-            container_name_without_prefix = container_name.replace("fgrp-", "", 1)
+            container_name_without_prefix = container_name.replace("fgrp-", "",
+                                                                   1)
         else:
             container_name_without_prefix = container_name
 
         # get the container read SAS for accessing render assets in the continer
-        container_sas = self._get_container_sas(container_name, storage_client, storage_acc_url)
-        print("got container_sas: ", container_sas)    
+        container_sas = self._get_container_sas(container_name, storage_client,
+                                                storage_acc_url)
+        print("got container_sas: ", container_sas)
 
         parameter_json["jobName"]["value"] = job_id
         parameter_json["poolId"]["value"] = pool_name
-        parameter_json["inputFilegroup"]["value"] = container_name_without_prefix
+        parameter_json["inputFilegroup"][
+            "value"] = container_name_without_prefix
         parameter_json["inputFilegroupSas"]["value"] = container_sas
         parameter_json["sceneFile"]["value"] = scene_file
         parameter_json["additionalArgs"]["value"] = addtional_args or " "
@@ -78,11 +81,13 @@ class ParameterMapper:
         parameter_json["frameStart"]["value"] = start_frame
         parameter_json["frameEnd"]["value"] = end_frame
         parameter_json["outputs"]["value"] = output_container or "outputs"
-        
+
         return parameter_json
 
-
-    def _get_container_sas(self, container: str, storage_client: BlockBlobService, storage_acc_url) -> str:
+    @staticmethod
+    def _get_container_sas(container: str,
+                           storage_client: BlockBlobService,
+                           storage_acc_url) -> str:
         """
         Obtains a shared access signature granting the specified permissions to the
         container. We set no start time, so the shared access signature becomes valid 

@@ -4,19 +4,20 @@ class Job(object):
     Self contained single job definition created from the job definition JSON in
     the manifest file.
     """
-    def __init__(self, 
-        index, job_id, scene_file, container: str = None, folder: str = None):
+    def __init__(self,
+                 index: int,
+                 job_id: str,
+                 scene_file,
+                 container: str = None,
+                 folder: str = None):
         """
-        :param `int` index:
-            Index of the job in the manifest file. Used for setting the job priority.
-        :param `str` job_id:
-            Unique identifier the job.
-        :param `str` scene_file:
-            The path to the scene file in the storage container.
-        :param `str` container:
-            Name of the container in which the job assets are storred.
-        :param `str` folder:
-            Path to the local folder on disk that contains the assets for the job.
+        :param index: Index of the job in the manifest file. Used for setting the job priority.
+        :param job_id: Unique identifier the job.
+        :param scene_file: The path to the scene file in the storage container.
+        :param container: Name of the container in which the job assets are
+        storred.
+        :param folder: Path to the local folder on disk that contains the
+        assets for the job.
         """
         self.priority = index
         self.job_id = job_id
