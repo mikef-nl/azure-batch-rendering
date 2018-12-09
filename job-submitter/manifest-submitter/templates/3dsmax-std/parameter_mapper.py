@@ -18,38 +18,30 @@ class ParameterMapper:
             end_frame: int,
             pool_name: str,
             addtional_args: str = None,
-            output_container: str = None) -> object:
+            output_container: str = None
+    ) -> object:
         """
         Given the job parameter json payload and the data to populate it, set 
         the values in the parameter json for applying to the job template.
 
-        :param str storage_acc_url:
-            Base URL of the storage account.
-        :param `azure.storage.blob.BlockBlobService` storage_client:
-            Storage connection client.
-        :param object parameter_json:
-            JSON paramter object as defined in the job.template.json file.
-        :param str job_id:
-            Identifier of the job.
-        :param str container_name:
-            Name of the container in which the job assets are storred.
-        :param str scene_file:
-            Name of the main scene file to pass to 3ds Max.
-        :param int priority:
-            Priority of the job. Jobs will be run in approximate order based on 
+        :param storage_acc_url: Base URL of the storage account.
+        :param storage_client: Storage connection client.
+        :param parameter_json: JSON paramter object as defined in the
+        job.template.json file.
+        :param job_id: Identifier of the job.
+        :param container_name: Name of the container in which the job assets
+        are stored.
+        :param scene_file: Name of the main scene file to pass to 3ds Max.
+        :param priority: Priority of the job. Jobs will be run in approximate order based on
             the priority. Priority values can range from -1000 to 1000, with -1000 being 
             the lowest priority and 1000 being the highest priority.
-        :param int start_frame:
-            First frame to render
-        :param int end_frame:
-            Last frame to render
-        :param str pool_name:
-            Name of the pool to run the job on. The pool must exist.
-        :param str addtional_args:
-            Any additional arguments to pass to the renderer
-        :param str output_container:
-            Name of the output container. Defaults to "outputs" should it not 
-            be supplied.
+        :param start_frame: First frame to render
+        :param end_frame: Last frame to render
+        :param pool_name: Name of the pool to run the job on. The pool must
+        exist.
+        :param addtional_args: Any additional arguments to pass to the renderer
+        :param output_container: Name of the output container. Defaults to
+        "outputs" should it not be supplied.
 
         :return object:
             JSON object based on the job.template.json file with all of the appropriate 
@@ -85,23 +77,21 @@ class ParameterMapper:
         return parameter_json
 
     @staticmethod
-    def _get_container_sas(container: str,
-                           storage_client: BlockBlobService,
-                           storage_acc_url) -> str:
+    def _get_container_sas(
+            container: str,
+            storage_client: BlockBlobService,
+            storage_acc_url
+    ) -> str:
         """
         Obtains a shared access signature granting the specified permissions to the
         container. We set no start time, so the shared access signature becomes valid 
         immediately.
 
-        :param str container:
-            The name of the Azure Blob storage container.
-        :param `azure.storage.blob.BlockBlobService` storage_client:
-            Storage connection client.
-        :param str storage_acc_url:
-            Base URL of the storage account.
+        :param container: The name of the Azure Blob storage container.
+        :param storage_client: Storage connection client.
+        :param storage_acc_url: Base URL of the storage account.
 
-        :return `str`: 
-            SAS token granting the specified permissions to access the container in 
+        :return: SAS token granting the specified permissions to access the container in
             the format {base-storage-url}/{container}?{SAS}.
         """
         permissions = ContainerPermissions.READ + ContainerPermissions.LIST

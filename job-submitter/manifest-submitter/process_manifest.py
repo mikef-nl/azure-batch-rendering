@@ -84,8 +84,9 @@ def _parse_runner_arguments():
     return args
 
 
-def _load_job_manifest(args: object) -> Tuple[
-    AuthSettings, TemplateSettings, list, str]:
+def _load_job_manifest(
+        args: object
+) -> Tuple[AuthSettings, TemplateSettings, list, str]:
     """
     Load the manifest file and parse the JSON to get the job definitions.
     Creates a Job object for each definition in the manifest.
