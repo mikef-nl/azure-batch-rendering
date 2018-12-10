@@ -1,6 +1,7 @@
 
 import json
 
+
 def load_json_template(file_path: str, print_result: bool = False):
     """
     Loads and parses a JSON file on disk.
@@ -15,7 +16,7 @@ def load_json_template(file_path: str, print_result: bool = False):
         with open(file_path) as stream:
             data = json.load(stream)
 
-        if print_result == True:
+        if print_result:
             print("{}\n".format(file_path), data)
 
         return data

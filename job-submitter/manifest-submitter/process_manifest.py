@@ -17,7 +17,6 @@ from utils import file_utils
 
 # todo: add logging to file.
 # todo: ask matthchr how to get the code out of one of these: BatchErrorException
-
 def main():
     print("\n### running python job submitter ###")
 

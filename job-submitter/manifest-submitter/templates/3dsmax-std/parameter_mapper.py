@@ -52,8 +52,7 @@ class ParameterMapper:
 
         # we need the input file group to not have the fgrp prefix
         if container_name.startswith("fgrp-"):
-            container_name_without_prefix = container_name.replace("fgrp-", "",
-                                                                   1)
+            container_name_without_prefix = container_name.replace("fgrp-", "", 1)
         else:
             container_name_without_prefix = container_name
 
@@ -64,8 +63,7 @@ class ParameterMapper:
 
         parameter_json["jobName"]["value"] = job_id
         parameter_json["poolId"]["value"] = pool_name
-        parameter_json["inputFilegroup"][
-            "value"] = container_name_without_prefix
+        parameter_json["inputFilegroup"]["value"] = container_name_without_prefix
         parameter_json["inputFilegroupSas"]["value"] = container_sas
         parameter_json["sceneFile"]["value"] = scene_file
         parameter_json["additionalArgs"]["value"] = addtional_args or " "
@@ -80,7 +78,7 @@ class ParameterMapper:
     def _get_container_sas(
             container: str,
             storage_client: BlockBlobService,
-            storage_acc_url
+            storage_acc_url: str
     ) -> str:
         """
         Obtains a shared access signature granting the specified permissions to the

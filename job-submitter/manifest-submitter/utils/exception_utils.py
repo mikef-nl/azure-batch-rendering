@@ -1,6 +1,7 @@
 
 from azure.batch.models import BatchErrorException
 
+
 def print_batch_exception(ex: BatchErrorException):
     """
     Prints the contents of the specified Batch exception.

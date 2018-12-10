@@ -4,6 +4,7 @@ from azure.batch.models import BatchErrorException
 from azure.batch.models import JobGetOptions
 from azure.storage.blob import BlockBlobService
 
+
 def does_job_exist(batch_client: BatchServiceClient, job_id: str) -> bool:
     """
     Returns true or false depending on if a job already exsits with the 

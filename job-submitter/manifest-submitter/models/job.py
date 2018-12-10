@@ -15,7 +15,7 @@ class Job(object):
         :param job_id: Unique identifier the job.
         :param scene_file: The path to the scene file in the storage container.
         :param container: Name of the container in which the job assets are
-        storred.
+        stored.
         :param folder: Path to the local folder on disk that contains the
         assets for the job.
         """
