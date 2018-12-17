@@ -1,4 +1,6 @@
 
+import logger
+
 from azext.batch import BatchExtensionsClient
 from azure.batch import BatchServiceClient
 from azure.common.credentials import ServicePrincipalCredentials
@@ -28,7 +30,7 @@ class AuthenticationProvider(object):
         """
         Create a 'Batch client' using an Azure Service Principal
         """
-        print("creating a 'batch' client using a service principal")
+        logger.info("creating a 'batch' client using a service principal")
         credentials = self._get_service_principal()
         return BatchServiceClient(credentials, base_url=self.auth_settings.batch_acc_url)
 
@@ -38,7 +40,7 @@ class AuthenticationProvider(object):
         blob storage containers and uploading files to containers.
         """
         # TODO: figure out if i can create this with a Service Principal as well
-        print("creating a 'storage' client using key auth")
+        logger.info("creating a 'storage' client using key auth")
         return BlockBlobService(
             account_name=self.auth_settings.storage_acc_name, 
             account_key=self.auth_settings.storage_acc_key)
@@ -47,7 +49,7 @@ class AuthenticationProvider(object):
         """
         Create a 'Batch Extenstions' client using an Azure Service Principal.
         """
-        print("creating a 'batch extenstions' client using AAD")
+        logger.info("creating a 'batch extenstions' client using AAD")
         credentials = self._get_service_principal()
 
         return BatchExtensionsClient(

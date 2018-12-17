@@ -1,4 +1,6 @@
 
+import logger
+
 from azure.batch import BatchServiceClient
 from azure.batch.models import BatchErrorException
 from azure.batch.models import JobGetOptions
@@ -23,7 +25,7 @@ def does_job_exist(batch_client: BatchServiceClient, job_id: str) -> bool:
         if ex.response.status_code == 404:
             return False
         else:
-            print("error getting job: {}".format(str(ex)))
+            logger.error("error getting job: {}".format(str(ex)))
             raise
 
 
@@ -44,5 +46,5 @@ def scene_file_exists(storage_client: BlockBlobService, container_name: str, sce
     try:
         return storage_client.exists(container_name, scene_file)
     except Exception as ex:
-        print("error checking for scene file: {} in container: {}. With error: {}".format(scene_file, container_name, str(ex)))
+        logger.error("error checking for scene file: {} in container: {}. With error: {}".format(scene_file, container_name, str(ex)))
         raise

@@ -1,5 +1,6 @@
 
 import json
+import logger
 
 
 def load_json_template(file_path: str, print_result: bool = False):
@@ -12,15 +13,15 @@ def load_json_template(file_path: str, print_result: bool = False):
         Print the contents of the file to standard out.
     """
     try:
-        print("loading json file: '{0}'".format(file_path))
+        logger.debug("loading json file: '{0}'".format(file_path))
         with open(file_path) as stream:
             data = json.load(stream)
 
         if print_result:
-            print("{}\n".format(file_path), data)
+            logger.debug("{}\n".format(file_path), data)
 
         return data
 
     except Exception as ex:
-        print("failed to load json template: {0}, with error: {1}".format(file_path, str(ex)))
+        logger.error("failed to load json template: {0}, with error: {1}".format(file_path, str(ex)))
         raise
