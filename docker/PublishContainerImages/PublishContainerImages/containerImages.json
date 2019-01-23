@@ -1,0 +1,120 @@
+{
+  "containerImages": [
+    //TODO split this into multiple json files that live alongside the docker files, so a build can be kicked off targeting only a subset of the images (recursively build all downstream / contained folders)
+
+    //
+    //CENTOS
+    //
+
+    //base os image
+    {
+      "containerImage": "azurebatchrendering/centos",
+      "pathToDockerFile": "/Centos",
+      "installerFileBlob": ""
+    },
+    //base maya images
+    {
+      "containerImage": "azurebatchrendering/centos_maya2017update5",
+      "pathToDockerFile": "/centos/Maya2017Update5",
+      "installerFileBlob": "Centos/Autodesk_MayaIO_2017_Update5_Linux_64bit.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update2",
+      "pathToDockerFile": "/centos/Maya2018Update2",
+      "installerFileBlob": "Centos/Autodesk_MayaIO_2018_2_Update_Linux_64bit.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update3",
+      "pathToDockerFile": "/centos/Maya2018Update3",
+      "installerFileBlob": "Centos/Autodesk_MayaIO_2018_3_Update_Linux_64bit.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update4",
+      "pathToDockerFile": "/centos/Maya2018Update4",
+      "installerFileBlob": "Centos/Autodesk_MayaIO_2018_4_Update_P04_Linux_64bit.run"
+    },
+
+    //maya2017update5
+    {
+      "containerImage": "azurebatchrendering/centos_maya2017update5_arnold2011",
+      "pathToDockerFile": "/centos/Maya2017Update5/Arnold2011",
+      "installerFileBlob": "Centos/MtoA-2.0.1.1-linux-2017.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2017update5_arnold3101",
+      "pathToDockerFile": "/centos/Maya2017Update5/Arnold3101",
+      "installerFileBlob": "Centos/MtoA-3.1.0.1-linux-2017.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2017update5_vray36004",
+      "pathToDockerFile": "/centos/Maya2017Update5/Vray36004",
+      "installerFileBlob": "Centos/vray4batch_36004_maya2017_linux_x64"
+    },
+
+    //maya2018update2
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update2_arnold2023",
+      "pathToDockerFile": "/centos/Maya2018Update2/Arnold2023",
+      "installerFileBlob": "Centos/MtoA-2.0.2.3-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update2_arnold2103",
+      "pathToDockerFile": "/centos/Maya2018Update2/Arnold2103",
+      "installerFileBlob": "Centos/MtoA-2.1.0.3-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update2_arnold3101",
+      "pathToDockerFile": "/centos/Maya2018Update2/Arnold3101",
+      "installerFileBlob": "Centos/MtoA-3.1.0.1-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update2_vray36004",
+      "pathToDockerFile": "/centos/Maya2018Update2/Vray36004",
+      "installerFileBlob": "Centos/vray4batch_36004_maya2018_linux_x64"
+    },
+
+    //maya2018update3
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update3_arnold2023",
+      "pathToDockerFile": "/centos/Maya2018Update3/Arnold2023",
+      "installerFileBlob": "Centos/MtoA-2.0.2.3-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update3_arnold2103",
+      "pathToDockerFile": "/centos/Maya2018Update3/Arnold2103",
+      "installerFileBlob": "Centos/MtoA-2.1.0.3-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update3_arnold3101",
+      "pathToDockerFile": "/centos/Maya2018Update3/Arnold3101",
+      "installerFileBlob": "Centos/MtoA-3.1.0.1-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update3_vray36004",
+      "pathToDockerFile": "/centos/Maya2018Update3/Vray36004",
+      "installerFileBlob": "Centos/vray4batch_36004_maya2018_linux_x64"
+    },
+
+    //maya2018update4
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update4_arnold2023",
+      "pathToDockerFile": "/centos/Maya2018Update4/Arnold2023",
+      "installerFileBlob": "Centos/MtoA-2.0.2.3-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update4_arnold2103",
+      "pathToDockerFile": "/centos/Maya2018Update4/Arnold2103",
+      "installerFileBlob": "Centos/MtoA-2.1.0.3-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update4_arnold3101",
+      "pathToDockerFile": "/centos/Maya2018Update4/Arnold3101",
+      "installerFileBlob": "Centos/MtoA-3.1.0.1-linux-2018.run"
+    },
+    {
+      "containerImage": "azurebatchrendering/centos_maya2018update4_vray36004",
+      "pathToDockerFile": "/centos/Maya2018Update4/Vray36004",
+      "installerFileBlob": "Centos/vray4batch_36004_maya2018_linux_x64"
+    }
+  ]
+}
