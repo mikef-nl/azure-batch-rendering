@@ -22,10 +22,11 @@ namespace PublishContainerImages
             // 2) move install scripts excluding dockerFiles (maybe these too?) inside project, remove duplication
             // 3) unless -force flag is provided, skip building / pushing images which already exist for a given version tag,
             //    might need to check these on repo rather than local, if found local could maybe just redo the push?
-            try
+            
+            using (var log = File.AppendText("containerImagePublish.log"))
             {
-                using (var log = File.AppendText("containerImagePublish.log"))
-                {
+              try
+              {
                     _log = log;
                     _log.AutoFlush = true;
 
@@ -60,12 +61,13 @@ namespace PublishContainerImages
                         _writeLog($"Successfully published {imageDef.containerImage}:{tags.Last()}\n");
                     }
                     _writeLog($"Completed Publishing Successfully!");
-                }
+                
             }
             
-            catch (Exception ex)
-            {
-                _writeLog("Fatal Exception: " + ex);
+              catch (Exception ex)
+              {
+                  _writeLog("Fatal Exception: " + ex);
+              }
             }
         }
 
