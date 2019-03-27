@@ -1,0 +1,7 @@
+FROM azurebatchrendering/windows_3dsmax2018:latest
+
+ARG INSTALLER_SAS
+
+COPY installarnold.ps1 C:/temp/installarnold.ps1
+
+RUN powershell C:/temp/installarnold.ps1 "'%INSTALLER_SAS%'"
