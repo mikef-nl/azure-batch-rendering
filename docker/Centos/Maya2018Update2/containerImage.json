@@ -1,5 +1,0 @@
-{
-  "containerImage": "azurebatchrendering/centos_maya2018update2",
-  "pathToDockerFile": "/centos/Maya2018Update2",
-  "installerFileBlob": "Centos/Autodesk_MayaIO_2018_2_Update_Linux_64bit.run"
-}

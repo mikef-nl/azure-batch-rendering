@@ -1,0 +1,5 @@
+{
+  "containerImage": "azurebatchrendering/centos-maya_2017u5",
+  "pathToDockerFile": "/centos-maya/2017u5",
+  "installerFileBlob": "Centos/Autodesk_MayaIO_2017_Update5_Linux_64bit.run"
+}

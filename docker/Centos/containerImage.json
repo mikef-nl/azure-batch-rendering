@@ -1,5 +1,0 @@
-{
-  "containerImage": "azurebatchrendering/centos",
-  "pathToDockerFile": "/centos",
-  "installerFileBlob": ""
-}

@@ -1,5 +1,0 @@
-{
-  "containerImage": "azurebatchrendering/centos_maya2018update2_vray36004",
-  "pathToDockerFile": "/centos/Maya2018Update2/Vray36004",
-  "installerFileBlob": "Centos/vray4batch_36004_maya2018_linux_x64"
-}
