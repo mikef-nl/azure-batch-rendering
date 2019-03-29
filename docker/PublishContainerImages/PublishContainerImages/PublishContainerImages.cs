@@ -13,12 +13,14 @@ namespace PublishContainerImages
 {
     class PublishContainerImages
     {
+        public static Action<string> WriteLog;
+        public static Action<string> WriteError;
+
         private static StreamWriter _log;
 
         static void Main(string[] args)
         {
             //TODO 
-            // 1) move containerImages.json to directories alongside dockerFiles and support publishing by recursively traversing file tree from a target dir
             // 2) move install scripts excluding dockerFiles (maybe these too?) inside project, remove duplication
             // 3) unless -force flag is provided, skip building / pushing images which already exist for a given version tag,
             //    might need to check these on repo rather than local, if found local could maybe just redo the push?
@@ -29,6 +31,8 @@ namespace PublishContainerImages
               {
                     _log = log;
                     _log.AutoFlush = true;
+                    WriteLog = _writeLog;
+                    WriteError = _writeError;
 
                     var storageKey = args[0];
                     var targetFolder = new DirectoryInfo(args[1]);
@@ -40,7 +44,7 @@ namespace PublishContainerImages
 
                     var blobContainer = _buildBlobClient(buildImages, storageAccountName, storageKey, containerName); //NOTE blobContainer will be null if !buildImages
 
-                    var containerImageDefs = Utils.ImageBuildOrderFromDirectoryTree(targetFolder, new List<ContainerImageDef>(), _writeLog);
+                    var containerImageDefs = DirectoryTraversal.ImageBuildOrderFromDirectoryTree(targetFolder, new List<ContainerImageDef>());
 
                     _writePrePublishLog(containerImageDefs);
                     var imageNumber = 1;
@@ -75,7 +79,7 @@ namespace PublishContainerImages
             
               catch (Exception ex)
               {
-                  _writeLog("Fatal Exception: " + ex);
+                  _writeError("Fatal Exception: " + ex);
               }
             }
         }

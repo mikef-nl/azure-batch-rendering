@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 
 namespace PublishContainerImages
 {
-    public static class Utils
+    public static class DirectoryTraversal
     {
-        public static List<ContainerImageDef> ImageBuildOrderFromDirectoryTree(System.IO.DirectoryInfo root, List<ContainerImageDef> buildOrder, Action<string> writeLog)
+        public static List<ContainerImageDef> ImageBuildOrderFromDirectoryTree(System.IO.DirectoryInfo root, List<ContainerImageDef> buildOrder)
         {
             System.IO.FileInfo[] files = null;
             System.IO.DirectoryInfo[] subDirs = null;
@@ -20,7 +20,7 @@ namespace PublishContainerImages
             }
             catch (UnauthorizedAccessException e)
             {
-                writeLog(e.Message);
+               PublishContainerImages.WriteLog(e.Message);
             }
 
             catch (System.IO.DirectoryNotFoundException e)
@@ -39,7 +39,7 @@ namespace PublishContainerImages
                     }
                     catch (JsonSerializationException ex)
                     {
-                        writeLog($"Invalid Json read in file {fi}, Json was: {json}. Exception: {ex}");
+                        PublishContainerImages.WriteError($"Invalid Json read in file {fi}, Json was: {json}. Exception: {ex}");
                     }
                     
                 }
@@ -49,7 +49,7 @@ namespace PublishContainerImages
 
                 foreach (DirectoryInfo dirInfo in subDirs)
                 {
-                    ImageBuildOrderFromDirectoryTree(dirInfo, buildOrder, writeLog);
+                    ImageBuildOrderFromDirectoryTree(dirInfo, buildOrder);
                 }
             }
 

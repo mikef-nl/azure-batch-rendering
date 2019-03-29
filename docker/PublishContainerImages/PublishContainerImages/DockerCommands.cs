@@ -64,7 +64,7 @@ namespace PublishContainerImages
                 {
                     if (!String.IsNullOrEmpty(e.Data))
                     {
-                        _writeLog(e.Data);
+                        PublishContainerImages.WriteLog(e.Data);
                         output.Add(e.Data);
                     }
                 };
@@ -72,7 +72,7 @@ namespace PublishContainerImages
                 {
                     if (!String.IsNullOrEmpty(e.Data))
                     {
-                        _writeError(e.Data);
+                        PublishContainerImages.WriteError(e.Data);
                         output.Add("ERROR: " + e.Data);
                     }
                 };
