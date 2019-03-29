@@ -20,11 +20,7 @@ namespace PublishContainerImages
 
         static void Main(string[] args)
         {
-            //TODO 
-            // 2) move install scripts excluding dockerFiles (maybe these too?) inside project, remove duplication
-            // 3) unless -force flag is provided, skip building / pushing images which already exist for a given version tag,
-            //    might need to check these on repo rather than local, if found local could maybe just redo the push?
-            
+            //TODO move install scripts excluding dockerFiles (maybe these too?) inside project, remove duplication
             using (var log = File.AppendText("containerImagePublish.log"))
             {
               try
@@ -39,6 +35,9 @@ namespace PublishContainerImages
                     var targetFolder = new DirectoryInfo(args[1]);
                     var buildImages = bool.Parse(args[2]);
                     var publishToRepo = bool.Parse(args[3]);
+                    //var traversalMode = Enum.Parse(args[4]); TODO separate directory traversal modes - SingleImage, Descendents, Antecendents
+                    //var validateImages = bool.Parse(args[5]); TODO link into Matts image validator, run validation after build + version tag and publish, only tag with 'latest' if validation succeeds
+                    //var overwrite = bool.Parse(args[6]); TODO if false, only build and publish images which don't already exist for a given version tag, might need to check these on repo rather than local, if found local could maybe just redo the push?
 
                     var storageAccountName = "renderingapplications";
                     var containerName = "batch-rendering-apps";
