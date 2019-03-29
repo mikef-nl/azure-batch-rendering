@@ -33,6 +33,7 @@ namespace PublishContainerImages
                     _log.AutoFlush = true;
                     WriteLog = _writeLog;
                     WriteError = _writeError;
+                    _writeLog($"Beginning New Publishing Run");
 
                     var storageKey = args[0];
                     var targetFolder = new DirectoryInfo(args[1]);
@@ -51,7 +52,7 @@ namespace PublishContainerImages
 
                     foreach (var imageDef in containerImageDefs)
                     {
-                        _writeLog($"\nPublishing #{imageNumber++} of {containerImageDefs.Count} - {imageDef.containerImage}");
+                        _writeLog($"Publishing #{imageNumber++} of {containerImageDefs.Count} - {imageDef.containerImage}");
 
                         if (buildImages)
                         {
@@ -64,16 +65,16 @@ namespace PublishContainerImages
 
                             DockerCommands._runDockerTag(imageDef, localImageId, tags);
 
-                            _writeLog($"Successfully built {imageDef.containerImage}:{tags.Last()}\n");
+                            _writeLog($"Successfully built {imageDef.containerImage}:{tags.Last()}");
 
                             if (publishToRepo)
                             {
                                 DockerCommands._runDockerPush(imageDef, tags);
-                                _writeLog($"Successfully published {imageDef.containerImage}:{tags.Last()}\n");
+                                _writeLog($"Successfully published {imageDef.containerImage}:{tags.Last()}");
                             }
                         }
                     }
-                    _writeLog($"Completed Publishing Successfully!");
+                    _writeLog($"Completed Publishing Successfully!\n\n");
                 
             }
             
@@ -93,14 +94,14 @@ namespace PublishContainerImages
    
         private static void _writeLog(string log)
         {
+            _log.WriteLine(@"{0}: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), log);
             Console.WriteLine(log);
-            _log.WriteLine(@"{0}: {1}", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), log);
         }
 
         private static void _writeError(string error)
         {
+            _log.WriteLine(@"{0}: ERROR: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), error);
             Console.WriteLine("ERROR: " + error);
-            _log.WriteLine(@"{0}: ERROR: {1}", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), error);
         }
 
         private static string _buildImage(ContainerImageDef imageDef, string blobSasToken)
