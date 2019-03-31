@@ -22,5 +22,6 @@ chmod +x /usr/bin/maya2017.sh
 
 rm -rf /tmp/maya2017
 rm -rf /tmp/maya
+rm -rf /usr/autodesk/mayaIO
 
 echo '-=Install script complete=-'
