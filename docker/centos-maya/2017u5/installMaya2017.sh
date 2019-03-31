@@ -23,6 +23,4 @@ chmod +x /usr/bin/maya2017.sh
 rm -rf /tmp/maya2017
 rm -rf /tmp/maya
 
-yum clean all
-
 echo '-=Install script complete=-'

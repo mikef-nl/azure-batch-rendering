@@ -38,5 +38,5 @@ wget -O azcopy.tar.gz https://aka.ms/downloadazcopyprlinux
 tar -xf azcopy.tar.gz
 ./install.sh
 
-yum clean all
 yum install python-pyasn1 WALinuxAgent -y
+yum clean all

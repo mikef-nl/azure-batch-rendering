@@ -16,6 +16,6 @@ echo '-=Extract and Install=-'
 cp /opt/solidangle/mtoa/2017/arnoldRenderer.xml /usr/autodesk/mayaIO2017/bin/rendererDesc/
 chmod 755 -R /opt/solidangle
 
-yum clean all
+rm -rf /tmp/mtoa
 
 echo '-=Install script complete=-'

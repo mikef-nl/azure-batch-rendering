@@ -24,6 +24,4 @@ rm -rf /tmp/maya2018
 rm -rf /tmp/maya
 rm -rf /usr/autodesk/mayaIO
 
-yum clean all
-
 echo '-=Install script complete=-'
