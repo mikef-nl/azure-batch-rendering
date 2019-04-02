@@ -13,5 +13,5 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build docker\PublishContainerImages --configuration $(buildConfiguration)
+- script: dotnet build docker\\PublishContainerImages --configuration $(buildConfiguration)
   displayName: 'dotnet build docker\\PublishContainerImages $(buildConfiguration)'
