@@ -16,7 +16,7 @@ namespace PublishContainerImages
 
             var versionTag = $"git-{gitCommitSha}-blob-{sanitizedblobMd5}";
 
-            var allTags = new[] { "latest", versionTag };
+            var allTags = new[] { versionTag };
 
             return allTags;
         }
