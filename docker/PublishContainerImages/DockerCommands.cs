@@ -30,14 +30,11 @@ namespace PublishContainerImages
         {
             var _twentyMinsInMs = 20 * 1000 * 60;
 
-            var dockerFileDirectory = imageDef.PathToDockerFile;
-            PublishContainerImages.WriteLog($"DockerFileDirectory is {dockerFileDirectory}");
+            var commandLine = $"docker build -m 4GB --build-arg INSTALLER_SAS=\"{blobSasToken}\" {imageDef.PathToDockerFile}";
 
-            var commandLine = $"docker build -m 4GB --build-arg INSTALLER_SAS=\"{blobSasToken}\" {dockerFileDirectory}";
-
+            PublishContainerImages.WriteLog($"Running commandLine: {commandLine}");
             return _runCmdProcess(commandLine, _twentyMinsInMs);
         }
-
 
         private static string[] _runCmdProcess(string commandLine, int timeoutInMs)
         {
@@ -47,8 +44,8 @@ namespace PublishContainerImages
             {
                 processStartInfo = new ProcessStartInfo
                 {
-                    FileName = "/bin/bash",
-                    Arguments = $"-c " + commandLine,
+                    FileName = @"/bin/bash",
+                    Arguments = $"-c '{commandLine}'",
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
