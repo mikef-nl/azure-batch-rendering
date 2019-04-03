@@ -1,5 +1,5 @@
 {
   "containerImage": "azurebatchrendering/centos-maya_2018u2_arnold2103",
-  "pathToDockerFile": "/centos-maya/2018u2/arnold2103",
+  "pathToDockerFile": "centos-maya/2018u2/arnold2103",
   "installerFileBlob": "Centos/MtoA-2.1.0.3-linux-2018.run"
 }
