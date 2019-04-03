@@ -30,7 +30,8 @@ namespace PublishContainerImages
         {
             var _twentyMinsInMs = 20 * 1000 * 60;
 
-            var dockerFileDirectory = "E:\\Code\\Github\\azure-batch-rendering\\docker\\" + imageDef.PathToDockerFile;
+            var dockerFileDirectory = imageDef.PathToDockerFile;
+            PublishContainerImages.WriteLog($"DockerFileDirectory is {dockerFileDirectory}");
 
             var commandLine = $"docker build -m 4GB --build-arg INSTALLER_SAS=\"{blobSasToken}\" {dockerFileDirectory}";
 
