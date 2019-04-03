@@ -32,13 +32,12 @@ namespace PublishContainerImages
                     _log.AutoFlush = true;
                     WriteLog = _writeLog;
                     WriteError = _writeError;
-                    _writeLog($"Beginning New Publishing Run");
-
+                    _writeLog($"Beginning New Publishing Run with args: {string.Join(", ", args)}");
+                    
                     var storageKey = args[0];
                     var targetFolder = new DirectoryInfo(args[1]);
                     var traversalMode = (TraversalMode)Enum.Parse(typeof(TraversalMode), args[2], true);
                     var buildImages = bool.Parse(args[3]);
-                    var justPushLatest = bool.Parse(args[4]);
                     
                     //var overwrite = bool.Parse(args[6]); TODO if false, only build and publish images which don't already exist for a given version tag, might need to check these on repo rather than local, if found local could maybe just redo the push?
 
@@ -99,14 +98,16 @@ namespace PublishContainerImages
    
         private static void _writeLog(string log)
         {
-            _log.WriteLine(@"{0}: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), log);
-            Console.WriteLine(log);
+            var logLine = string.Format(@"{0}: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), log);
+            _log.WriteLine(logLine);
+            Console.WriteLine(logLine);
         }
 
         private static void _writeError(string error)
         {
-            _log.WriteLine(@"{0}: ERROR: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), error);
-            Console.WriteLine("ERROR: " + error);
+            var logLine = string.Format(@"{0}: ERROR: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), error);
+            _log.WriteLine(logLine);
+            Console.WriteLine(logLine);
         }
 
         private static void _outputBuiltImages(List<string> publishedImages)
