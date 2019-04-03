@@ -45,9 +45,7 @@ namespace PublishContainerImages
                     FileName = "docker",
                     Arguments = commandLine,
                     UseShellExecute = true,
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
+                    CreateNoWindow = true
                 };
             }
             else
