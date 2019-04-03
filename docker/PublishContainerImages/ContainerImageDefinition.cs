@@ -6,13 +6,10 @@ namespace PublishContainerImages
 {
     public class ContainerImageDef
     {
-        public ContainerImageDef()
-        { }
+        public string ContainerImage;
 
-        public string containerImage;
+        public string PathToDockerFile;
 
-        public string pathToDockerFile;
-
-        public string installerFileBlob;
+        public string InstallerFileBlob;
     }
 }

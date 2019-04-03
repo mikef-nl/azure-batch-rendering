@@ -8,7 +8,7 @@ namespace PublishContainerImages
 {
     static class ImageTagging
     {
-        public static string[] _fetchImageTags(string blobMd5)
+        public static string _fetchImageTag(string blobMd5)
         {
             var gitCommitSha = _getGitHeadShortSha();
 
@@ -16,9 +16,7 @@ namespace PublishContainerImages
 
             var versionTag = $"git-{gitCommitSha}-blob-{sanitizedblobMd5}";
 
-            var allTags = new[] { versionTag };
-
-            return allTags;
+            return versionTag;
         }
 
         private static string _sanitizeBase64StringForDockerTag(string base64)

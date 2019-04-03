@@ -7,35 +7,29 @@ namespace PublishContainerImages
 {
     static class DockerCommands
     {
-        public static void _runDockerTag(ContainerImageDef imageDef, string localImageId, string[] tags)
+        public static void _runDockerTag(ContainerImageDef imageDef, string localImageId, string tag)
         {
             var _oneMinInMs = 1 * 1000 * 60;
 
-            foreach (var tag in tags)
-            {
-                var commandLine = $"docker tag {localImageId} {imageDef.containerImage}:{tag}";
+            var commandLine = $"docker tag {localImageId} {imageDef.ContainerImage}:{tag}";
 
-                _runCmdProcess(commandLine, _oneMinInMs);
-            }
+            _runCmdProcess(commandLine, _oneMinInMs);
         }
 
-        public static void _runDockerPush(ContainerImageDef imageDef, string[] tags)
+        public static void _runDockerPush(ContainerImageDef imageDef, string tag)
         {
             var _twentyMinsInMs = 20 * 1000 * 60;
 
-            foreach (var tag in tags)
-            {
-                var commandLine = $"docker push {imageDef.containerImage}:{tag}";
+            var commandLine = $"docker push {imageDef.ContainerImage}:{tag}";
 
-                _runCmdProcess(commandLine, _twentyMinsInMs);
-            }
+            _runCmdProcess(commandLine, _twentyMinsInMs);
         }
 
         public static string[] _runDockerBuild(string blobSasToken, ContainerImageDef imageDef)
         {
             var _twentyMinsInMs = 20 * 1000 * 60;
 
-            var dockerFileDirectory = "E:\\Code\\Github\\azure-batch-rendering\\docker\\" + imageDef.pathToDockerFile;
+            var dockerFileDirectory = "E:\\Code\\Github\\azure-batch-rendering\\docker\\" + imageDef.PathToDockerFile;
 
             var commandLine = $"docker build -m 4GB --build-arg INSTALLER_SAS=\"{blobSasToken}\" {dockerFileDirectory}";
 

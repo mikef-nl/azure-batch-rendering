@@ -6,12 +6,12 @@ using Newtonsoft.Json;
 
 namespace PublishContainerImages
 {
-    public static class DirectoryTraversal
+    static class DirectoryTraversal
     {
-        public static List<ContainerImageDef> ImageBuildOrderFromDirectoryTree(System.IO.DirectoryInfo root, List<ContainerImageDef> buildOrder)
+        public static List<ContainerImageDef> ImageBuildOrderFromDirectoryTree(DirectoryInfo root, TraversalMode mode, List<ContainerImageDef> buildOrder)
         {
-            System.IO.FileInfo[] files = null;
-            System.IO.DirectoryInfo[] subDirs = null;
+            FileInfo[] files = null;
+            DirectoryInfo[] subDirs = null;
 
             // First, process all the files directly under this folder
             try
@@ -23,7 +23,7 @@ namespace PublishContainerImages
                PublishContainerImages.WriteLog(e.Message);
             }
 
-            catch (System.IO.DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -44,12 +44,14 @@ namespace PublishContainerImages
                     
                 }
 
-                // Now find all the subdirectories under this directory.
-                subDirs = root.GetDirectories();
-
-                foreach (DirectoryInfo dirInfo in subDirs)
+                if (mode == TraversalMode.Recursive)
                 {
-                    ImageBuildOrderFromDirectoryTree(dirInfo, buildOrder);
+                    subDirs = root.GetDirectories();
+
+                    foreach (DirectoryInfo dirInfo in subDirs)
+                    {
+                        ImageBuildOrderFromDirectoryTree(dirInfo, mode, buildOrder);
+                    }
                 }
             }
 

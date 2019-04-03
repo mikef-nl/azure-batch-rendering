@@ -13,15 +13,18 @@ namespace PublishContainerImages
 {
     class PublishContainerImages
     {
+
         public static Action<string> WriteLog;
         public static Action<string> WriteError;
+
+        private const string PublishedImagesFilename = "publishedImages.txt";
+        private const string LogFilename = "publishContainerImages.log";
 
         private static StreamWriter _log;
 
         static void Main(string[] args)
         {
-            //TODO move install scripts excluding dockerFiles (maybe these too?) inside project, remove duplication
-            using (var log = File.AppendText("containerImagePublish.log"))
+            using (var log = File.AppendText(LogFilename))
             {
               try
               {
@@ -33,10 +36,10 @@ namespace PublishContainerImages
 
                     var storageKey = args[0];
                     var targetFolder = new DirectoryInfo(args[1]);
-                    var buildImages = bool.Parse(args[2]);
-                    var publishToRepo = bool.Parse(args[3]);
-                    //var traversalMode = Enum.Parse(args[4]); TODO separate directory traversal modes - SingleImage, Descendents, Antecendents
-                    //var validateImages = bool.Parse(args[5]); TODO link into Matts image validator, run validation after build + version tag and publish, only tag with 'latest' if validation succeeds
+                    var traversalMode = (TraversalMode)Enum.Parse(typeof(TraversalMode), args[2], true);
+                    var buildImages = bool.Parse(args[3]);
+                    var justPushLatest = bool.Parse(args[4]);
+                    
                     //var overwrite = bool.Parse(args[6]); TODO if false, only build and publish images which don't already exist for a given version tag, might need to check these on repo rather than local, if found local could maybe just redo the push?
 
                     var storageAccountName = "renderingapplications";
@@ -44,38 +47,41 @@ namespace PublishContainerImages
 
                     var blobContainer = _buildBlobClient(buildImages, storageAccountName, storageKey, containerName); //NOTE blobContainer will be null if !buildImages
 
-                    var containerImageDefs = DirectoryTraversal.ImageBuildOrderFromDirectoryTree(targetFolder, new List<ContainerImageDef>());
+                    var containerImageDefs = DirectoryTraversal.ImageBuildOrderFromDirectoryTree(targetFolder, traversalMode, new List<ContainerImageDef>());
 
                     _writePrePublishLog(containerImageDefs);
                     var imageNumber = 1;
+                    var publishedImages = new List<string>();
 
                     foreach (var imageDef in containerImageDefs)
                     {
-                        _writeLog($"Publishing #{imageNumber++} of {containerImageDefs.Count} - {imageDef.containerImage}");
+                        _writeLog($"Publishing #{imageNumber++} of {containerImageDefs.Count} - {imageDef.ContainerImage}");
 
                         if (buildImages)
                         {
                             dynamic blobProperties =
-                                _getBlobUriWithSasTokenAndMD5(imageDef.installerFileBlob, blobContainer);
+                                _getBlobUriWithSasTokenAndMD5(imageDef.InstallerFileBlob, blobContainer);
 
                             var localImageId = _buildImage(imageDef, blobProperties.blobSasToken);
 
-                            string[] tags = ImageTagging._fetchImageTags(blobProperties.blobMD5);
+                            var tag = ImageTagging._fetchImageTag(blobProperties.blobMD5);
 
-                            DockerCommands._runDockerTag(imageDef, localImageId, tags);
+                            DockerCommands._runDockerTag(imageDef, localImageId, tag);
 
-                            _writeLog($"Successfully built {imageDef.containerImage}:{tags.Last()}");
+                            var builtImage = $"{imageDef.ContainerImage}:{tag}";
+                            
+                            _writeLog($"Successfully built {builtImage}");
 
-                            if (publishToRepo)
-                            {
-                                DockerCommands._runDockerPush(imageDef, tags);
-                                _writeLog($"Successfully published {imageDef.containerImage}:{tags.Last()}");
-                            }
+                            DockerCommands._runDockerPush(imageDef, tag);
+                            _writeLog($"Successfully published {builtImage}");
+
+                            publishedImages.Add(builtImage);
                         }
                     }
+
+                    _outputBuiltImages(publishedImages);
                     _writeLog($"Completed Publishing Successfully!\n\n");
-                
-            }
+                }
             
               catch (Exception ex)
               {
@@ -87,7 +93,7 @@ namespace PublishContainerImages
         private static void _writePrePublishLog(List<ContainerImageDef> containerImages)
         {
             var imageListLog = ($"Loaded {containerImages.Count} containerImages:\n");
-            containerImages.ForEach(image => imageListLog += image.containerImage + "\n");
+            containerImages.ForEach(image => imageListLog += image.ContainerImage + "\n");
             _writeLog(imageListLog);
         }
    
@@ -101,6 +107,11 @@ namespace PublishContainerImages
         {
             _log.WriteLine(@"{0}: ERROR: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), error);
             Console.WriteLine("ERROR: " + error);
+        }
+
+        private static void _outputBuiltImages(List<string> publishedImages)
+        {
+            File.WriteAllLines(PublishedImagesFilename, publishedImages);
         }
 
         private static string _buildImage(ContainerImageDef imageDef, string blobSasToken)
