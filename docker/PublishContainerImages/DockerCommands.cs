@@ -12,7 +12,7 @@ namespace PublishContainerImages
         {
             var _oneMinInMs = 1 * 1000 * 60;
 
-            var commandLine = $"docker tag {localImageId} {imageDef.ContainerImage}:{tag}";
+            var commandLine = $"tag {localImageId} {imageDef.ContainerImage}:{tag}";
 
             _runCmdProcess(commandLine, _oneMinInMs);
         }
@@ -21,7 +21,7 @@ namespace PublishContainerImages
         {
             var _twentyMinsInMs = 20 * 1000 * 60;
 
-            var commandLine = $"docker push {imageDef.ContainerImage}:{tag}";
+            var commandLine = $"push {imageDef.ContainerImage}:{tag}";
 
             _runCmdProcess(commandLine, _twentyMinsInMs);
         }
