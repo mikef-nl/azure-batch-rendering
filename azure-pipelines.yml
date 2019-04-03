@@ -18,4 +18,4 @@ steps:
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'PublishContainerImagesApp'
-    targetPath: 'docker/publishContainerImages/bin/$(buildConfiguration)/netcoreapp2.2'
+    targetPath: 'docker/PublishContainerImages/bin/$(buildConfiguration)/netcoreapp2.2'
