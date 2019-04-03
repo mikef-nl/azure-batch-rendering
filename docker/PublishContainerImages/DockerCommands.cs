@@ -84,6 +84,7 @@ namespace PublishContainerImages
                     {
                         PublishContainerImages.WriteError(e.Data);
                         output.Add("ERROR: " + e.Data);
+                        throw new Exception($"Error in external process: {commandLine}, {e.Data}");
                     }
                 };
                 process.Start();
