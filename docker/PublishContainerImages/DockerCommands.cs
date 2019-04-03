@@ -30,7 +30,7 @@ namespace PublishContainerImages
         {
             var _twentyMinsInMs = 20 * 1000 * 60;
 
-            var commandLine = $"docker build -m 4GB --build-arg INSTALLER_SAS=\"{blobSasToken}\" \"{imageDef.PathToDockerFile}\"";
+            var commandLine = $"build -m 4GB --build-arg INSTALLER_SAS=\"{blobSasToken}\" \"{imageDef.PathToDockerFile}\"";
             return _runCmdProcess(commandLine, _twentyMinsInMs);
         }
 
@@ -42,9 +42,9 @@ namespace PublishContainerImages
             {
                 processStartInfo = new ProcessStartInfo
                 {
-                    FileName = @"/bin/bash",
-                    Arguments = $"-c \'{commandLine}\'",
-                    UseShellExecute = false,
+                    FileName = "docker",
+                    Arguments = commandLine,
+                    UseShellExecute = true,
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -55,7 +55,7 @@ namespace PublishContainerImages
                 processStartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c " + commandLine,
+                    Arguments = $"/c docker " + commandLine,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
