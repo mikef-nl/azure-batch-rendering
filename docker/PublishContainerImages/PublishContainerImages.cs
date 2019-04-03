@@ -85,6 +85,7 @@ namespace PublishContainerImages
               catch (Exception ex)
               {
                   _writeError("Fatal Exception: " + ex);
+                  throw ex;
               }
             }
         }

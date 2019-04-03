@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace PublishContainerImages
@@ -39,9 +40,23 @@ namespace PublishContainerImages
 
         private static string[] _runCmdProcess(string commandLine, int timeoutInMs)
         {
-            using (var process = new Process
+            ProcessStartInfo processStartInfo;
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                StartInfo =
+                processStartInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = $"-c " + commandLine,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                };
+            }
+            else
+            {
+                processStartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
                     Arguments = $"/c " + commandLine,
@@ -49,7 +64,12 @@ namespace PublishContainerImages
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
-                }
+                };
+            }
+
+            using (var process = new Process
+            {
+                StartInfo = processStartInfo
             })
             {
                 var output = new List<string>();
