@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using LibGit2Sharp;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
@@ -37,7 +36,8 @@ namespace PublishContainerImages
                     var storageKey = args[0];
                     var targetFolder = new DirectoryInfo(args[1]);
                     var traversalMode = (TraversalMode)Enum.Parse(typeof(TraversalMode), args[2], true);
-                    var buildImages = bool.Parse(args[3]);
+                    var gitCommitSha = args[3];
+                    var buildImages = bool.Parse(args[4]);
                     
                     //var overwrite = bool.Parse(args[6]); TODO if false, only build and publish images which don't already exist for a given version tag, might need to check these on repo rather than local, if found local could maybe just redo the push?
 
@@ -63,7 +63,7 @@ namespace PublishContainerImages
 
                             var localImageId = _buildImage(imageDef, blobProperties.blobSasToken);
 
-                            var tag = ImageTagging._fetchImageTag(blobProperties.blobMD5);
+                            var tag = ImageTagging._fetchImageTag(blobProperties.blobMD5, gitCommitSha);
 
                             DockerCommands._runDockerTag(imageDef, localImageId, tag);
 

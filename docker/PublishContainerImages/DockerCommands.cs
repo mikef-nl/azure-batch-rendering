@@ -45,7 +45,7 @@ namespace PublishContainerImages
                 processStartInfo = new ProcessStartInfo
                 {
                     FileName = @"/bin/bash",
-                    Arguments = $"-c '{commandLine}'",
+                    Arguments = $"-c {commandLine}",
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
