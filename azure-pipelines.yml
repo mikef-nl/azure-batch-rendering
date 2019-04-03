@@ -15,3 +15,7 @@ variables:
 steps:
 - script: dotnet build docker\\PublishContainerImages --configuration $(buildConfiguration)
   displayName: 'dotnet build docker\\PublishContainerImages $(buildConfiguration)'
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'PublishContainerImagesApp'
+    targetPath: 'docker/publishContainerImages/bin/$(buildConfiguration)/netcoreapp2.2'
