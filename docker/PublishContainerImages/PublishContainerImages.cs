@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
+using PublishContainerImages.Model;
 
 
 namespace PublishContainerImages
@@ -16,8 +17,17 @@ namespace PublishContainerImages
         public static Action<string> WriteLog;
         public static Action<string> WriteError;
 
+        public static string ContainerImageDefinitionFilename = "containerImage.json";
+        public static string TestConfigurationFilename = "testConfiguration.json";
+        public static string TestParametersFilename = "testParameters.json";
+
         private const string PublishedImagesFilename = "publishedImages.txt";
         private const string LogFilename = "publishContainerImages.log";
+
+        private const string StorageAccountName = "renderingapplications";
+        private const string StoragContainerName = "batch-rendering-apps";
+
+        private const string OutputTestPath = "../Tests";
 
         private static StreamWriter _log;
 
@@ -41,20 +51,17 @@ namespace PublishContainerImages
                     
                     //var overwrite = bool.Parse(args[6]); TODO if false, only build and publish images which don't already exist for a given version tag, might need to check these on repo rather than local, if found local could maybe just redo the push?
 
-                    var storageAccountName = "renderingapplications";
-                    var containerName = "batch-rendering-apps";
+                    var blobContainer = _buildBlobClient(buildImages, StorageAccountName, storageKey, StoragContainerName); //NOTE blobContainer will be null if !buildImages
 
-                    var blobContainer = _buildBlobClient(buildImages, storageAccountName, storageKey, containerName); //NOTE blobContainer will be null if !buildImages
+                    var containerImagePayload = DirectoryTraversal.BuildPayloadFromDirectoryTree(targetFolder, traversalMode, new List<ContainerImagePayload>());
 
-                    var containerImageDefs = DirectoryTraversal.ImageBuildOrderFromDirectoryTree(targetFolder, traversalMode, new List<ContainerImageDef>());
-
-                    _writePrePublishLog(containerImageDefs);
+                    _writePrePublishLog(containerImagePayload);
                     var imageNumber = 1;
                     var publishedImages = new List<string>();
 
-                    foreach (var imageDef in containerImageDefs)
+                    foreach (var imageDef in containerImagePayload.Select(x => x.ContainerImageDefinition))
                     {
-                        _writeLog($"Publishing #{imageNumber++} of {containerImageDefs.Count} - {imageDef.ContainerImage}");
+                        _writeLog($"Publishing #{imageNumber++} of {containerImagePayload.Count} - {imageDef.ContainerImage}");
 
                         if (buildImages)
                         {
@@ -69,15 +76,18 @@ namespace PublishContainerImages
 
                             var builtImage = $"{imageDef.ContainerImage}:{tag}";
                             
-                            _writeLog($"Successfully built {builtImage}");
+                            _writeLog($"Successfully built and tagged {builtImage}");
 
                             DockerCommands._runDockerPush(imageDef, tag);
-                            _writeLog($"Successfully published {builtImage}");
+                            _writeLog($"Successfully published {builtImage}\n");
 
                             publishedImages.Add(builtImage);
                         }
                     }
 
+                    containerImagePayload = _removeInvalidPayloads(containerImagePayload);
+                    containerImagePayload = _updateTestConfigAndParametersWithTaggedImage(containerImagePayload, publishedImages);
+                    _outputTestFiles(containerImagePayload);
                     _outputBuiltImages(publishedImages);
                     _writeLog($"Completed Publishing Successfully!\n\n");
                 }
@@ -90,10 +100,73 @@ namespace PublishContainerImages
             }
         }
 
-        private static void _writePrePublishLog(List<ContainerImageDef> containerImages)
+        private static List<ContainerImagePayload> _removeInvalidPayloads(List<ContainerImagePayload> payloads)
+        {
+            return payloads.Where(payload =>
+                payload.TestConfigurationDefinition != null && payload.TestParametersDefinition != null).ToList();
+        }
+
+        private static void _outputTestFiles(List<ContainerImagePayload> payloads)
+        {
+            var testsConfiguration = new TestsDefinition
+            {
+                Tests = payloads.Select(payload =>
+                {
+                    var config = payload.TestConfigurationDefinition;
+                    config.Parameters = Path.Combine("../", OutputTestPath, config.Parameters).Replace("\\", "/");
+                    return config;
+                }).ToArray(),
+                Images = new []
+                {
+                    new MarketplaceImageDefinition
+                    {
+                        Offer = "microsoft-azure-batch",
+                        OsType = "linux",
+                        Publisher = "centos-container",
+                        Sku = "7-5",
+                        Version =  "latest",
+                    }
+                }
+            };
+
+            payloads.ForEach(payload =>
+            {
+                var parametersPath = Path.Combine(OutputTestPath, payload.TestConfigurationDefinition.Parameters);
+                var parametersJson = JsonConvert.SerializeObject(payload.TestParametersDefinition);
+                FileInfo paramsFile = new FileInfo(parametersPath);
+                Directory.CreateDirectory(paramsFile.DirectoryName);
+                File.WriteAllText(parametersPath, parametersJson);
+            });
+
+            var testsConfigurationFilepath = Path.Combine(OutputTestPath, TestConfigurationFilename);
+            var testsConfigurationJson = JsonConvert.SerializeObject(testsConfiguration);
+
+            FileInfo configFile = new FileInfo(testsConfigurationFilepath);
+            Directory.CreateDirectory(configFile.DirectoryName);
+            File.WriteAllText(testsConfigurationFilepath, testsConfigurationJson);
+        }
+
+        private static List<ContainerImagePayload> _updateTestConfigAndParametersWithTaggedImage(List<ContainerImagePayload> payloads, List<string> publishedImages)
+        {
+            foreach (var containerImagePayload in payloads)
+            {
+                var publishedImageWithTag = publishedImages.Find(publishedImage =>
+                {
+                    var publishedImageWithoutTag = publishedImage.Split(':').First();
+                    return publishedImageWithoutTag == containerImagePayload.ContainerImageDefinition.ContainerImage;
+                });
+
+                containerImagePayload.TestParametersDefinition.ContainerImage.Value = publishedImageWithTag;
+                containerImagePayload.TestConfigurationDefinition.DockerImage = publishedImageWithTag;
+            }
+
+            return payloads;
+        }
+
+        private static void _writePrePublishLog(List<ContainerImagePayload> containerImages)
         {
             var imageListLog = ($"Loaded {containerImages.Count} containerImages:\n");
-            containerImages.ForEach(image => imageListLog += image.ContainerImage + "\n");
+            containerImages.ForEach(image => imageListLog += image.ContainerImageDefinition.ContainerImage + "\n");
             _writeLog(imageListLog);
         }
    
@@ -101,24 +174,26 @@ namespace PublishContainerImages
         {
             var logLine = string.Format(@"{0}: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), log);
             _log.WriteLine(logLine);
-            Console.WriteLine(logLine);
+            Console.WriteLine(log);
         }
 
         private static void _writeError(string error)
         {
             var logLine = string.Format(@"{0}: ERROR: {1}", DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString(), error);
             _log.WriteLine(logLine);
-            Console.WriteLine(logLine);
+            Console.WriteLine($"ERROR: {error}");
         }
 
         private static void _outputBuiltImages(List<string> publishedImages)
         {
+            _writeLog("Published the following images:");
+            publishedImages.ForEach(_writeLog);
             File.WriteAllLines(PublishedImagesFilename, publishedImages);
         }
 
-        private static string _buildImage(ContainerImageDef imageDef, string blobSasToken)
+        private static string _buildImage(ContainerImageDefinition imageDefinition, string blobSasToken)
         {
-            var dockerBuildOutput = DockerCommands._runDockerBuild(blobSasToken, imageDef);
+            var dockerBuildOutput = DockerCommands._runDockerBuild(blobSasToken, imageDefinition);
 
             var localImageId = _imageIdFromDockerBuildOutput(dockerBuildOutput);
 

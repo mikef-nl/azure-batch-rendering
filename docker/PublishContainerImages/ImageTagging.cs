@@ -22,11 +22,10 @@ namespace PublishContainerImages
         {
             if (string.IsNullOrEmpty(base64))
             {
-                return base64;
+                return "NONE";  //default if no installer blob is used
             }
 
             return base64.Replace('/', '_').Replace('+', '.').TrimEnd('=').Substring(0, 7);
         }
-        
     }
 }

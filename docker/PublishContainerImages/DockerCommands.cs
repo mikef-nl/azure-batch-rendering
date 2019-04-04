@@ -3,34 +3,35 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using PublishContainerImages.Model;
 
 namespace PublishContainerImages
 {
     static class DockerCommands
     {
-        public static void _runDockerTag(ContainerImageDef imageDef, string localImageId, string tag)
+        public static void _runDockerTag(ContainerImageDefinition imageDefinition, string localImageId, string tag)
         {
             var _oneMinInMs = 1 * 1000 * 60;
 
-            var commandLine = $"tag {localImageId} {imageDef.ContainerImage}:{tag}";
+            var commandLine = $"tag {localImageId} {imageDefinition.ContainerImage}:{tag}";
 
             _runCmdProcess(commandLine, _oneMinInMs);
         }
 
-        public static void _runDockerPush(ContainerImageDef imageDef, string tag)
+        public static void _runDockerPush(ContainerImageDefinition imageDefinition, string tag)
         {
             var _twentyMinsInMs = 20 * 1000 * 60;
 
-            var commandLine = $"push {imageDef.ContainerImage}:{tag}";
+            var commandLine = $"push {imageDefinition.ContainerImage}:{tag}";
 
             _runCmdProcess(commandLine, _twentyMinsInMs);
         }
 
-        public static string[] _runDockerBuild(string blobSasToken, ContainerImageDef imageDef)
+        public static string[] _runDockerBuild(string blobSasToken, ContainerImageDefinition imageDefinition)
         {
             var _twentyMinsInMs = 20 * 1000 * 60;
 
-            var commandLine = $"build -m 4GB --build-arg INSTALLER_SAS=\"{blobSasToken}\" \"{imageDef.PathToDockerFile}\"";
+            var commandLine = $"build -m 4GB --build-arg INSTALLER_SAS=\"{blobSasToken}\" \"{imageDefinition.PathToDockerFile}\"";
             return _runCmdProcess(commandLine, _twentyMinsInMs);
         }
 
