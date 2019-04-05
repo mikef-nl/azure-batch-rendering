@@ -136,6 +136,7 @@ namespace PublishContainerImages
                 FileInfo paramsFile = new FileInfo(parametersPath);
                 Directory.CreateDirectory(paramsFile.DirectoryName);
                 File.WriteAllText(parametersPath, parametersJson);
+                WriteLog($"Wrote parameters file at: {parametersPath}");
             });
 
             var testsConfigurationFilepath = Path.Combine(OutputTestPath, TestConfigurationFilename);
@@ -144,6 +145,7 @@ namespace PublishContainerImages
             FileInfo configFile = new FileInfo(testsConfigurationFilepath);
             Directory.CreateDirectory(configFile.DirectoryName);
             File.WriteAllText(testsConfigurationFilepath, testsConfigurationJson);
+            WriteLog($"Wrote configuration file at: {testsConfigurationFilepath}");
         }
 
         private static List<ContainerImagePayload> _updateTestConfigAndParametersWithTaggedImage(List<ContainerImagePayload> payloads, List<string> publishedImages)
