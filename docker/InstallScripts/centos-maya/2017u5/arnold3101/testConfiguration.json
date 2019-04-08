@@ -2,6 +2,7 @@
   "name": "container_centos-maya_2017u5-arnold3101",
   "template": "../templates/maya/render-arnold-linux-container/job.template.json",
   "poolTemplate": "../templates/maya/render-arnold-linux-container/pool.template.json",
+  "parameters": "container_centos-maya_2017u5-arnold3101.parameters.json",
   "dockerImage": "azurebatchrendering/centos-maya_2017u5_arnold3101",
-  "expectedOutput":"maya.exr.0001"
+  "expectedOutput": "maya.exr.0001"
 }

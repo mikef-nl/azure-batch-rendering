@@ -10,57 +10,108 @@ namespace PublishContainerImages
 {
     static class DirectoryTraversal
     {
-        public static List<ContainerImagePayload> BuildPayloadFromDirectoryTree(DirectoryInfo root, TraversalMode mode, List<ContainerImagePayload> buildOrder)
+        public static List<ContainerImagePayload> BuildFullPayloadFromDirectoryTree(DirectoryInfo targetDirectory, bool includeAntecendents, bool includeDescendents)
+        {
+            List<ContainerImagePayload> payloads = new List<ContainerImagePayload>();
+            if (includeAntecendents)
+            {
+                payloads.AddRange(BuildPayloadForAntecendents(targetDirectory));
+            }
+
+            if (includeDescendents)
+            {
+                AddPayloadsForTargetAndDescendents(targetDirectory, payloads);
+            }
+            else
+            {
+                payloads.Add(PayloadForDirectory(targetDirectory));
+            }
+
+            return payloads;
+        }
+
+        private static List<ContainerImagePayload> BuildPayloadForAntecendents(DirectoryInfo root)
+        {
+            var topDirectory = _findTopDirectoryContainingContainerImageJson(root);
+            var bottomDirectory = root;
+
+            var directoryInfo = new List<DirectoryInfo>();
+            do
+            {
+                bottomDirectory = bottomDirectory.Parent;
+                directoryInfo.Add(bottomDirectory);
+            } while (bottomDirectory != null && bottomDirectory.FullName != topDirectory.FullName);
+            
+            directoryInfo.Reverse(); //we need build order to have top level directories first
+
+            return directoryInfo.Select(PayloadForDirectory).ToList();
+        }
+
+        private static List<ContainerImagePayload> AddPayloadsForTargetAndDescendents(DirectoryInfo root, List<ContainerImagePayload> payload)
+        {
+            payload.Add(PayloadForDirectory(root));
+
+            var subDirs = root.GetDirectories();
+
+            foreach (var dirInfo in subDirs)
+            {
+                AddPayloadsForTargetAndDescendents(dirInfo, payload);
+            }
+
+            return payload;
+        }
+
+        private static ContainerImagePayload PayloadForDirectory(DirectoryInfo directory)
+        {
+            var containerImageDefinition = ReadContainerImageDefinition(directory);
+            var testConfigAndParams = TryReadTestConfigAndParams(directory);
+
+           return new ContainerImagePayload
+            {
+                ContainerImageDefinition = containerImageDefinition,
+                TestConfigurationDefinition = testConfigAndParams.Item1,
+                TestParametersDefinition = testConfigAndParams.Item2,
+            };
+        }
+
+        private static DirectoryInfo _findTopDirectoryContainingContainerImageJson(DirectoryInfo root)
+        {
+            DirectoryInfo lastDir = root;
+            while (_fileInfoForContainerImageDefinition(root) != null)
+            {
+                lastDir = root;
+                root = root.Parent;
+            }
+
+            return lastDir;
+        }
+
+        private static FileInfo _fileInfoForContainerImageDefinition(DirectoryInfo root)
         {
             FileInfo fileInfo = null;
-            
+
             try
             {
                 fileInfo = root.GetFiles(PublishContainerImages.ContainerImageDefinitionFilename).Single();
             }
             catch (UnauthorizedAccessException e)
             {
-               PublishContainerImages.WriteLog(e.Message);
+                PublishContainerImages.WriteError(e.Message);
             }
-
             catch (DirectoryNotFoundException e)
             {
-                Console.WriteLine(e.Message);
+                PublishContainerImages.WriteError(e.Message);
             }
             catch (ArgumentNullException e)
             {
-                PublishContainerImages.WriteLog(e.Message);
+                PublishContainerImages.WriteError(e.Message);
             }
             catch (InvalidOperationException e)
             {
-                PublishContainerImages.WriteLog(e.Message);
+                PublishContainerImages.WriteError(e.Message);
             }
 
-            if (fileInfo != null)
-            {
-                var containerImageDefinition = ReadContainerImageDefinition(fileInfo);
-
-                var testConfigAndParams = TryReadTestConfigAndParams(fileInfo.Directory);
-
-                buildOrder.Add(new ContainerImagePayload
-                {
-                    ContainerImageDefinition = containerImageDefinition,
-                    TestConfigurationDefinition = testConfigAndParams.Item1,
-                    TestParametersDefinition = testConfigAndParams.Item2,
-                });
-
-                if (mode == TraversalMode.Recursive)
-                {
-                    var subDirs = root.GetDirectories();
-
-                    foreach (var dirInfo in subDirs)
-                    {
-                        BuildPayloadFromDirectoryTree(dirInfo, mode, buildOrder);
-                    }
-                }
-            }
-
-            return buildOrder;
+            return fileInfo;
         }
 
         private static dynamic _readJsonFileToDynamic(string filePath)
@@ -76,21 +127,28 @@ namespace PublishContainerImages
             return json;
         }
 
-        private static ContainerImageDefinition ReadContainerImageDefinition(FileInfo file)
+        private static ContainerImageDefinition ReadContainerImageDefinition(DirectoryInfo directory)
         {
-            ContainerImageDefinition containerImageDefinition;
-            dynamic json = _readJsonFileToDynamic(file.FullName);
-            try
+            var containerDefinitionFileInfo = _fileInfoForContainerImageDefinition(directory);
+
+            if (containerDefinitionFileInfo != null)
             {
-                containerImageDefinition = json.ToObject<ContainerImageDefinition>();
-            }
-            catch (JsonSerializationException ex)
-            {
-                PublishContainerImages.WriteError($"Invalid Json read in file {file}, Json was: {json}. Exception: {ex}");
-                throw;
+                ContainerImageDefinition containerImageDefinition;
+                dynamic json = _readJsonFileToDynamic(containerDefinitionFileInfo.FullName);
+                try
+                {
+                    containerImageDefinition = json.ToObject<ContainerImageDefinition>();
+                }
+                catch (JsonSerializationException ex)
+                {
+                    PublishContainerImages.WriteError(
+                        $"Invalid Json read in file {containerDefinitionFileInfo}, Json was: {json}. Exception: {ex}");
+                    throw;
+                }
+                return containerImageDefinition;
             }
 
-            return containerImageDefinition;
+            return null;
         }
 
         private static Tuple<TestConfigurationDefinition, TestParametersDefinition> TryReadTestConfigAndParams(DirectoryInfo directory)
@@ -101,25 +159,25 @@ namespace PublishContainerImages
             if (!testConfigFiles.Any())
             {
                 PublishContainerImages.WriteLog($"No Test will be run, testConfiguration.json not found in directory {directory}");
-                return null;
+                return new Tuple<TestConfigurationDefinition, TestParametersDefinition>(null, null);
             }
 
             if (!testParamsFiles.Any())
             {
                 PublishContainerImages.WriteLog($"No Test will be run, testParameters.json not found in directory {directory}");
-                return null;
+                return new Tuple<TestConfigurationDefinition, TestParametersDefinition>(null, null);
             }
 
             if (testConfigFiles.Length > 1)
             {
                 PublishContainerImages.WriteLog($"No test will be run, more than one TestConfiguration.json file found in {directory}");
-                return null;
+                return new Tuple<TestConfigurationDefinition, TestParametersDefinition>(null, null);
             }
 
             if (testParamsFiles.Length > 1)
             {
                 PublishContainerImages.WriteLog($"No test will be run, more than one TestParameters.json file found in {directory}");
-                return null;
+                return new Tuple<TestConfigurationDefinition, TestParametersDefinition>(null, null);
             }
 
             var testConfigJson = _readJsonFileToDynamic(testConfigFiles.Single().FullName);
@@ -133,7 +191,7 @@ namespace PublishContainerImages
             catch (JsonSerializationException ex)
             {
                 PublishContainerImages.WriteError($"No test will be run, invalid Json read in file {testConfigFiles.Single().FullName}, Json was: {testConfigJson}. Exception: {ex}");
-                return null;
+                return new Tuple<TestConfigurationDefinition, TestParametersDefinition>(null, null);
             }
 
             var testParamsJson = _readJsonFileToDynamic(testParamsFiles.Single().FullName);
@@ -145,7 +203,7 @@ namespace PublishContainerImages
             catch (JsonSerializationException ex)
             {
                 PublishContainerImages.WriteError($"No test will be run, invalid Json read in file {testParamsJson.Single().FullName}, Json was: {testParamsJson}. Exception: {ex}");
-                return null;
+                return new Tuple<TestConfigurationDefinition, TestParametersDefinition>(null, null);
             }
 
             return new Tuple<TestConfigurationDefinition, TestParametersDefinition>(testConfig, testParams);
