@@ -21,6 +21,7 @@ namespace PublishContainerImages
         public static Action<string> WriteError;
 
         public static string ContainerImageDefinitionFilename = "containerImage.json";
+
         public static string TestConfigurationFilename = "testConfiguration.json";
         public static string TestParametersFilename = "testParameters.json";
 
@@ -30,7 +31,6 @@ namespace PublishContainerImages
         private const string StorageAccountName = "renderingapplications";
         private const string StoragContainerName = "batch-rendering-apps";
 
-        private const string RelativePathToTestsDir = "../Tests";
 
         private static StreamWriter _log;
 
@@ -93,10 +93,8 @@ namespace PublishContainerImages
                             builtImages.Add(builtImage);
                         }
                     }
-
-                    containerImagePayload = _removeInvalidPayloads(containerImagePayload);
-                    containerImagePayload = _updateTestConfigAndParametersWithTaggedImage(containerImagePayload, builtImages);
-                    _outputTestFiles(containerImagePayload);
+                    
+                    TestsFileWriter._outputTestFiles(containerImagePayload, builtImages);
                     _outputBuiltImages(builtImages);
                     _writeLog($"Completed Publishing Successfully!\n\n");
                 }
@@ -107,71 +105,6 @@ namespace PublishContainerImages
                   throw ex;
               }
             }
-        }
-
-        private static List<ContainerImagePayload> _removeInvalidPayloads(List<ContainerImagePayload> payloads)
-        {
-            return payloads.Where(payload =>
-                payload.TestConfigurationDefinition != null && payload.TestParametersDefinition != null).ToList();
-        }
-
-        private static void _outputTestFiles(List<ContainerImagePayload> payloads)
-        {
-            payloads.ForEach(payload =>
-            {
-                var parametersPath = Path.Combine(OutputTestPath(), payload.TestConfigurationDefinition.Parameters);
-                var parametersJson = JsonSerializeObject(payload.TestParametersDefinition);
-                FileInfo paramsFile = new FileInfo(parametersPath);
-                Directory.CreateDirectory(paramsFile.DirectoryName);
-                File.WriteAllText(parametersPath, parametersJson);
-                WriteLog($"Wrote parameters file at: {paramsFile.FullName}");
-            });
-
-            var testsConfiguration = new TestsDefinition
-            {
-                Tests = payloads.Select(payload =>
-                {
-                    var config = payload.TestConfigurationDefinition;
-                    config.Parameters = Path.Combine(OutputTestPath(), config.Parameters).Replace("\\", "/");
-                    return config;
-                }).ToArray(),
-                Images = new[]
-                {
-                    new MarketplaceImageDefinition
-                    {
-                        Offer = "microsoft-azure-batch",
-                        OsType = "linux",
-                        Publisher = "centos-container",
-                        Sku = "7-5",
-                        Version =  "latest",
-                    }
-                }
-            };
-
-            var testsConfigurationFilepath = Path.Combine(OutputTestPath(), TestConfigurationFilename);
-            var testsConfigurationJson = JsonSerializeObject(testsConfiguration);
-
-            FileInfo configFile = new FileInfo(testsConfigurationFilepath);
-            Directory.CreateDirectory(configFile.DirectoryName);
-            File.WriteAllText(testsConfigurationFilepath, testsConfigurationJson);
-            WriteLog($"Wrote configuration file at: {configFile.FullName}");
-        }
-
-        private static List<ContainerImagePayload> _updateTestConfigAndParametersWithTaggedImage(List<ContainerImagePayload> payloads, List<string> publishedImages)
-        {
-            foreach (var containerImagePayload in payloads)
-            {
-                var publishedImageWithTag = publishedImages.Find(publishedImage =>
-                {
-                    var publishedImageWithoutTag = publishedImage.Split(':').First();
-                    return publishedImageWithoutTag == containerImagePayload.ContainerImageDefinition.ContainerImage;
-                });
-
-                containerImagePayload.TestParametersDefinition.ContainerImage.Value = publishedImageWithTag;
-                containerImagePayload.TestConfigurationDefinition.DockerImage = publishedImageWithTag;
-            }
-
-            return payloads;
         }
 
         private static void _writePrePublishLog(List<ContainerImagePayload> containerImages)
@@ -261,30 +194,6 @@ namespace PublishContainerImages
         private static bool TryParseAsBool(string toParse)
         {
             return bool.Parse(toParse.First().ToString().ToUpper() + toParse.Substring(1));
-        }
-
-        private static string OutputTestPath()
-        {
-            var locationUri = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);
-            var executableDirectory = new FileInfo(locationUri.AbsolutePath).Directory;
-
-            return Path.GetFullPath(Path.Combine(executableDirectory.FullName, RelativePathToTestsDir));
-        }
-
-        private static string JsonSerializeObject(dynamic toSerialize)
-        {
-            DefaultContractResolver contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = contractResolver,
-                Formatting = Formatting.Indented
-            };
-
-            return JsonConvert.SerializeObject(toSerialize, jsonSerializerSettings);
         }
     }
 }
