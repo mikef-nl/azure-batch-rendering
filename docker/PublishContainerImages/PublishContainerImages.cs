@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
@@ -28,7 +29,7 @@ namespace PublishContainerImages
         private const string StorageAccountName = "renderingapplications";
         private const string StoragContainerName = "batch-rendering-apps";
 
-        private const string OutputTestPath = "../Tests";
+        private const string RelativePathToTestsDir = "../Tests";
 
         private static StreamWriter _log;
 
@@ -117,7 +118,7 @@ namespace PublishContainerImages
         {
             payloads.ForEach(payload =>
             {
-                var parametersPath = Path.Combine(OutputTestPath, payload.TestConfigurationDefinition.Parameters);
+                var parametersPath = Path.Combine(OutputTestPath(), payload.TestConfigurationDefinition.Parameters);
                 var parametersJson = JsonConvert.SerializeObject(payload.TestParametersDefinition);
                 FileInfo paramsFile = new FileInfo(parametersPath);
                 Directory.CreateDirectory(paramsFile.DirectoryName);
@@ -130,7 +131,7 @@ namespace PublishContainerImages
                 Tests = payloads.Select(payload =>
                 {
                     var config = payload.TestConfigurationDefinition;
-                    config.Parameters = Path.Combine("../", OutputTestPath, config.Parameters).Replace("\\", "/");
+                    config.Parameters = Path.Combine(OutputTestPath(), config.Parameters).Replace("\\", "/");
                     return config;
                 }).ToArray(),
                 Images = new[]
@@ -146,7 +147,7 @@ namespace PublishContainerImages
                 }
             };
 
-            var testsConfigurationFilepath = Path.Combine(OutputTestPath, TestConfigurationFilename);
+            var testsConfigurationFilepath = Path.Combine(OutputTestPath(), TestConfigurationFilename);
             var testsConfigurationJson = JsonConvert.SerializeObject(testsConfiguration);
 
             FileInfo configFile = new FileInfo(testsConfigurationFilepath);
@@ -259,6 +260,14 @@ namespace PublishContainerImages
         private static bool TryParseAsBool(string toParse)
         {
             return bool.Parse(toParse.First().ToString().ToUpper() + toParse.Substring(1));
+        }
+
+        public static string OutputTestPath()
+        {
+            var locationUri = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);
+            var executableDirectory = new FileInfo(locationUri.AbsolutePath).Directory;
+
+            return Path.GetFullPath(Path.Combine(executableDirectory.FullName, RelativePathToTestsDir));
         }
     }
 }
