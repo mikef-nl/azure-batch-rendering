@@ -71,9 +71,12 @@ namespace PublishContainerImages
 
                             var localImageId = _buildImage(imageDef, blobProperties.blobSasToken);
 
-                            var tag = ImageTagging._fetchImageTag(blobProperties.blobMD5, gitCommitSha);
-
-                            DockerCommands._runDockerTag(imageDef, localImageId, tag);
+                            string tag = ImageTagging._fetchImageTag(blobProperties.blobMD5, gitCommitSha);
+                           
+                            foreach (var imageTag in new []{ tag, "latest" })
+                            {
+                                DockerCommands._runDockerTag(imageDef, localImageId, imageTag);
+                            }
 
                             var builtImage = $"{imageDef.ContainerImage}:{tag}";
                             
