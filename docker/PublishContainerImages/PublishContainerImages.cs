@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using PublishContainerImages.Model;
 
 
@@ -119,7 +120,7 @@ namespace PublishContainerImages
             payloads.ForEach(payload =>
             {
                 var parametersPath = Path.Combine(OutputTestPath(), payload.TestConfigurationDefinition.Parameters);
-                var parametersJson = JsonConvert.SerializeObject(payload.TestParametersDefinition);
+                var parametersJson = JsonSerializeObject(payload.TestParametersDefinition);
                 FileInfo paramsFile = new FileInfo(parametersPath);
                 Directory.CreateDirectory(paramsFile.DirectoryName);
                 File.WriteAllText(parametersPath, parametersJson);
@@ -148,7 +149,7 @@ namespace PublishContainerImages
             };
 
             var testsConfigurationFilepath = Path.Combine(OutputTestPath(), TestConfigurationFilename);
-            var testsConfigurationJson = JsonConvert.SerializeObject(testsConfiguration);
+            var testsConfigurationJson = JsonSerializeObject(testsConfiguration);
 
             FileInfo configFile = new FileInfo(testsConfigurationFilepath);
             Directory.CreateDirectory(configFile.DirectoryName);
@@ -262,12 +263,28 @@ namespace PublishContainerImages
             return bool.Parse(toParse.First().ToString().ToUpper() + toParse.Substring(1));
         }
 
-        public static string OutputTestPath()
+        private static string OutputTestPath()
         {
             var locationUri = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);
             var executableDirectory = new FileInfo(locationUri.AbsolutePath).Directory;
 
             return Path.GetFullPath(Path.Combine(executableDirectory.FullName, RelativePathToTestsDir));
+        }
+
+        private static string JsonSerializeObject(dynamic toSerialize)
+        {
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = contractResolver,
+                Formatting = Formatting.Indented
+            };
+
+            return JsonConvert.SerializeObject(toSerialize, jsonSerializerSettings);
         }
     }
 }
