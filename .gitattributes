@@ -1,0 +1,8 @@
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+* text=auto
+
+*.sln       merge=binary
+*.csproj    merge=binary
+*.sh text eol=lf
