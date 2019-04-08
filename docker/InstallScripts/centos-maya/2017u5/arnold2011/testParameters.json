@@ -1,6 +1,6 @@
 {
    "jobName":{
-      "value":"centos-maya_2017u5_arnold2011"
+      "value":"centos-maya-2017u5-arnold2011"
    },
    "poolId":{
       "value":"centos-maya_2017u5_arnold2011"
