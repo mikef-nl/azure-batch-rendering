@@ -1,5 +1,5 @@
 {
-  "name": "container_centos-maya_2017u5-arnold2011",
+  "name": "container-centos-maya-2017u5-arnold2011",
   "template": "../templates/maya/render-arnold-linux-container/job.template.json",
   "poolTemplate": "../templates/maya/render-arnold-linux-container/pool.template.json",
   "parameters": "container_centos-maya_2017u5-arnold2011.parameters.json",
