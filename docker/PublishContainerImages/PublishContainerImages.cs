@@ -61,6 +61,7 @@ namespace PublishContainerImages
                     _writePrePublishLog(containerImagePayload);
                     var imageNumber = 1;
                     var latestImages = new List<string>();
+                    var imagesWithShaTag = new List<string>();
 
                     foreach (var imageDef in containerImagePayload.Select(x => x.ContainerImageDefinition))
                     {
@@ -81,7 +82,7 @@ namespace PublishContainerImages
                             }
 
                             var builtImage = $"{imageDef.ContainerImage}:{tag}";
-                            
+                            imagesWithShaTag.Add(builtImage);
                             _writeLog($"Successfully built and tagged {builtImage}");
 
                             if (pushImages)
@@ -94,7 +95,7 @@ namespace PublishContainerImages
                         }
                     }
                     OutputFileWriter._outputLatestImagesFile(latestImages);
-                    OutputFileWriter._outputTestFiles(containerImagePayload, latestImages);
+                    OutputFileWriter._outputTestFiles(containerImagePayload, imagesWithShaTag);
 
                     OutputFileWriter._outputLatestImagesFile(latestImages);
                     _writeLog($"Completed Publishing Successfully!\n\n");
