@@ -21,7 +21,7 @@
       "value":"rendering"
    },
    "sceneFile":{
-      "value":"maya.mb"
+      "value":"maya-arnold.mb"
    },
    "additionalflags":{
       "value":"-of png"
