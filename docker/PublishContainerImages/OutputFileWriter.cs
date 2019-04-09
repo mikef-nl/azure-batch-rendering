@@ -35,7 +35,8 @@ namespace PublishContainerImages
                 FileInfo paramsFile = new FileInfo(parametersPath);
                 Directory.CreateDirectory(paramsFile.DirectoryName);
                 File.WriteAllText(parametersPath, parametersJson);
-                PublishContainerImages.WriteLog($"Wrote parameters file at: {paramsFile.FullName}");
+                PublishContainerImages.WriteLog($"\nWrote parameters file at: {paramsFile.FullName}, file contents:");
+                PublishContainerImages.WriteLog(parametersJson);
             });
 
             var testsConfiguration = new TestsDefinition
@@ -65,7 +66,8 @@ namespace PublishContainerImages
             FileInfo configFile = new FileInfo(testsConfigurationFilepath);
             Directory.CreateDirectory(configFile.DirectoryName);
             File.WriteAllText(testsConfigurationFilepath, testsConfigurationJson);
-            PublishContainerImages.WriteLog($"Wrote configuration file at: {configFile.FullName}");
+            PublishContainerImages.WriteLog($"\nWrote configuration file at: {configFile.FullName}, file contents:");
+            PublishContainerImages.WriteLog(testsConfigurationJson);
         }
 
         private static List<ContainerImagePayload> _removeInvalidPayloads(List<ContainerImagePayload> payloads)
