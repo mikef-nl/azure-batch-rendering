@@ -17,6 +17,7 @@ namespace PublishContainerImages
 
         public static void _outputLatestImagesFile(List<string> latestImages)
         {
+            PublishContainerImages.WriteLog($"\nWriting the following entries to {PublishContainerImages.LatestImagesFilename}:"); 
             latestImages.ForEach(PublishContainerImages.WriteLog);
             var builtImagesFilePath = Path.Combine(OutputLatestImagesFilePath(), PublishContainerImages.LatestImagesFilename);
             File.WriteAllLines(builtImagesFilePath, latestImages);

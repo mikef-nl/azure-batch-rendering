@@ -93,9 +93,10 @@ namespace PublishContainerImages
                             latestImages.Add($"{imageDef.ContainerImage}:latest");
                         }
                     }
-                    
                     OutputFileWriter._outputLatestImagesFile(latestImages);
                     OutputFileWriter._outputTestFiles(containerImagePayload, latestImages);
+
+                    OutputFileWriter._outputLatestImagesFile(latestImages);
                     _writeLog($"Completed Publishing Successfully!\n\n");
                 }
             
