@@ -24,8 +24,8 @@ namespace PublishContainerImages
 
         public static string TestConfigurationFilename = "testConfiguration.json";
         public static string TestParametersFilename = "testParameters.json";
+        public static string LatestImagesFilename = "latestImages.txt";
 
-        private const string PublishedImagesFilename = "publishedImages.txt";
         private const string LogFilename = "publishContainerImages.log";
 
         private const string StorageAccountName = "renderingapplications";
@@ -60,7 +60,7 @@ namespace PublishContainerImages
 
                     _writePrePublishLog(containerImagePayload);
                     var imageNumber = 1;
-                    var builtImages = new List<string>();
+                    var latestImages = new List<string>();
 
                     foreach (var imageDef in containerImagePayload.Select(x => x.ContainerImageDefinition))
                     {
@@ -90,12 +90,12 @@ namespace PublishContainerImages
                                 _writeLog($"Successfully published {builtImage}\n");
                             }
 
-                            builtImages.Add(builtImage);
+                            latestImages.Add($"{imageDef.ContainerImage}:latest");
                         }
                     }
                     
-                    TestsFileWriter._outputTestFiles(containerImagePayload, builtImages);
-                    _outputBuiltImages(builtImages);
+                    OutputFileWriter._outputLatestImagesFile(latestImages);
+                    OutputFileWriter._outputTestFiles(containerImagePayload, latestImages);
                     _writeLog($"Completed Publishing Successfully!\n\n");
                 }
             
@@ -128,12 +128,7 @@ namespace PublishContainerImages
             Console.WriteLine($"ERROR: {error}");
         }
 
-        private static void _outputBuiltImages(List<string> publishedImages)
-        {
-            _writeLog("Published the following images:");
-            publishedImages.ForEach(_writeLog);
-            File.WriteAllLines(PublishedImagesFilename, publishedImages);
-        }
+      
 
         private static string _buildImage(ContainerImageDefinition imageDefinition, string blobSasToken)
         {

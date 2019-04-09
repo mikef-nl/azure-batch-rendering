@@ -10,9 +10,17 @@ using PublishContainerImages.Model;
 
 namespace PublishContainerImages
 {
-    class TestsFileWriter
+    class OutputFileWriter
     {
         private const string RelativePathToTestsDir = "../Tests";
+        private const string RelativePathToLatestImageDir = "../";
+
+        public static void _outputLatestImagesFile(List<string> latestImages)
+        {
+            latestImages.ForEach(PublishContainerImages.WriteLog);
+            var builtImagesFilePath = Path.Combine(OutputLatestImagesFilePath(), PublishContainerImages.LatestImagesFilename);
+            File.WriteAllLines(builtImagesFilePath, latestImages);
+        }
 
         public static void _outputTestFiles(List<ContainerImagePayload> payloads, List<string> builtImages)
         {
@@ -88,6 +96,14 @@ namespace PublishContainerImages
             var executableDirectory = new FileInfo(locationUri.AbsolutePath).Directory;
 
             return Path.GetFullPath(Path.Combine(executableDirectory.FullName, RelativePathToTestsDir));
+        }
+
+        private static string OutputLatestImagesFilePath()
+        {
+            var locationUri = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);
+            var executableDirectory = new FileInfo(locationUri.AbsolutePath).Directory;
+
+            return Path.GetFullPath(Path.Combine(executableDirectory.FullName, RelativePathToLatestImageDir));
         }
 
         private static string JsonSerializeObject(dynamic toSerialize)
