@@ -1,15 +1,15 @@
 {
    "jobName":{
-      "value":"centos-maya-2017u5-arnold3101"
+      "value":"centos-maya-2018u2-arnold3101"
    },
    "poolId":{
-      "value":"centos-maya_2017u5_arnold3101"
+      "value":"centos-maya_2018u2_arnold3101"
    },
    "containerImage":{
-      "value": "azurebatchrendering/centos-maya_2017u5_arnold3101"
+      "value": "azurebatchrendering/centos-maya_2018u2_arnold3101"
    },
    "mayaVersion":{
-      "value":"Maya2017"
+      "value":"Maya2018"
    },
    "inputFilegroup":{
       "value":"myfilegroup"

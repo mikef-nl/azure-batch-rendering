@@ -1,8 +1,8 @@
 {
-  "name": "container-centos-maya-2017u5-arnold3101",
+  "name": "container-centos-maya-2018u4-arnold2023",
   "template": "../templates/maya/render-arnold-linux-container/job.template.json",
   "poolTemplate": "../templates/maya/render-arnold-linux-container/pool.template.json",
-  "parameters": "container_centos-maya_2017u5-arnold3101.parameters.json",
-  "dockerImage": "azurebatchrendering/centos-maya_2017u5_arnold3101",
+  "parameters": "container_centos-maya_2018u4-arnold2023.parameters.json",
+  "dockerImage": "azurebatchrendering/centos-maya_2018u4_arnold2023",
   "expectedOutput": "maya.exr.0001"
 }
