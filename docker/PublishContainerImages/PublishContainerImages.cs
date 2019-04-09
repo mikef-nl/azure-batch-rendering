@@ -94,7 +94,6 @@ namespace PublishContainerImages
                             latestImages.Add($"{imageDef.ContainerImage}:latest");
                         }
                     }
-                    OutputFileWriter._outputLatestImagesFile(latestImages);
                     OutputFileWriter._outputTestFiles(containerImagePayload, imagesWithShaTag);
 
                     OutputFileWriter._outputLatestImagesFile(latestImages);
