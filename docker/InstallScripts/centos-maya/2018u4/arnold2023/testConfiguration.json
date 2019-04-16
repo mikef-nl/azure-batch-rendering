@@ -4,5 +4,5 @@
   "poolTemplate": "../templates/maya/render-arnold-linux-container/pool.template.json",
   "parameters": "container_centos-maya_2018u4-arnold2023.parameters.json",
   "dockerImage": "azurebatchrendering/centos-maya_2018u4_arnold2023",
-  "expectedOutput": "maya-arnold_0001.png"
+  "expectedOutput": "maya-arnold_0001.exr"
 }
