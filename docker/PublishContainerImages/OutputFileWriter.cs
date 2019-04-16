@@ -13,14 +13,22 @@ namespace PublishContainerImages
     class OutputFileWriter
     {
         private const string RelativePathToTestsDir = "../Tests";
-        private const string RelativePathToLatestImageDir = "../";
+        private const string RelativePathToImageTxtDir = "../";
 
         public static void _outputLatestImagesFile(List<string> latestImages)
         {
             PublishContainerImages.WriteLog($"\nWriting the following entries to {PublishContainerImages.LatestImagesFilename}:"); 
             latestImages.ForEach(PublishContainerImages.WriteLog);
-            var builtImagesFilePath = Path.Combine(OutputLatestImagesFilePath(), PublishContainerImages.LatestImagesFilename);
+            var builtImagesFilePath = Path.Combine(OutputImagesTxtFilePath(), PublishContainerImages.LatestImagesFilename);
             File.WriteAllLines(builtImagesFilePath, latestImages);
+        }
+
+        public static void _outputTaggedImagesFile(List<string> taggedImages)
+        {
+            PublishContainerImages.WriteLog($"\nWriting the following entries to {PublishContainerImages.TaggedImagesFilename}:");
+            taggedImages.ForEach(PublishContainerImages.WriteLog);
+            var builtImagesFilePath = Path.Combine(OutputImagesTxtFilePath(), PublishContainerImages.TaggedImagesFilename);
+            File.WriteAllLines(builtImagesFilePath, taggedImages);
         }
 
         public static void _outputTestFiles(List<ContainerImagePayload> payloads, List<string> builtImages)
@@ -101,12 +109,12 @@ namespace PublishContainerImages
             return Path.GetFullPath(Path.Combine(executableDirectory.FullName, RelativePathToTestsDir));
         }
 
-        private static string OutputLatestImagesFilePath()
+        private static string OutputImagesTxtFilePath()
         {
             var locationUri = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);
             var executableDirectory = new FileInfo(locationUri.AbsolutePath).Directory;
 
-            return Path.GetFullPath(Path.Combine(executableDirectory.FullName, RelativePathToLatestImageDir));
+            return Path.GetFullPath(Path.Combine(executableDirectory.FullName, RelativePathToImageTxtDir));
         }
 
         private static string JsonSerializeObject(dynamic toSerialize)

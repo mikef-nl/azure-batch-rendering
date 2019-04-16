@@ -25,6 +25,7 @@ namespace PublishContainerImages
         public static string TestConfigurationFilename = "testConfiguration.json";
         public static string TestParametersFilename = "testParameters.json";
         public static string LatestImagesFilename = "latestImages.txt";
+        public static string TaggedImagesFilename = "taggedImages.txt";
 
         private const string LogFilename = "publishContainerImages.log";
 
@@ -81,14 +82,14 @@ namespace PublishContainerImages
                                 DockerCommands._runDockerTag(imageDef, localImageId, imageTag);
                             }
 
-                            var builtImage = $"{imageDef.ContainerImage}:{tag}";
-                            imagesWithShaTag.Add(builtImage);
-                            _writeLog($"Successfully built and tagged {builtImage}");
+                            var imageWithGeneratedTag = $"{imageDef.ContainerImage}:{tag}";
+                            imagesWithShaTag.Add(imageWithGeneratedTag);
+                            _writeLog($"Successfully built and tagged {imageWithGeneratedTag}");
 
                             if (pushImages)
                             { 
                                 DockerCommands._runDockerPush(imageDef, tag);
-                                _writeLog($"Successfully published {builtImage}\n");
+                                _writeLog($"Successfully published {imageWithGeneratedTag}\n");
                             }
 
                             latestImages.Add($"{imageDef.ContainerImage}:latest");
@@ -96,6 +97,7 @@ namespace PublishContainerImages
                     }
                     OutputFileWriter._outputTestFiles(containerImagePayload, imagesWithShaTag);
 
+                    OutputFileWriter._outputTaggedImagesFile(imagesWithShaTag);
                     OutputFileWriter._outputLatestImagesFile(latestImages);
                     _writeLog($"Completed Publishing Successfully!\n\n");
                 }
