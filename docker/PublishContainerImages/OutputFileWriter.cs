@@ -20,6 +20,7 @@ namespace PublishContainerImages
             PublishContainerImages.WriteLog($"\nWriting the following entries to {PublishContainerImages.LatestImagesFilename}:"); 
             latestImages.ForEach(PublishContainerImages.WriteLog);
             var builtImagesFilePath = Path.Combine(OutputImagesTxtFilePath(), PublishContainerImages.LatestImagesFilename);
+            Directory.CreateDirectory(new FileInfo(builtImagesFilePath).DirectoryName);
             File.WriteAllLines(builtImagesFilePath, latestImages);
         }
 
@@ -28,6 +29,7 @@ namespace PublishContainerImages
             PublishContainerImages.WriteLog($"\nWriting the following entries to {PublishContainerImages.TaggedImagesFilename}:");
             taggedImages.ForEach(PublishContainerImages.WriteLog);
             var builtImagesFilePath = Path.Combine(OutputImagesTxtFilePath(), PublishContainerImages.TaggedImagesFilename);
+            Directory.CreateDirectory(new FileInfo(builtImagesFilePath).DirectoryName);
             File.WriteAllLines(builtImagesFilePath, taggedImages);
         }
 
