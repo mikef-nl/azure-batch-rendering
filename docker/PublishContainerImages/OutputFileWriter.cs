@@ -12,8 +12,8 @@ namespace PublishContainerImages
 {
     class OutputFileWriter
     {
-        private const string RelativePathToTestsDir = "../Tests";
-        private const string RelativePathToImageTxtDir = "../";
+        private const string RelativePathToTestsDir = "OutputTests";
+        private const string RelativePathToImageTxtDir = "OutputImages";
 
         public static void _outputLatestImagesFile(List<string> latestImages)
         {
