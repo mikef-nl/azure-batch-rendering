@@ -17,5 +17,5 @@ steps:
   displayName: 'dotnet publish docker\\PublishContainerImages $(buildConfiguration)'
 - task: PublishPipelineArtifact@0
   inputs:
-    artifactName: 'PublishContainerImagesApp'
+    artifactName: 'PublishContainerImages'
     targetPath: 'docker/PublishContainerImages/bin/$(buildConfiguration)/netcoreapp2.1/publish'
