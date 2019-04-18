@@ -35,6 +35,8 @@ namespace PublishContainerImages
 
         public static void _outputTestFiles(List<ContainerImagePayload> payloads, List<string> builtImages)
         {
+            PublishContainerImages.WriteLog($"\nWriting test files for the following images: { string.Join("\n", builtImages)}:");
+
             var payloadsWithTests = _removeInvalidPayloads(payloads);
             var payloadsWithTestsAndImagesTagged = _updateTestConfigAndParametersWithTaggedImage(payloadsWithTests, builtImages);
 

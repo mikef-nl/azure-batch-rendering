@@ -64,12 +64,12 @@ namespace PublishContainerImages
                     var latestImages = new List<string>();
                     var imagesWithShaTag = new List<string>();
 
-                    foreach (var imageDef in containerImagePayload.Select(x => x.ContainerImageDefinition))
+                    if (buildImages)
                     {
-                        _writeLog($"Publishing #{imageNumber++} of {containerImagePayload.Count} - {imageDef.ContainerImage}");
-
-                        if (buildImages)
+                        foreach (var imageDef in containerImagePayload.Select(x => x.ContainerImageDefinition))
                         {
+                            _writeLog($"Publishing #{imageNumber++} of {containerImagePayload.Count} - {imageDef.ContainerImage}");
+
                             dynamic blobProperties =
                                 _getBlobUriWithSasTokenAndMD5(imageDef.InstallerFileBlob, blobContainer);
 
@@ -94,12 +94,17 @@ namespace PublishContainerImages
 
                             latestImages.Add($"{imageDef.ContainerImage}:latest");
                         }
+                        OutputFileWriter._outputTestFiles(containerImagePayload, imagesWithShaTag);
+                        OutputFileWriter._outputTaggedImagesFile(imagesWithShaTag);
+                        OutputFileWriter._outputLatestImagesFile(latestImages);
+                        _writeLog($"Completed Publishing Successfully!\n\n");
                     }
-                    OutputFileWriter._outputTestFiles(containerImagePayload, imagesWithShaTag);
-
-                    OutputFileWriter._outputTaggedImagesFile(imagesWithShaTag);
-                    OutputFileWriter._outputLatestImagesFile(latestImages);
-                    _writeLog($"Completed Publishing Successfully!\n\n");
+                    else
+                    {
+                        latestImages = containerImagePayload.Select(x => $"{x.ContainerImageDefinition.ContainerImage}:latest").ToList();
+                        OutputFileWriter._outputTestFiles(containerImagePayload, latestImages);
+                        _writeLog($"Completed Generating Test Files!\n\n");
+                    }
                 }
             
               catch (Exception ex)
