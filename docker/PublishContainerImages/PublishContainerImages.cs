@@ -20,7 +20,8 @@ namespace PublishContainerImages
         public static Action<string> WriteLog;
         public static Action<string> WriteError;
 
-        public static string ContainerImageDefinitionFilename = "containerImage.json";
+        public static string ContainerImagesDefinitionFilename = "containerImage.json";
+        public static string BuiltImageMetadataFilename = "rendering-container-images.json";
 
         public static string TestConfigurationFilename = "testConfiguration.json";
         public static string TestParametersFilename = "testParameters.json";
@@ -97,6 +98,7 @@ namespace PublishContainerImages
                         OutputFileWriter._outputTestFiles(containerImagePayload, imagesWithShaTag);
                         OutputFileWriter._outputTaggedImagesFile(imagesWithShaTag);
                         OutputFileWriter._outputLatestImagesFile(latestImages);
+                        OutputFileWriter._outputContainerImageMetadataFile(containerImagePayload.Select(x => x.ContainerImageDefinition).ToList());
                         _writeLog($"Completed Publishing Successfully!\n\n");
                     }
                     else

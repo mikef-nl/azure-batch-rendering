@@ -7,5 +7,7 @@
         public string PathToDockerFile;
 
         public string InstallerFileBlob;
+
+        public ContainerImageMetadata Metadata;
     }
 }

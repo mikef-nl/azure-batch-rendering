@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PublishContainerImages.Model
 {
-    class MarketplaceImageDefinition
+    class TestMarketplaceImageDefinition
     {
         public string Publisher;
         public string OsType;

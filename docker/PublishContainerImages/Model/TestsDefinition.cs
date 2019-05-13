@@ -8,6 +8,6 @@ namespace PublishContainerImages.Model
     {
         public TestConfigurationDefinition[] Tests;
 
-        public MarketplaceImageDefinition[] Images;
+        public TestMarketplaceImageDefinition[] Images;
     }
 }

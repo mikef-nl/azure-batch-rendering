@@ -1,5 +1,13 @@
 {
   "containerImage": "azurebatchrendering/centos-maya_2017u5_vray36004",
   "pathToDockerFile": "centos-maya/2017u5/vray36004",
-  "installerFileBlob": "Centos/vray4batch_36004_maya2017_linux_x64"
+  "installerFileBlob": "Centos/vray4batch_36004_maya2017_linux_x64",
+  "metadata": {
+    "os": "CentOS 75",
+    "app": "maya",
+    "appVersion": "2017-Update5",
+    "renderer": "vray",
+    "rendererVersion": "36004",
+    "imageReferenceId" : "centos-75-container"
+  }
 }

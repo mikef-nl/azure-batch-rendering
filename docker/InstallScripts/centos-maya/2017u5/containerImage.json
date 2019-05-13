@@ -1,5 +1,13 @@
 {
   "containerImage": "azurebatchrendering/centos-maya_2017u5",
   "pathToDockerFile": "centos-maya/2017u5",
-  "installerFileBlob": "Centos/Autodesk_MayaIO_2017_Update5_Linux_64bit.run"
+  "installerFileBlob": "Centos/Autodesk_MayaIO_2017_Update5_Linux_64bit.run",
+  "metadata": {
+    "os": "CentOS 75",
+    "app": "maya",
+    "appVersion": "2017-Update5",
+    "renderer": "mayasw",
+    "rendererVersion": "2017-Update5",
+    "imageReferenceId" : "centos-75-container"
+  }
 }

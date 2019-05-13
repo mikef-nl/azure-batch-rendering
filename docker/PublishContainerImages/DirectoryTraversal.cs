@@ -92,7 +92,7 @@ namespace PublishContainerImages
 
             try
             {
-                fileInfo = root.GetFiles(PublishContainerImages.ContainerImageDefinitionFilename).Single();
+                fileInfo = root.GetFiles(PublishContainerImages.ContainerImagesDefinitionFilename).Single();
             }
             catch (UnauthorizedAccessException e)
             {

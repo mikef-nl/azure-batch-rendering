@@ -1,5 +1,13 @@
 {
   "containerImage": "azurebatchrendering/centos-maya_2017u5_arnold2011",
   "pathToDockerFile": "centos-maya/2017u5/arnold2011",
-  "installerFileBlob": "Centos/MtoA-2.0.1.1-linux-2017.run"
+  "installerFileBlob": "Centos/MtoA-2.0.1.1-linux-2017.run",
+  "metadata": {
+    "os": "CentOS 75",
+    "app": "maya",
+    "appVersion": "2017-Update5",
+    "renderer": "arnold",
+    "rendererVersion": "2.0.1.1",
+    "imageReferenceId" : "centos-75-container"
+  }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -33,6 +34,42 @@ namespace PublishContainerImages
             File.WriteAllLines(builtImagesFilePath, taggedImages);
         }
 
+        public static void _outputContainerImageMetadataFile(List<ContainerImageDefinition> builtImages)
+        {
+            PublishContainerImages.WriteLog($"\nWriting the following entries to {PublishContainerImages.BuiltImageMetadataFilename}:");
+            builtImages.Select(x => x.ContainerImage).ToList().ForEach(PublishContainerImages.WriteLog);
+
+            var builtImagesFilePath = Path.Combine(OutputImagesTxtFilePath(), PublishContainerImages.BuiltImageMetadataFilename);
+            Directory.CreateDirectory(new FileInfo(builtImagesFilePath).DirectoryName);
+
+            var imagesWithMetadata = builtImages.Where(im => im.Metadata != null).ToList();
+
+            dynamic metaDataOutput = new ExpandoObject();
+            metaDataOutput.imageReferences = ImageReference.GetAllImageReferences();
+            metaDataOutput.containerImages = new dynamic[imagesWithMetadata.Count];
+
+            int index = 0;
+            foreach (var image in imagesWithMetadata)
+            {
+                dynamic imageEntry = new ExpandoObject();
+
+                imageEntry.containerImage = $"{image.ContainerImage}:latest";
+                imageEntry.os = image.Metadata.Os;
+                imageEntry.app = image.Metadata.App;
+                imageEntry.appVersion = image.Metadata.AppVersion;
+                imageEntry.renderer = image.Metadata.Renderer;
+                imageEntry.rendererVersion = image.Metadata.RendererVersion;
+                imageEntry.imageReferenceId = image.Metadata.ImageReferenceId;
+
+                metaDataOutput.containerImages[index++] = imageEntry;
+            }
+
+            string metadataJson = JsonSerializeObject(metaDataOutput);
+            File.WriteAllText(builtImagesFilePath, metadataJson);
+            PublishContainerImages.WriteLog($"\nWrote metadata file at: {builtImagesFilePath}, file contents:");
+            PublishContainerImages.WriteLog(metadataJson);
+        }
+
         public static void _outputTestFiles(List<ContainerImagePayload> payloads, List<string> builtImages)
         {
             PublishContainerImages.WriteLog($"\nWriting test files for the following images:\n { string.Join("\n", builtImages)}");
@@ -61,7 +98,7 @@ namespace PublishContainerImages
                 }).ToArray(),
                 Images = new[]
                 {
-                    new MarketplaceImageDefinition
+                    new TestMarketplaceImageDefinition
                     {
                         Offer = "microsoft-azure-batch",
                         OsType = "linux",
