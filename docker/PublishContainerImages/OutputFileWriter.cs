@@ -34,7 +34,7 @@ namespace PublishContainerImages
             File.WriteAllLines(builtImagesFilePath, taggedImages);
         }
 
-        public static void _outputContainerImageMetadataFile(List<ContainerImageDefinition> builtImages)
+        public static void _outputContainerImageMetadataFile(List<ContainerImageDefinition> builtImages, bool outputFullMetadataFile)
         {
             PublishContainerImages.WriteLog($"\nWriting the following entries to {PublishContainerImages.BuiltImageMetadataFilename}:");
             builtImages.Select(x => x.ContainerImage).ToList().ForEach(PublishContainerImages.WriteLog);
@@ -45,7 +45,11 @@ namespace PublishContainerImages
             var imagesWithMetadata = builtImages.Where(im => im.Metadata != null).ToList();
 
             dynamic metaDataOutput = new ExpandoObject();
-            metaDataOutput.imageReferences = ImageReference.GetAllImageReferences();
+            if (outputFullMetadataFile)
+            {
+                metaDataOutput.imageReferences = ImageReference.GetAllImageReferences();
+            }
+
             metaDataOutput.containerImages = new dynamic[imagesWithMetadata.Count];
 
             int index = 0;

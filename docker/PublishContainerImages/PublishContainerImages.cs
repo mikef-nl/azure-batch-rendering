@@ -55,6 +55,7 @@ namespace PublishContainerImages
                     var gitCommitSha = args[4];
                     var buildImages = TryParseAsBool(args[5]);
                     var pushImages = TryParseAsBool(args[6]);
+                    var outputFullMetadataFile = TryParseAsBool(args[7]);
 
                     var blobContainer = _buildBlobClient(buildImages, StorageAccountName, storageKey, StoragContainerName); //NOTE blobContainer will be null if !buildImages
 
@@ -98,7 +99,9 @@ namespace PublishContainerImages
                         OutputFileWriter._outputTestFiles(containerImagePayload, imagesWithShaTag);
                         OutputFileWriter._outputTaggedImagesFile(imagesWithShaTag);
                         OutputFileWriter._outputLatestImagesFile(latestImages);
-                        OutputFileWriter._outputContainerImageMetadataFile(containerImagePayload.Select(x => x.ContainerImageDefinition).ToList());
+                        OutputFileWriter._outputContainerImageMetadataFile(
+                            containerImagePayload.Select(x => x.ContainerImageDefinition).ToList(), 
+                            outputFullMetadataFile);
                         _writeLog($"Completed Publishing Successfully!\n\n");
                     }
                     else
