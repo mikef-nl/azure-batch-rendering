@@ -1,0 +1,13 @@
+{
+  "containerImage": "azurebatchrendering/ubuntu-blender_280",
+  "pathToDockerFile": "ubuntu-blender/2.80",
+  "installerFileBlob": "",
+   "metadata": {
+    "os": "Ubuntu 16.04",
+    "app": "blender",
+    "appVersion": "2.80",
+    "renderer": "blender",
+    "rendererVersion": "2.80",
+    "imageReferenceId" : "ubuntu-1604lts-container"
+  }
+}

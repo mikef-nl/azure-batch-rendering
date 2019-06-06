@@ -1,0 +1,5 @@
+{
+  "containerImage": "azurebatchrendering/ubuntu-blender",
+  "pathToDockerFile": "ubuntu-blender",
+  "installerFileBlob": ""
+}
