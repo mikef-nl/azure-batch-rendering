@@ -6,7 +6,7 @@
       "value":"container-ubuntu-blender-280-frames"
    },
    "containerImage":{
-      "value": "azurebatchrendering/ubuntu-blender_268"
+      "value": "azurebatchrendering/ubuntu-blender_280"
    },
     "inputData":{
       "value":"rendering"

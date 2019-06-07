@@ -4,9 +4,9 @@
   "installerFileBlob": "",
    "metadata": {
     "os": "Ubuntu 16.04",
-    "app": "blender",
+    "app": "blender280",
     "appVersion": "2.80",
-    "renderer": "blender",
+    "renderer": "cycles",
     "rendererVersion": "2.80",
     "imageReferenceId" : "ubuntu-1604lts-container"
   }

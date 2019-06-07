@@ -1,8 +1,8 @@
 {
-  "name": "container-ubuntu-blender_268-frames",
+  "name": "container-ubuntu-blender-268-frames",
   "template": "../templates/blender/render-linux-container/job.template.json",
   "poolTemplate": "../templates/blender/render-linux-container/pool.template.json",
-  "parameters": "container_ubuntu-blender_268-frames.parameters.json",
+  "parameters": "container-ubuntu-blender-268-frames.parameters.json",
   "dockerImage": "azurebatchrendering/ubuntu-blender_268",
-  "expectedOutput": "blender-linux_0001.png"
+  "expectedOutput": "container-ubuntu-blender-268-frames"
 }

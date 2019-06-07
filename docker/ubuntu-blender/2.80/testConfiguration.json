@@ -1,8 +1,8 @@
 {
-  "name": "container-ubuntu-blender_808-frames",
-  "template": "../templates/blender/render-linux-container/job.template.json",
-  "poolTemplate": "../templates/blender/render-linux-container/pool.template.json",
-  "parameters": "container_ubuntu-blender_280-frames.parameters.json",
+  "name": "container-ubuntu-blender-280-frames",
+  "template": "../templates/blender/render-linux-container-280/job.template.json",
+  "poolTemplate": "../templates/blender/render-linux-container-280/pool.template.json",
+  "parameters": "container-ubuntu-blender-280-frames.parameters.json",
   "dockerImage": "azurebatchrendering/ubuntu-blender_280",
-  "expectedOutput": "blender-linux_0001.png"
+  "expectedOutput": "container-ubuntu-blender-280-frames"
 }
