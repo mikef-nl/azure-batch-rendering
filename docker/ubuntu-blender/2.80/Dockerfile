@@ -1,6 +1,6 @@
 FROM azurebatchrendering/ubuntu-blender:latest
 
-RUN curl -SL "http://builder.blender.org/download/blender-2.80-aa003c73245f-linux-glibc224-x86_64.tar.bz2" -o blender.tar.bz2 && \
+RUN curl -SL "http://builder.blender.org/download/blender-2.80-81b68f7279cd-linux-glibc224-x86_64.tar.bz2" -o blender.tar.bz2 && \
 	tar -jxvf blender.tar.bz2 -C /usr/local/bin --strip-components=1 && \
 	rm blender.tar.bz2
 
