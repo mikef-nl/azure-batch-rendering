@@ -1,6 +1,7 @@
 {
   "containerImage": "azurebatchrendering/maya_2018u3",
   "installerFileBlob": "Centos/Autodesk_MayaIO_2018_3_Update_Linux_64bit.run",
+  "operatingSystem": "centos",
   "metadata": {
     "os": "CentOS 75",
     "app": "maya",
