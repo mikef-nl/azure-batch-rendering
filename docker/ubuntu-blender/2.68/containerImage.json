@@ -1,7 +1,6 @@
 {
-  "containerImage": "azurebatchrendering/ubuntu-blender_268",
-  "pathToDockerFile": "ubuntu-blender/2.68",
-  "installerFileBlob": "",
+  "containerImage": "azurebatchrendering/blender_268",
+  "operatingSystem": "ubuntu",
    "metadata": {
     "os": "Ubuntu 16.04",
     "app": "blender",
