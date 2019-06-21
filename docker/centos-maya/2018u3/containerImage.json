@@ -1,6 +1,5 @@
 {
-  "containerImage": "azurebatchrendering/centos-maya_2018u3",
-  "pathToDockerFile": "centos-maya/2018u3",
+  "containerImage": "azurebatchrendering/maya_2018u3",
   "installerFileBlob": "Centos/Autodesk_MayaIO_2018_3_Update_Linux_64bit.run",
   "metadata": {
     "os": "CentOS 75",

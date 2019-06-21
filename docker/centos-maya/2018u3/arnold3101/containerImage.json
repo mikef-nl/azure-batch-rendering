@@ -1,6 +1,5 @@
 {
-  "containerImage": "azurebatchrendering/centos-maya_2018u3_arnold3101",
-  "pathToDockerFile": "centos-maya/2018u3/arnold3101",
+  "containerImage": "azurebatchrendering/maya_2018u3_arnold3101",
   "installerFileBlob": "Centos/MtoA-3.1.0.1-linux-2018.run",
    "metadata": {
     "os": "CentOS 75",
