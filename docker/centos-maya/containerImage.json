@@ -1,5 +1,3 @@
 {
-  "containerImage": "azurebatchrendering/centos-maya",
-  "pathToDockerFile": "centos-maya",
-  "installerFileBlob": ""
+  "containerImage": "azurebatchrendering/maya",
 }

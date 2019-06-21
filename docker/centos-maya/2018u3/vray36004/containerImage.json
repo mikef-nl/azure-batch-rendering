@@ -1,6 +1,5 @@
 {
-  "containerImage": "azurebatchrendering/centos-maya_2018u3_vray36004",
-  "pathToDockerFile": "centos-maya/2018u3/vray36004",
+  "containerImage": "azurebatchrendering/maya_2018u3_vray36004",
   "installerFileBlob": "Centos/vray4batch_36004_maya2018_linux_x64",
    "metadata": {
     "os": "CentOS 75",
