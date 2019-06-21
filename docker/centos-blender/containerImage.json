@@ -1,3 +1,4 @@
 {
   "containerImage": "azurebatchrendering/blender",
+  "operatingSystem": "centos",
 }
