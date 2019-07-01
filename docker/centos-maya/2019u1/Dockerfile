@@ -1,4 +1,4 @@
-FROM azurebatchrendering/maya:latest-centos
+FROM azurebatchrendering/centos-maya:latest
 
 ARG INSTALLER_SAS
 

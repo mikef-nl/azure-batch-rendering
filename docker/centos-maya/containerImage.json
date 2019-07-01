@@ -1,4 +1,4 @@
 {
-  "containerImage": "azurebatchrendering/maya",
+  "containerImage": "azurebatchrendering/centos-maya",
   "operatingSystem": "centos",
 }

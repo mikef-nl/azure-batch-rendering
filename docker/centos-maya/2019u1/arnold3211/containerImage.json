@@ -1,5 +1,5 @@
 {
-  "containerImage": "azurebatchrendering/maya_2019u1_arnold3211",
+  "containerImage": "azurebatchrendering/centos-maya_2019u1_arnold3211",
   "installerFileBlob": "Centos/Maya2019/Arnold/MtoA-3.2.1.1-linux-2019.run",
   "operatingSystem": "centos",
   "metadata": {
