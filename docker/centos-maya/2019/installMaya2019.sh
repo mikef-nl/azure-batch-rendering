@@ -6,7 +6,11 @@ INSTALLER_SAS=$1
 mkdir -m777 /tmp/maya2019 -p
 mkdir -m777 /tmp/maya/Maya2019 -p
 
-echo '-=Download=-'
+echo '-=Install Maya2019 specific dependencies=-'
+yum install gstreamer -y
+yum clean all
+
+echo '-=Download Installer=-'
 azcopy --source $INSTALLER_SAS --destination /tmp/maya/Autodesk_MayaIO_2019_Linux_64bit.run
 
 echo '-=Extract and Install=-'
