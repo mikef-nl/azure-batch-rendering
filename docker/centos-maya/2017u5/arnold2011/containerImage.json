@@ -1,5 +1,5 @@
 {
-  "containerImage": "azurebatchrendering/maya_2017u5_arnold2011",
+  "containerImage": "azurebatchrendering/maya:$PARENT_TAG-$VER.arnold2011",
   "installerFileBlob": "Centos/MtoA-2.0.1.1-linux-2017.run",
   "operatingSystem": "centos",
   "metadata": {

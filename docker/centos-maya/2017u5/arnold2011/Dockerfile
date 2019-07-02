@@ -1,4 +1,6 @@
-FROM azurebatchrendering/maya_2017u5:latest-centos
+ARG PARENT_TAG
+
+FROM azurebatchrendering/maya:$PARENT_TAG
 
 ARG INSTALLER_SAS
 
