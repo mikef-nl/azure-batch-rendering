@@ -8,6 +8,7 @@ mkdir -m777 /tmp/maya/Maya2019 -p
 
 echo '-=Install Maya2019 specific dependencies=-'
 yum install gstreamer1 -y
+yum install gstreamer1-plugins-base -y
 yum clean all
 
 echo '-=Download Installer=-'
