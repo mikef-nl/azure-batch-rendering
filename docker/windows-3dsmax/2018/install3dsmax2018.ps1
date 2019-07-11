@@ -21,6 +21,6 @@ cd 'C:\temp\3dsmax2018\Autodesk_3ds_Max_IO_2018_EFGJKPS_Win_part4_64bit'
 (Get-Content setup.ini) | ForEach { $_ -replace "PREREQUISITE=IE;", "PREREQUISITE="} | Out-File setup.ini
 Start-Process cmd.exe -ArgumentList @("/c","setup.exe", "/t","/c","/w","/q","MAXIO:", "INSTALLDIR=C:\Autodesk\3dsMax2018\", "InstallLevel=5") -wait
 
-Remove-Item C:\temp\3dsmax2018 -Force -Recurse
+Remove-Item 'C:\temp\3dsmax2018' -Force -Recurse
 echo 'Finished installing 3dsmax2018'
 
