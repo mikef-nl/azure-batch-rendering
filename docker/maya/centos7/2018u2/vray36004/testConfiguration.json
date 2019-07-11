@@ -2,7 +2,5 @@
   "name": "container-centos-maya-2018u2-vray36004",
   "template": "../templates/maya/render-vray-linux-container/job.template.json",
   "poolTemplate": "../templates/maya/render-vray-linux-container/pool.template.json",
-  "parameters": "container_centos-maya_2018u2-vray36004.parameters.json",
-  "dockerImage": "azurebatchrendering/centos-maya_2018u2_vray36004",
   "expectedOutput": "maya-vray.0001.png"
 }

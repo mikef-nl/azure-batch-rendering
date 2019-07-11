@@ -5,9 +5,6 @@
    "poolId":{
       "value":"centos-maya_2018u4_vray36004"
    },
-   "containerImage":{
-      "value": "azurebatchrendering/centos-maya_2018u4_vray36004"
-   },
    "mayaVersion":{
       "value":"Maya2018"
    },
