@@ -1,4 +1,4 @@
 {
-  "containerImage": "azurebatchrendering/maya:$VER.centos",
+  "containerImage": "$ACR_SERVER/public/azure-batch/rendering/maya:$VER.centos",
   "operatingSystem": "centos",
 }

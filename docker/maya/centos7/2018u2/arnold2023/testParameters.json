@@ -1,9 +1,9 @@
 {
    "jobName":{
-      "value":"centos-maya-2018u2-arnold2023"
+      "value":"maya-centos7-2018u2-arnold2023"
    },
    "poolId":{
-      "value":"centos-maya_2018u2_arnold2023"
+      "value":"maya-centos7-2018u2-arnold2023"
    },
    "mayaVersion":{
       "value":"Maya2018"

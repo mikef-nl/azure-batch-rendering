@@ -1,5 +1,5 @@
 {
-  "containerImage": "azurebatchrendering/maya:$PARENT_TAG-$VER.arnold2103",
+  "containerImage": "$ACR_SERVER/public/azure-batch/rendering/maya:$PARENT_TAG-$VER.arnold2103",
   "installerFileBlob": "Centos/MtoA-2.1.0.3-linux-2018.run",
   "operatingSystem": "centos",
   "metadata": {
