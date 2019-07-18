@@ -1,5 +1,5 @@
 {
-  "containerImage": "$ACR_SERVER/public/azure-batch/rendering/maya:$PARENT_TAG-$VER.vray36004",
+  "containerImage": "$REPO_BASE/maya:$PARENT_TAG-$VER.vray36004",
   "installerFileBlob": "Centos/vray4batch_36004_maya2017_linux_x64",
   "operatingSystem": "centos",
   "metadata": {
