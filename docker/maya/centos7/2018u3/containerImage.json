@@ -1,5 +1,5 @@
 {
-  "containerImage": "$ACR_SERVER/public/azure-batch/rendering/maya:$PARENT_TAG-$VER.2018u3",
+  "containerImage": "$REPO_BASE/maya:$PARENT_TAG-$VER.2018u3",
   "installerFileBlob": "Centos/Autodesk_MayaIO_2018_3_Update_Linux_64bit.run",
   "operatingSystem": "centos",
   "metadata": {
