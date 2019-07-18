@@ -1,7 +1,7 @@
 ARG PARENT_TAG
-ARG ACR_SERVER
+ARG ACR_SERVER_REPO
 
-FROM $ACR_SERVER/public/azure-batch/rendering/maya:$PARENT_TAG
+FROM $ACR_SERVER_REPO/public/azure-batch/rendering/maya:$PARENT_TAG
 
 ARG INSTALLER_SAS
 
