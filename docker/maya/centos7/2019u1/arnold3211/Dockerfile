@@ -1,4 +1,7 @@
-FROM azurebatchrendering/centos-maya_2019u1:latest
+ARG PARENT_TAG
+ARG ACR_SERVER_REPO
+
+FROM $ACR_SERVER_REPO/maya:$PARENT_TAG
 
 ARG INSTALLER_SAS
 

@@ -1,5 +1,5 @@
 {
-  "containerImage": "azurebatchrendering/centos-maya_2019",
+  "containerImage": "$REPO_BASE/maya:$PARENT_TAG-$VER.2019",
   "installerFileBlob": "Centos/Maya2019/Autodesk_MayaIO_2019_Linux_64bit.run",
   "operatingSystem": "centos",
    "metadata": {
