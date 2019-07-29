@@ -20,8 +20,6 @@ echo '-=Extract and Install=-'
 chmod +x /tmp/maya/Maya2019/setup.sh
 /tmp/maya/Maya2019/setup.sh 127.0.0.1
 
-sudo echo "export LD_LIBRARY_PATH=/usr/autodesk/mayaIO2019/plug-ins/xgen/lib" >> /etc/environment
-
 cp /usr/bin/maya2019.sh /usr/bin/maya.sh
 
 chmod +x /usr/bin/maya2019.sh
