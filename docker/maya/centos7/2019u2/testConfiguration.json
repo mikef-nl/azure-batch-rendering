@@ -1,0 +1,8 @@
+{
+  "name": "container-centos-maya-2019u2",
+  "template": "../templates/maya/render-default-linux-container/job.template.json",
+  "poolTemplate": "../templates/maya/render-default-linux-container/pool.template.json",
+  "parameters": "container_centos-maya_2019u2.parameters.json",
+  "dockerImage": "azurebatchrendering/centos-maya_2019u2",
+  "expectedOutput": "maya.exr.0001"
+}
