@@ -1,0 +1,32 @@
+{
+   "jobName":{
+      "value":"centos-maya-2019-arnold3211"
+   },
+   "poolId":{
+      "value":"centos-maya-2019-arnold3211"
+   },
+   "mayaVersion":{
+      "value":"Maya2019"
+   },
+   "inputFilegroup":{
+      "value":"myfilegroup"
+   },
+   "inputData":{
+      "value":"rendering"
+   },
+   "inputDataSas":{
+      "value":"rendering"
+   },
+   "sceneFile":{
+      "value":"maya-arnold.mb"
+   },
+   "additionalflags":{
+      "value":"-of png"
+   },
+   "outputs":{
+      "value":"rendering-output"
+   },
+   "outputFilegroup":{
+      "value":"myfilegroup"
+   }
+}
