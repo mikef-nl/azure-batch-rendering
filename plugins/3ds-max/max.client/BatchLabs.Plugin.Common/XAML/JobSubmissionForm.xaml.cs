@@ -630,49 +630,57 @@ namespace BatchLabs.Plugin.Common.XAML
         /// <param name="e"></param>
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            var launchUrl = $"market/3dsmax/actions/{SelectedTemplate}/submit";
-
-            // set up the basic arguments
-            var arguments = new Dictionary<string, string>
+            try
             {
-                ["auto-pool"] = "0",
-                ["input-parameter"] = "inputFilegroup",
-                ["jobName"] = JobId.Text,
-                ["frameStart"] = FrameStart.Text,
-                ["frameEnd"] = FrameEnd.Text,
-                ["frameWidth"] = FrameWidth.Text,
-                ["frameHeight"] = FrameHeight.Text,
-                ["renderer"] = SelectedRenderer
-            };
+                var launchUrl = $"market/3dsmax/actions/{SelectedTemplate}/submit";
 
-            if (!string.IsNullOrEmpty(AdditionalArgs.Text))
-            {
-                arguments["additionalArgs"] = AdditionalArgs.Text;
-            }
+                // set up the basic arguments
+                var arguments = new Dictionary<string, string>
+                {
+                    ["auto-pool"] = "0",
+                    ["input-parameter"] = "inputFilegroup",
+                    ["jobName"] = JobId.Text,
+                    ["frameStart"] = FrameStart.Text,
+                    ["frameEnd"] = FrameEnd.Text,
+                    ["frameWidth"] = FrameWidth.Text,
+                    ["frameHeight"] = FrameHeight.Text,
+                    ["renderer"] = SelectedRenderer
+                };
 
-            // if we have a max file loaded then we pass this as well
-            var sceneFile = _maxRequestHandler.CurrentSceneFileName;
-            if (false == string.IsNullOrEmpty(sceneFile))
-            {
-                arguments["sceneFile"] = sceneFile;
-                arguments["asset-container"] = Utils.ContainerizeMaxFile(sceneFile);
-                arguments["asset-paths"] = string.Join(",", from folder in AssetDirectories select folder.Path);
-                
-            }
+                if (!string.IsNullOrEmpty(AdditionalArgs.Text))
+                {
+                    arguments["additionalArgs"] = AdditionalArgs.Text;
+                }
+
+                // if we have a max file loaded then we pass this as well
+                var sceneFile = _maxRequestHandler.CurrentSceneFileName;
+                if (false == string.IsNullOrEmpty(sceneFile))
+                {
+                    arguments["sceneFile"] = sceneFile;
+                    arguments["asset-container"] = Utils.ContainerizeMaxFile(sceneFile);
+                    arguments["asset-paths"] = string.Join(",", from folder in AssetDirectories select folder.Path);
+                    
+                }
 
 #if DEBUG
-            // show what we are about to send to labs
-            var debug = $"Launch:{launchUrl}\n";
-            foreach (var arg in arguments)
-            {
-                debug = string.Concat(debug, $"{arg.Key}:{Uri.EscapeUriString(arg.Value)}\n");
-            }
+                // show what we are about to send to labs
+                var debug = $"Launch:{launchUrl}\n";
+                foreach (var arg in arguments)
+                {
+                    debug = string.Concat(debug, $"{arg.Key}:{Uri.EscapeUriString(arg.Value)}\n");
+                }
 
-            _logger.Debug(debug);
+                _logger.Debug(debug);
 #endif
 
-            // call labs with all the parameters, will open correct gallery template
-            _labsRequestHandler.CallBatchLabs(launchUrl, arguments);
+                // call labs with all the parameters, will open correct gallery template
+                _labsRequestHandler.CallBatchLabs(launchUrl, arguments);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Failed to submit job: {ex.Message}. {ex}");
+                _logger.Error($"Hit exception while attempting to submit job: {ex.Message}.", "Failed to submit job", true);
+            }
         }
     }
 }
