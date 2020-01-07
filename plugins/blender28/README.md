@@ -1,5 +1,5 @@
 # Azure Batch Rendering
-Batch Explorer plugin for Blender 2.8. This plugin allows you to use BatchExplorer and the Azure Batch Rendering Service to render your scenes in the cloud.
+Batch Explorer plugin for Blender 2.8+. This plugin allows you to use BatchExplorer and the Azure Batch Rendering Service to render your scenes in the cloud.
 
 ## BatchExplorer
 BatchExplorer is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes new features such as `Job and Pool Templates` with the aim to improve your Batch experience. BatchExplorer is updated monthly with new features and bug fixes. You can download it for Windows, Mac OS, and Linux from the [BatchExplorer website](https://azure.github.io/BatchExplorer/).
@@ -17,9 +17,10 @@ This is the tool that will do the majority of the work to get your Blender scene
 Download the latest zip file from [the repository](https://github.com/Azure/azure-batch-rendering/raw/master/plugins/blender/blender.client/build/blender-0.2.0.zip).
 
 - Open the Blender application
-- Open the user preferences window: ```File -> User Preferences```
-- Click ```Install Add-on from File``` button
-- Navigate to the plugin zip file you downloaded earlier and select the ```Install Add-on from File``` button.
+- Open the user preferences window: ```Edit -> Preferences```
+- Click ```Add-ons``` from the side panel
+- Click ```Install``` from the top panel 
+- Navigate to the plugin zip file you downloaded earlier and select the ```Install Add-on``` button.
 
 **Note:** you will need to check the checkbox to enable the plugin.
 
