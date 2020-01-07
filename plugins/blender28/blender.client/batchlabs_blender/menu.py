@@ -48,7 +48,3 @@ class BatchLabsBlenderMenu(bpy.types.Menu):
         self.layout.operator("object.download_renders_operator", text = 'Manage Data')
         self.layout.operator("object.monitor_pools_operator", text = 'Monitor Pools')
         self.layout.operator("object.monitor_jobs_operator", text = 'Monitor Jobs')
-        
-
-
-

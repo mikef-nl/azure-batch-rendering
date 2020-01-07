@@ -4,9 +4,7 @@ import bpy
 from ..constants import Constants
 
 class MonitorPoolsOperator(bpy.types.Operator):
-    """ 
-
-    """
+    """Open Batch Explorer to monitor your pools."""
     bl_idname = "object.monitor_pools_operator"
     bl_label = "Invokes a Script"
 

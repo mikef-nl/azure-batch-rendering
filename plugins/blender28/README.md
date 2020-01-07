@@ -46,7 +46,7 @@ This will ensure that every time you open BatchExplorer from the Blender plugin,
 ## Using the plugin
 The Blender plugin gives you 4 menu options. It can be accessed via: ```Render -> Azure Batch Rendering```. All commands take you to the corresponding page in the BatchExplorer application.
 
-![](../images/blender/blender-menu.png)
+![](../images/blender/blender-28-menu.png)
 
 **Submit job** - Allows you to submit a rendering job using our job and pool templating service. It will pre-populate some fields and get you submitting a job in no time with the click of a button. This menu option lists the currently available templates from our [Blender template repository](https://github.com/Azure/BatchExplorer-data/tree/master/ncj/blender). We have full range of Ubuntu 16.04 and Windows Server based templates. Should you have a requirement for any other type of job or pool template, then please let us know and we can look to create one for you. The best place to raise this would be the [BatchExplorer issues register on GitHub](https://github.com/Azure/BatchExplorer/issues).
 

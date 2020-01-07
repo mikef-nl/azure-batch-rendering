@@ -5,6 +5,7 @@ import bpy
 from ..constants import Constants
 
 class MonitorJobsOperator(bpy.types.Operator):
+    """Open Batch Explorer to monitor your jobs."""
     bl_idname = "object.monitor_jobs_operator"
     bl_label = "MonitorJobsOperator"
 

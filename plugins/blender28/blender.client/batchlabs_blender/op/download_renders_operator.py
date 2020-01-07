@@ -3,8 +3,8 @@ import logging
 import bpy
 from ..constants import Constants
 
-
 class DownloadRendersOperator(bpy.types.Operator):
+    """Open Batch Explorer to monitor your files."""
     bl_idname = "object.download_renders_operator"
     bl_label = "DownloadRendersOperator"
 

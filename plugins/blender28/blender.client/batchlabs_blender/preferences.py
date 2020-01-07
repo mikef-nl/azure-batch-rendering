@@ -31,8 +31,7 @@ class UserPreferences(bpy.types.AddonPreferences):
         name="Batch Account",
         description="Fully qualified Batch account identifier."
                     " (/subscriptions/<sub-id>/resourceGroups/<resource-group>/"
-                    "providers/Microsoft.Batch/batchAccounts/<account>)",
-        default="/subscriptions/a04b47d2-8e6c-4b00-9a04-221a694231ee/resourcegroups/mr-rendering-extra/providers/microsoft.batch/batchaccounts/imagetester")
+                    "providers/Microsoft.Batch/batchAccounts/<account>)")
 
     pool_type = bpy.props.EnumProperty(items=(('0', 'Pre-existing pool', ''),
                                               ('1', 'Auto-pool', '')),
