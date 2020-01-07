@@ -23,12 +23,12 @@ Download the latest zip file from [the repository](https://github.com/Azure/azur
 
 **Note:** you will need to check the checkbox to enable the plugin.
 
-![](../images/blender/blender-prefs.png)
+![](../images/blender/blender-28-prefs.png)
 
 #### 2.2 Set the User Preferences
 The plugin contains a couple of handy user preferences.
 
-![](../images/blender/blender-user-prefs.png)
+![](../images/blender/blender-28-user-prefs.png)
 
 **Log directory** - is where any logs from the plugin will be written to. Note that logs will also be written to the Blender system console that you can view by selecting the following menu: ```Window -> Toggle System Console```
 
