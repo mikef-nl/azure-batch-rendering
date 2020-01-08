@@ -1,14 +1,6 @@
 import os
 import bpy
 
-
-test_items = [
-    ("RED", "Red", "", 1),
-        ("GREEN", "Green", "", 2),
-        ("BLUE", "Blue", "", 3),
-        ("YELLOW", "Yellow", "", 4),
-]
-
 class UserPreferences(bpy.types.AddonPreferences):
     """BatchLabs Blender plugin user preferences."""
     bl_idname = __package__.split('.')[0]
@@ -31,7 +23,8 @@ class UserPreferences(bpy.types.AddonPreferences):
         name="Batch Account",
         description="Fully qualified Batch account identifier."
                     " (/subscriptions/<sub-id>/resourceGroups/<resource-group>/"
-                    "providers/Microsoft.Batch/batchAccounts/<account>)")
+                    "providers/Microsoft.Batch/batchAccounts/<account>)",
+        default="")
 
     pool_type = bpy.props.EnumProperty(items=(('0', 'Pre-existing pool', ''),
                                               ('1', 'Auto-pool', '')),

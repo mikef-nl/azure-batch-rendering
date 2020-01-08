@@ -42,9 +42,11 @@ class BatchLabsRequestHandler(object):
         if not argument_dict:
             argument_dict = {}
 
+        print(self._preferences.account)
+        
         # add accountId if we have one in user settings
-        if self._preferences.account:
-            argument_dict[Constants.KEY_ACCOUNT_ID] =  self._preferences.account[1].get("default")
+        # if self._preferences.account:
+        #   argument_dict[Constants.KEY_ACCOUNT_ID] =  self._preferences.account[1].get("default")
 
         # add any other parameters that were passed in via the argument_dict
         if argument_dict:
