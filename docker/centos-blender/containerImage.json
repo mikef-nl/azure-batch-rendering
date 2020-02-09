@@ -1,0 +1,4 @@
+{
+  "containerImage": "$REPO_BASE/blender:$VER.centos7",
+  "operatingSystem": "centos",
+}
