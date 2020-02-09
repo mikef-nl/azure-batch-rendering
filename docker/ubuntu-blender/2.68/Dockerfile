@@ -1,4 +1,7 @@
-FROM azurebatchrendering/blender:latest-ubuntu
+ARG PARENT_TAG
+ARG ACR_SERVER_REPO
+
+FROM $ACR_SERVER_REPO/blender:$PARENT_TAG
 
 RUN apt-get update && \
     apt-get install -y libSDL1.2debian

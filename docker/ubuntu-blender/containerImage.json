@@ -1,4 +1,4 @@
 {
-  "containerImage": "azurebatchrendering/blender",
+  "containerImage": "$REPO_BASE/blender:$VER.ubuntu",
   "operatingSystem": "ubuntu"
 }

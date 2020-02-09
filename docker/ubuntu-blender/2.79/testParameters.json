@@ -1,18 +1,12 @@
 {
    "jobName":{
-      "value":"container-ubuntu-blender-279-frames"
+      "value":"blender-ubuntu-279-frames"
    },
    "poolId":{
-      "value":"container-ubuntu-blender-279-frames"
-   },
-   "containerImage":{
-      "value": "azurebatchrendering/ubuntu-blender_279"
+      "value":"blender-ubuntu-279-frames"
    },
     "inputData":{
       "value":"rendering"
-   },
-   "inputDataSas":{
-      "value":"https://"
    },
    "blendFile":{
       "value":"shapes.blend"
@@ -29,7 +23,7 @@
    "dedicatedVmCount":{
       "value":"1"
    },
-   "nodeSize":{
+   "vmSize":{
       "value":"Standard_D2_v2"
    }
 }

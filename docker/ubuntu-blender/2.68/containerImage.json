@@ -1,5 +1,5 @@
 {
-  "containerImage": "azurebatchrendering/blender_268",
+  "containerImage": "$REPO_BASE/blender:$PARENT_TAG-$VER.268",
   "operatingSystem": "ubuntu",
    "metadata": {
     "os": "Ubuntu 16.04",
