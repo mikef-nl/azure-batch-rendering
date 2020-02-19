@@ -1,0 +1,4 @@
+{
+  "containerImage": "$REPO_BASE/3dsmax:$PARENT_TAG-$VER.vray36002",
+  "installerFileBlob": "Windows/3dsMax2018/vray/vray4batch_36002_max2018_x64.exe"
+}

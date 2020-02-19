@@ -1,0 +1,31 @@
+<DefValues>
+ <Value Name="VISIT_SPOT3D" DataType="value">0</Value>
+ <Value Name="OPEN_CHANGELOG" DataType="value">0</Value>
+ <Value Name="REMOTE_LICENSE" DataType="value">0</Value>
+ <Value Name="VROL_INSTALLED" DataType="value">0</Value>
+ <Value Name="VROL_INSTALL_PATH" DataType="value">not_installed</Value>
+ <Value Name="ISRUNNING_VROL" DataType="value">0</Value>
+ <Value Name="ISRUNNING_VRLSERVICE" DataType="value">0</Value>
+ <Value Name="REVERT_INSTALL" DataType="value">1</Value>
+ <Value Name="PROGRAMFILES" DataType="value">C:\Program Files</Value>
+ <Value Name="MAXROOT" DataType="value">C:\Autodesk\3dsMax2018</Value>
+ <Value Name="STDROOT" DataType="value">C:\server\3dsmax2018Vray</Value>
+ <Value Name="RTROOT" DataType="value">C:\server\3dsmax2018Vray</Value>
+ <Value Name="PLUGINS" DataType="value">C:\Autodesk\3dsMax2018\Plugins</Value>
+ <Value Name="STARTMENUPROG" DataType="value">C:\ProgramData\Microsoft\Windows\Start Menu\Programs</Value>
+ <Value Name="COMMONFILES" DataType="value">C:\Program Files\Common Files</Value>
+ <Value Name="SEND_USER_FEEDBACK" DataType="value">0</Value>
+ <Value Name="VIDEO_DRIVER_TDR_DELAY_INCREASE" DataType="value">1</Value>
+ <Value Name="SHOULDUNINSTALL" DataType="value">1</Value>
+ <Value Name="INSTALL_TYPE" DataType="value">0</Value>
+ <Value Name="AUTO_INSTALL_UIMENUS" DataType="value">1</Value>
+ <LicServer>
+  <Host>localhost</Host>
+  <Port>30304</Port>
+  <Host1></Host1>
+  <Port1>30304</Port1>
+  <Host2></Host2>
+  <Port2>30304</Port2>
+  <User></User>
+ </LicServer>
+</DefValues>
