@@ -1,5 +1,4 @@
 {
-    "containerImage": "azurebatchrendering/windows",
-    "pathToDockerFile": "Windows",
-    "installerFileBlob": ""
+  "containerImage": "$REPO_BASE/3dsmax:$VER.win1809",
+  "operatingSystem": "win1809",
 }

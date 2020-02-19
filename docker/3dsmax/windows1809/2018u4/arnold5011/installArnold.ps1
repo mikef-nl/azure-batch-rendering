@@ -11,9 +11,9 @@ New-Item 'C:\temp\Max2018ToArnold' -type directory
 echo '-------------------------------------------------------------------------------------'
 echo '------------------=Download and install Arnold for 3DS Max 2018=---------------------'
 echo '-------------------------------------------------------------------------------------'
-AzCopy.exe /source:$INSTALLER_SAS /dest:'MAXtoA-1.2.926.2018.exe'
+AzCopy.exe /source:$INSTALLER_SAS /dest:'MAXtoA.exe'
 echo 'Download complete'
-7z e 'MAXtoA-1.2.926.2018.exe' -o'C:\temp\Max2018ToArnold\'
+7z e 'MAXtoA.exe' -o'C:\temp\Max2018ToArnold\'
 echo 'Extraction complete'
 Start-Process msiexec.exe -ArgumentList @("/I", "C:\temp\Max2018ToArnold\ArnoldPlug.msi", "/passive", "/qn") -Wait
 

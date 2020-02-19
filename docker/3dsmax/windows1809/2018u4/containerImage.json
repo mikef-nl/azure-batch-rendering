@@ -1,0 +1,4 @@
+{
+  "containerImage": "$REPO_BASE/3dsmax:$PARENT_TAG-$VER.2018u4",
+  "installerFileBlob": "windows/Autodesk_3ds_Max_IO_2018_EFGJKPS_Win_part4_64bit.zip"
+}
