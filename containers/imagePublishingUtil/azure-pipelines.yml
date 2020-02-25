@@ -13,9 +13,9 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet publish docker/PublishContainerImages --configuration $(buildConfiguration)
-  displayName: 'dotnet publish docker/PublishContainerImages $(buildConfiguration)'
+- script: dotnet publish containers/imagePublishingUtil --configuration $(buildConfiguration)
+  displayName: 'dotnet publish containers/imagePublishingUtil $(buildConfiguration)'
 - task: PublishPipelineArtifact@0
   inputs:
-    artifactName: 'PublishContainerImages'
-    targetPath: 'docker/PublishContainerImages/bin/$(buildConfiguration)/netcoreapp2.1/publish'
+    artifactName: 'ImagePublishingUtil'
+    targetPath: 'containers/imagePublishingUtil/bin/$(buildConfiguration)/netcoreapp2.1/publish'
