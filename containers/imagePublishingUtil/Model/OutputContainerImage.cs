@@ -22,6 +22,6 @@ namespace PublishContainerImages.Model
 
         public ContainerImageMetadata Metadata;
 
-        public string TestContainerImage;
+        public string ContainerImageToPush;
     }
 }

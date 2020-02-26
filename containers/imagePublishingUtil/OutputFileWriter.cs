@@ -77,7 +77,7 @@ namespace PublishContainerImages
 
         public static void _outputTestFiles(string testRepoUsername, string testRepoPassword, string testRepoRegistry, string batchExtensionTemplatesRootDir, List<OutputContainerImage> imageDefinitions, List<string> imagesWithTagsToTest)
         {
-            PublishContainerImages.WriteLog($"\nWriting test files for the following images:\n { string.Join("\n", imageDefinitions.Select(image => image.TestContainerImage))}");
+            PublishContainerImages.WriteLog($"\nWriting test files for the following images:\n { string.Join("\n", imageDefinitions.Select(image => image.ContainerImageToPush))}");
 
             var imagesWithTests = _removeInvalidPayloads(imageDefinitions);
             var updatedImageDefinitions = _updateTestConfigAndParametersWithTaggedImage(imagesWithTests);
@@ -185,8 +185,8 @@ namespace PublishContainerImages
             foreach (var image in images)
             {
                 image.Payload.TestParametersDefinition.containerImage = new ExpandoObject();
-                image.Payload.TestParametersDefinition.containerImage.value = image.TestContainerImage;
-                image.Payload.TestConfigurationDefinition.DockerImage = image.TestContainerImage;
+                image.Payload.TestParametersDefinition.containerImage.value = image.ContainerImageToPush;
+                image.Payload.TestConfigurationDefinition.DockerImage = image.ContainerImageToPush;
             }
 
             return images;

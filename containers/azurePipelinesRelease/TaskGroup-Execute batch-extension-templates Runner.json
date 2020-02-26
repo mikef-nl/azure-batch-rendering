@@ -1,0 +1,277 @@
+{
+  "tasks": [
+    {
+      "environment": {},
+      "displayName": "Use Python 3.7.x",
+      "alwaysRun": false,
+      "continueOnError": false,
+      "condition": "succeeded()",
+      "enabled": true,
+      "timeoutInMinutes": 0,
+      "inputs": {
+        "versionSpec": "3.7.x",
+        "addToPath": "true",
+        "architecture": "x64"
+      },
+      "task": {
+        "id": "33c63b11-352b-45a2-ba1b-54cb568a29ca",
+        "versionSpec": "0.*",
+        "definitionType": "task"
+      }
+    },
+    {
+      "environment": {},
+      "displayName": "Install Runner Dependencies",
+      "alwaysRun": false,
+      "continueOnError": false,
+      "condition": "succeeded()",
+      "enabled": true,
+      "timeoutInMinutes": 0,
+      "inputs": {
+        "script": "python -m pip install --upgrade pip setuptools wheel django\npip install -r batch-extension-templates/batch-extension-templates/runner/requirements-merged.txt",
+        "workingDirectory": "",
+        "failOnStderr": "false"
+      },
+      "task": {
+        "id": "d9bafed4-0b18-4f58-968d-86655b4d2ce9",
+        "versionSpec": "2.*",
+        "definitionType": "task"
+      }
+    },
+    {
+      "environment": {},
+      "displayName": "Execute Runner",
+      "alwaysRun": false,
+      "continueOnError": false,
+      "condition": "succeeded()",
+      "enabled": true,
+      "timeoutInMinutes": 60,
+      "inputs": {
+        "scriptSource": "filePath",
+        "scriptPath": "batch-extension-templates/batch-extension-templates/runner/runner.py",
+        "script": "",
+        "arguments": "\"$(TEST_CONFIG_FILE)\" \"$(BATCH_ACCOUNT_NAME)\" \"$(BatchAccountKey)\" \"$(BATCH_ACCOUNT_URL)\" \"$(BATCH_ACCOUNT_SUB)\" \"$(STORAGE_ACCOUNT_NAME)\" \"$(StorageAccountKey)\"  \"$(SERVICE_PRINCIPAL_CLIENT_ID)\" \"$(ServicePrincipalCredentialsSecret)\" \"$(SERVICE_PRINCIPAL_TENANT)\" \"$(SERVICE_PRINCIPAL_RESOURCE)\" \"-KeyVaultUrl=$(KEYVAULT_URL)\" \"-RepositoryBranchName=$(Release.Artifacts.Batch-Extension-Templates.SourceVersion)\"",
+        "pythonInterpreter": "",
+        "workingDirectory": "$(System.DefaultWorkingDirectory)/batch-extension-templates/batch-extension-templates/runner",
+        "failOnStderr": "false"
+      },
+      "task": {
+        "id": "6392f95f-7e76-4a18-b3c7-7f078d2f7700",
+        "versionSpec": "0.*",
+        "definitionType": "task"
+      }
+    },
+    {
+      "environment": {},
+      "displayName": "Publish Runner Test Results ",
+      "alwaysRun": false,
+      "continueOnError": false,
+      "condition": "succeeded()",
+      "enabled": true,
+      "timeoutInMinutes": 0,
+      "inputs": {
+        "testRunner": "JUnit",
+        "testResultsFiles": "output.xml",
+        "searchFolder": "$(System.DefaultWorkingDirectory)/batch-extension-templates/batch-extension-templates/runner/Tests",
+        "mergeTestResults": "false",
+        "failTaskOnFailedTests": "true",
+        "testRunTitle": "",
+        "platform": "",
+        "configuration": "",
+        "publishRunAttachments": "true"
+      },
+      "task": {
+        "id": "0b0f01ed-7dde-43ff-9cbb-e48954daf9b1",
+        "versionSpec": "2.*",
+        "definitionType": "task"
+      }
+    }
+  ],
+  "runsOn": [
+    "Agent",
+    "DeploymentGroup"
+  ],
+  "revision": 2,
+  "createdBy": {
+    "displayName": "David Kydd",
+    "id": "47bd54c4-e66a-4c40-932e-6a94d47771e8",
+    "uniqueName": "dakydd@microsoft.com"
+  },
+  "createdOn": "2020-02-09T22:07:02.200Z",
+  "modifiedBy": {
+    "displayName": "David Kydd",
+    "id": "47bd54c4-e66a-4c40-932e-6a94d47771e8",
+    "uniqueName": "dakydd@microsoft.com"
+  },
+  "modifiedOn": "2020-02-17T01:49:12.203Z",
+  "comment": "",
+  "id": "ec8bd6e1-aca5-46fc-9cc1-6aa46cb2a145",
+  "name": "Execute batch-extension-templates Runner",
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0,
+    "isTest": false
+  },
+  "iconUrl": "https://cdn.vsassets.io/v/M160_20191119.13/_content/icon-meta-task.png",
+  "friendlyName": "Execute batch-extension-templates Runner",
+  "description": "",
+  "category": "Deploy",
+  "definitionType": "metaTask",
+  "author": "David Kydd",
+  "demands": [],
+  "groups": [],
+  "inputs": [
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "BATCH_ACCOUNT_NAME",
+      "label": "BATCH_ACCOUNT_NAME",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "BATCH_ACCOUNT_SUB",
+      "label": "BATCH_ACCOUNT_SUB",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "BATCH_ACCOUNT_URL",
+      "label": "BATCH_ACCOUNT_URL",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "BatchAccountKey",
+      "label": "BatchAccountKey",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "KEYVAULT_URL",
+      "label": "KEYVAULT_URL",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "SERVICE_PRINCIPAL_CLIENT_ID",
+      "label": "SERVICE_PRINCIPAL_CLIENT_ID",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "SERVICE_PRINCIPAL_RESOURCE",
+      "label": "SERVICE_PRINCIPAL_RESOURCE",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "SERVICE_PRINCIPAL_TENANT",
+      "label": "SERVICE_PRINCIPAL_TENANT",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "ServicePrincipalCredentialsSecret",
+      "label": "ServicePrincipalCredentialsSecret",
+      "defaultValue": "$(ServicePrincipalCredentialsSecret)",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "STORAGE_ACCOUNT_NAME",
+      "label": "STORAGE_ACCOUNT_NAME",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "StorageAccountKey",
+      "label": "StorageAccountKey",
+      "defaultValue": "$(StorageAccountKey)",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    },
+    {
+      "aliases": [],
+      "options": {},
+      "properties": {},
+      "name": "TEST_CONFIG_FILE",
+      "label": "TEST_CONFIG_FILE",
+      "defaultValue": "",
+      "required": true,
+      "type": "string",
+      "helpMarkDown": "",
+      "groupName": ""
+    }
+  ],
+  "satisfies": [],
+  "sourceDefinitions": [],
+  "dataSourceBindings": [],
+  "instanceNameFormat": "Task group: Execute batch-extension-templates Runner $(BATCH_ACCOUNT_NAME)",
+  "preJobExecution": {},
+  "execution": {},
+  "postJobExecution": {}
+}

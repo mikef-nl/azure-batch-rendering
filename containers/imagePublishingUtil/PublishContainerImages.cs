@@ -9,6 +9,7 @@ using CommandLine;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using PublishContainerImages.Model;
+using PublishContainerImages.Model.ArgumentBags;
 
 
 namespace PublishContainerImages
@@ -28,15 +29,13 @@ namespace PublishContainerImages
 
         private const string LogFilename = "publishContainerImages.log";
 
-        private const string StorageAccountName = "renderingapplications";
-        private const string StorageContainerName = "batch-rendering-apps";
+        //private const string StorageAccountName = "renderingapplications";
+        //private const string StorageContainerName = "batch-rendering-apps";
 
         public static string DockerInstallScriptsRootDir { get; private set; }
 
         public static string BatchExtensionTemplatesRootDir { get; private set; }
-
-        public static string RelativePathFromRunnerDir { get; private set; }
-
+        
         private static string[] ParseTargetRelativeDirs(string targetRelativeDirs)
         {
             var targetRelativeDir = targetRelativeDirs == "/" ? string.Empty : targetRelativeDirs;
@@ -56,11 +55,23 @@ namespace PublishContainerImages
                     WriteLog = _writeLog;
                     WriteError = _writeError;
 
-                    return Parser.Default.ParseArguments<PublishOptions, TestOnlyOptions, MergeJsonOptions>(args)
+                    return Parser.Default.ParseArguments<BuildMetadataTestPublishMcrOptions, TestOnlyOptions, MergeJsonOptions>(args)
                         .MapResult(
-                            (PublishOptions opts) => RunPublish(opts),
-                            (TestOnlyOptions opts) => RunTestOnly(opts),
-                            (MergeJsonOptions opts) => RunMergeJson(opts),
+                            (BuildMetadataTestPublishMcrOptions opts) =>
+                            {
+                                //convert Options to set of args and call through
+                                return RunPublish(opts);
+                            },
+                            (TestOnlyOptions opts) =>
+                            {
+                                //convert Options to set of args and call through
+                                return RunTestOnly(opts);
+                            },
+                            (MergeJsonOptions opts) =>
+                            {
+                                //convert Options to set of args and call through
+                                return RunMergeJson(opts);
+                            },
                             errs => 1);
             }
         }
@@ -79,34 +90,30 @@ namespace PublishContainerImages
             return optionValues;
         }
 
-        public static int RunPublish(PublishOptions options)
+        public static int RunPublish(PublishArgs publishArgs, StorageArgs storageArgs, GenerateTestFilesArgs testFilesArgs, GenerateMetadataFileArgs metadataFileArgs, McrArgs mcrArgs)
         {
             try
             {
-                var optionValues = PrettyStringObjectProperties(options);
-                var targetRelativeDirs = ParseTargetRelativeDirs(options.TargetRelativeDirs);
+                var optionValues = PrettyStringObjectProperties(publishArgs);
+                var targetRelativeDirs = ParseTargetRelativeDirs(publishArgs.TargetRelativeDirs);
 
                 _writeLog($"Beginning Publishing Run with environment:\n{string.Join("\n", optionValues)}");
 
-                DockerInstallScriptsRootDir = options.DockerInstallScriptsRootDir;
+                DockerInstallScriptsRootDir = publishArgs.DockerInstallScriptsRootDir;
 
-                BatchExtensionTemplatesRootDir = options.BatchExtensionTemplatesRootDir;
+                BatchExtensionTemplatesRootDir = testFilesArgs.BatchExtensionTemplatesRootDir;
 
-                var testRepoRegistry = options.TestRepoBase.Split('/')[0];
-
-                var blobContainer =
-                    _buildBlobClient(StorageAccountName, options.StorageKey,
-                        StorageContainerName); //NOTE blobContainer will be null if !buildImages
+                var blobContainer = _buildBlobClient(storageArgs.StorageAccountName, storageArgs.StorageKey, storageArgs.StorageContainerName); //NOTE blobContainer will be null if !buildImages
 
                 var containerImagePayload = DirectoryTraversal.BuildFullPayloadFromDirectoryTree(
-                    options.AcrRepoBase,
-                    options.TestRepoBase,
-                    options.ProdRepoBase,
+                    mcrArgs.InternalRepoBase,
+                    testFilesArgs.TestRepoBase,
+                    mcrArgs.ProdRepoBase,
                     DockerInstallScriptsRootDir,
                     targetRelativeDirs,
-                    options.IncludeAntecendentsBool,
-                    options.IncludeDescendentsBool,
-                    options.BuildVersion,
+                    publishArgs.IncludeAntecendents,
+                    publishArgs.IncludeDescendents,
+                    publishArgs.BuildVersion,
                     true);
 
                 _writePrePublishLog(containerImagePayload);
@@ -120,15 +127,14 @@ namespace PublishContainerImages
                     var imageDef = payload.ContainerImageDefinition;
                     dynamic blobProperties = _getBlobUriWithSasTokenAndMD5(imageDef.InstallerFileBlob, blobContainer);
 
-                    string devTag = ImageTagging.BuildDevImageTag(options.ReleaseName, blobProperties.blobMD5, options.GitCommitSha, imageDef.VersionTag);
+                    string devTag = ImageTagging.BuildDevImageTag(publishArgs.ReleaseName, blobProperties.blobMD5, publishArgs.GitCommitSha, imageDef.VersionTag);
 
                     _writeLog($"Building #{imageNumber++} of {containerImagePayload.Count} \n" +
                               $" - Prod-ImageName: {imageDef.ProdRepoName}:{imageDef.VersionTag}\n" +
                               $" - PreProd-ImageName: {imageDef.AcrRepoName}:{imageDef.VersionTag}\n" +
                               $" - Test-RepoName: {imageDef.TestRepoName}:{devTag}\n");
 
-                    var localImageId = _buildImage(options.AcrRepoBase, DockerInstallScriptsRootDir, imageDef,
-                        blobProperties.blobSasToken);
+                    var localImageId = _buildImage(mcrArgs.InternalRepoBase, DockerInstallScriptsRootDir, imageDef, blobProperties.blobSasToken);
 
                     var testImage = $"{imageDef.TestRepoName}:{devTag}";
                     DockerCommands._runDockerTag(localImageId, testImage);
@@ -150,23 +156,23 @@ namespace PublishContainerImages
                         VersionTag = imageDef.VersionTag,
                         PathToDockerfile = imageDef.PathToDockerFile,
                         Payload = payload,
-                        TestContainerImage = $"{imageDef.TestRepoName}:{devTag}"
+                        ContainerImageToPush = $"{imageDef.TestRepoName}:{devTag}"
                     };
                     builtContainerImages.Add(outputImage);
 
-                    if (options.PushTestImagesBool)
+                    if (publishArgs.ShouldPushImages)
                     {
-                        DockerCommands._runDockerPush(outputImage.TestContainerImage);
+                        DockerCommands._runDockerPush(outputImage.ContainerImageToPush);
                         _writeLog($"Successfully pushed {testImage}\n");
                     }
                 }
 
-                OutputFileWriter._outputTestFiles(options.TestRepoUsername, options.TestRepoPassword, testRepoRegistry,
-                    BatchExtensionTemplatesRootDir, builtContainerImages, testImages);
+                var testRepoRegistry = testFilesArgs.TestRepoBase.Split('/')[0];
+
+                OutputFileWriter._outputTestFiles(publishArgs.PublishRepoUsername, publishArgs.PublishRepoPassword, testRepoRegistry, BatchExtensionTemplatesRootDir, builtContainerImages, testImages);
                 OutputFileWriter._outputTestImagesFile(testImages);
                 OutputFileWriter._outputProdImagesFile(prodImages);
-                OutputFileWriter._outputContainerImageMetadataFile(builtContainerImages,
-                    options.OutputFullMetadataFileBool);
+                OutputFileWriter._outputContainerImageMetadataFile(builtContainerImages, metadataFileArgs.OutputFullMetadataFile);
                 OutputFileWriter.UpdateVersionFiles(DockerInstallScriptsRootDir, builtContainerImages);
 
                 _writeLog($"Completed Publishing Successfully!\n\n");
@@ -225,7 +231,7 @@ namespace PublishContainerImages
                         VersionTag = payload.ContainerImageDefinition.VersionTag,
                         PathToDockerfile = payload.ContainerImageDefinition.PathToDockerFile,
                         Payload = payload,
-                        TestContainerImage =payload.ContainerImageDefinition.TestContainerImageWithVersionTag
+                        ContainerImageToPush =payload.ContainerImageDefinition.TestContainerImageWithVersionTag
                     });
                 }
 
