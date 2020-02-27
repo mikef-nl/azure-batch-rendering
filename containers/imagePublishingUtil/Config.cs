@@ -22,10 +22,10 @@ namespace PublishContainerImages
 
         [Option(Required = true)] public string BuildVersion { get; set; }
 
-        [Option(Required = true, Default= "renderingapplications")]
+        [Option(Required = false, Default= "renderingapplications")]
         public string StorageAccountName { get; set; }
 
-        [Option(Required = true, Default = "batch-rendering-apps")]
+        [Option(Required = false, Default = "batch-rendering-apps")]
         public string StorageContainerName { get; set; }
 
         [Option(Required = true)] public string StorageKey { get; set; }
