@@ -28,12 +28,13 @@ namespace PublishContainerImages
 
         private const string LogFilename = "publishContainerImages.log";
 
-        private const string StorageAccountName = "renderingapplications";
-        private const string StorageContainerName = "batch-rendering-apps";
-
         public static string DockerInstallScriptsRootDir { get; private set; }
 
         public static string BatchExtensionTemplatesRootDir { get; private set; }
+
+        public static string StorageAccountName { get; private set; }
+
+        public static string StorageContainerName { get; private set; }
 
         public static string RelativePathFromRunnerDir { get; private set; }
 
@@ -91,6 +92,10 @@ namespace PublishContainerImages
                 DockerInstallScriptsRootDir = options.DockerInstallScriptsRootDir;
 
                 BatchExtensionTemplatesRootDir = options.BatchExtensionTemplatesRootDir;
+
+                StorageAccountName = options.StorageAccountName;
+
+                StorageContainerName = options.StorageContainerName;
 
                 var testRepoRegistry = options.TestRepoBase.Split('/')[0];
 
