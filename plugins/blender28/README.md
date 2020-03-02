@@ -52,11 +52,11 @@ The Blender plugin gives you 4 menu options. It can be accessed via: ```Render -
 
 Currently available templates:
 
-- Render on Linux (Render a Blender scene using Ubuntu 16.04)
+- Render frames on Ubuntu 16.04 (Render a Blender scene using Ubuntu 16.04)
 - Distributed Render on Linux (Distributed rendering for Blender. Render frame tiles on multiple Ubuntu nodes with the CYCLES rendering engine.)
-- Render on Windows Server (Render a Blender scene using Windows Server)
+- Render frames on Windows Server (Render a Blender scene using Windows Server)
+- Render frames on Windows Server GPU Machines (Render a Blender scene using Windows Server GPU machines and the Blender CYCLES rendering engine)
 - Distributed Render on Windows Server (Distributed rendering for Blender. Render tiles on multiple Windows Server nodes with the CYCLES rendering engine)
-- GPU Render on Windows Server (Render a Blender scene using Windows Server GPU machines and the Blender CYCLES rendering engine)
 
 **Manage data** - Will take you to the screen where you can select and upload your data into a file group so that it can be referenced by your job.
 
