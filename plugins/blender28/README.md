@@ -1,5 +1,5 @@
 # Azure Batch Rendering
-Batch Explorer plugin for Blender 2.79x. This plugin allows you to use BatchExplorer and the Azure Batch Rendering Service to render your scenes in the cloud.
+Batch Explorer plugin for Blender 2.8+. This plugin allows you to use BatchExplorer and the Azure Batch Rendering Service to render your scenes in the cloud.
 
 ## BatchExplorer
 BatchExplorer is a tool to manage your Azure Batch accounts. The goal is to implement a great user experience that will help you debug, monitor and manage your pools, jobs and tasks. It also includes new features such as `Job and Pool Templates` with the aim to improve your Batch experience. BatchExplorer is updated monthly with new features and bug fixes. You can download it for Windows, Mac OS, and Linux from the [BatchExplorer website](https://azure.github.io/BatchExplorer/).
@@ -14,21 +14,22 @@ Install the latest version of BatchExplorer from the [BatchExplorer website](htt
 This is the tool that will do the majority of the work to get your Blender scenes rendering in the cloud.
 
 #### 2.1 Install the Blender plugin
-Download the latest zip file from [the repository](https://github.com/Azure/azure-batch-rendering/raw/master/plugins/blender/blender.client/build/blender-0.2.0.zip).
+Download the latest zip file from [the repository](https://github.com/Azure/azure-batch-rendering/raw/master/plugins/blender28/blender.client/build/blender-0.2.1.zip).
 
 - Open the Blender application
-- Open the user preferences window: ```File -> User Preferences```
-- Click ```Install Add-on from File``` button
-- Navigate to the plugin zip file you downloaded earlier and select the ```Install Add-on from File``` button.
+- Open the user preferences window: ```Edit -> Preferences```
+- Click ```Add-ons``` from the side panel
+- Click ```Install``` from the top panel 
+- Navigate to the plugin zip file you downloaded earlier and select the ```Install Add-on``` button.
 
 **Note:** you will need to check the checkbox to enable the plugin.
 
-![](../images/blender/blender-prefs.png)
+![](../images/blender/blender-28-prefs.png)
 
 #### 2.2 Set the User Preferences
 The plugin contains a couple of handy user preferences.
 
-![](../images/blender/blender-user-prefs.png)
+![](../images/blender/blender-28-user-prefs.png)
 
 **Log directory** - is where any logs from the plugin will be written to. Note that logs will also be written to the Blender system console that you can view by selecting the following menu: ```Window -> Toggle System Console```
 
@@ -45,17 +46,17 @@ This will ensure that every time you open BatchExplorer from the Blender plugin,
 ## Using the plugin
 The Blender plugin gives you 4 menu options. It can be accessed via: ```Render -> Azure Batch Rendering```. All commands take you to the corresponding page in the BatchExplorer application.
 
-![](../images/blender/blender-menu.png)
+![](../images/blender/blender-28-menu.png)
 
 **Submit job** - Allows you to submit a rendering job using our job and pool templating service. It will pre-populate some fields and get you submitting a job in no time with the click of a button. This menu option lists the currently available templates from our [Blender template repository](https://github.com/Azure/BatchExplorer-data/tree/master/ncj/blender). We have full range of Ubuntu 16.04 and Windows Server based templates. Should you have a requirement for any other type of job or pool template, then please let us know and we can look to create one for you. The best place to raise this would be the [BatchExplorer issues register on GitHub](https://github.com/Azure/BatchExplorer/issues).
 
 Currently available templates:
 
-- Render on Linux (Render a Blender scene using Ubuntu 16.04)
+- Render frames on Ubuntu 16.04 (Render a Blender scene using Ubuntu 16.04)
 - Distributed Render on Linux (Distributed rendering for Blender. Render frame tiles on multiple Ubuntu nodes with the CYCLES rendering engine.)
-- Render on Windows Server (Render a Blender scene using Windows Server)
+- Render frames on Windows Server (Render a Blender scene using Windows Server)
+- Render frames on Windows Server GPU Machines (Render a Blender scene using Windows Server GPU machines and the Blender CYCLES rendering engine)
 - Distributed Render on Windows Server (Distributed rendering for Blender. Render tiles on multiple Windows Server nodes with the CYCLES rendering engine)
-- GPU Render on Windows Server (Render a Blender scene using Windows Server GPU machines and the Blender CYCLES rendering engine)
 
 **Manage data** - Will take you to the screen where you can select and upload your data into a file group so that it can be referenced by your job.
 
