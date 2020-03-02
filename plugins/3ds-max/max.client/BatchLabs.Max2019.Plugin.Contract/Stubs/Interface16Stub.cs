@@ -31,9 +31,9 @@ namespace BatchLabs.Max2019.Plugin.Contract.Stubs
 
         public ILogSys Log { get; }
 
-        public string CurFileName => "E_Overcast_full Scene_Test Mat_F_backup.max";
+        public string CurFileName => "Introduction-to-Arnold_robot_final.max";
 
-        public string CurFilePath => @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\PipecatFX_FullMovie_v01_t10.max";
+        public string CurFilePath => @"D:\_azure\rendering-scenes\3dsmax\arnold\Introduction-to-Arnold_robot_final\Introduction-to-Arnold_robot_final.max";
 
         public int RendWidth
         {
@@ -62,134 +62,12 @@ namespace BatchLabs.Max2019.Plugin.Contract.Stubs
             if (flags == 262)
             {
                 // Missing assets
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvhoumktotfs01\NOVAnima$\!Assets\Textures\Diamond Plate Floors\Floor_Metalplate_Grey_Diffuse.jpg", @""));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvhoumktotfs01\NOVAnima$\!Assets\Textures\Diamond Plate Floors\Floor_Metalplate_Grey_Reflection.jpg", @""));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvhoumktotfs01\NOVAnima$\!Assets\Textures\Diamond Plate Floors\Floor_Metalplate_Grey_Bump.jpg", @""));
-                assetEnum.RecordAsset(new FakeAsset(@"C:\Program Files\Autodesk\3ds Max 2016\scripts\MaxLandscape\MaxLandscape\LandMaps\TerrainMap001.jpg", @""));
-                assetEnum.RecordAsset(new FakeAsset(@"C:\Program Files\Autodesk\3ds Max 2016\scripts\MaxLandscape\MaxLandscape\LandMaps\TerrainMap005.jpg", @""));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvhoumktotfs01\NOVAnima$\!Assets\Textures\Metal\Galvanized\MetalGalvanized0022_7_L.jpg", @""));
-                assetEnum.RecordAsset(new FakeAsset(@"\\SRVUSAFS01\OT-HOU-Tradeshows-Events$\Textures\Metal\metal02.jpg", @""));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvhoumktotfs01\NOVAnima$\!Assets\Textures\Steel Grating\grating_opacity.jpg", @""));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvkrsfcl01\Animations$\Animations\NET_Render\Net_Render_Maps\V-Ray Matlib Study\Misc Surface Textures\Metal\Diff.jpg", @""));
+                // assetEnum.RecordAsset(new FakeAsset(@"\\srvhoumktotfs01\NOVAnima$\!Assets\Textures\Diamond Plate Floors\Floor_Metalplate_Grey_Diffuse.jpg", @""));
             }
             else
             {
                 // Normal assets
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\HDRI\HDRI Skies\141-free-hdri-skies-com.hdr", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\HDRI\HDRI Skies\141-free-hdri-skies-com.hdr"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_branch_01_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_branch_01_diffuse.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_branch_01_bump.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_branch_01_bump.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_leaf_01_opacity.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Picea Abies_leaf_01_opacity.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Gravel\gravel_textureset_xoio\Gravel_Displace.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Gravel\gravel_textureset_xoio\Gravel_Displace.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Grass\Grass0027_13_M.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Grass\Grass0027_13_M.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"C:\Program Files (x86)\Itoo Software\Forest Pack Pro\distmaps\images\full.bmp", @"C:\Program Files (x86)\Itoo Software\Forest Pack Pro\distmaps\images\full.bmp"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Fraxinus Excelsior_branch_01_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Fraxinus Excelsior_branch_01_diffuse.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Fraxinus Excelsior_branch_01_bump.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Fraxinus Excelsior_branch_01_bump.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Fraxinus Excelsior_leaf_01_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Fraxinus Excelsior_leaf_01_diffuse.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Pinus Sylvestris_branch_01_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Pinus Sylvestris_branch_01_diffuse.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Pinus Sylvestris_branch_01_bump.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Pinus Sylvestris_branch_01_bump.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_branch_01_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_branch_01_diffuse.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_branch_01_bump.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_branch_01_bump.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_01_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_01_diffuse.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_01_specular.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_01_specular.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_01_translucency.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_01_translucency.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_02_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_02_diffuse.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_02_specular.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_02_specular.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_02_translucency.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_leaf_02_translucency.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_flower_01_diffuse.png", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\VIZPARK\VP Real Trees\maps\VP_Aesculus Hippocastanum_flower_01_diffuse.png"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_generic_stem_2.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_generic_stem_2.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_common_bent_spikelet.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_common_bent_spikelet.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_generic_leaf1.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_generic_leaf1.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_dogstail_spikelet_transparency.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_dogstail_spikelet_transparency.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_dogstail_spikelet.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_dogstail_spikelet.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_dogtail_colour_swatch.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_dogtail_colour_swatch.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grass_leaf_1.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_1.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grass_leaf_2.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_2.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grass_leaf_3.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_3.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grass_leaf_4.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_4.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grass_leaf_5.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_5.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grass_leaf_6.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_leaf_6.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_generic_stem_1.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_generic_stem_1.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_fescue_spikelet2.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_fescue_spikelet2.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_fescue_spikelet.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_fescue_spikelet.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_common_catstail_spikelet_brown_diffuse.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_common_catstail_spikelet_brown_diffuse.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_common_catstail_spikelet_diffuse.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_common_catstail_spikelet_diffuse.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grass_stem_dark.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grass_stem_dark.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_african_daisy_petal.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_african_daisy_petal.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_lobed_leaf_trans.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_lobed_leaf_trans.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_lobed_leaf_diffuse.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_lobed_leaf_diffuse.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_marigold_stem.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_marigold_stem.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_marigold_stem_bump.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_marigold_stem_bump.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_blue_cornflower_petals.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_blue_cornflower_petals.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_corn_marigold_leaf_translucency.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_corn_marigold_leaf_translucency.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_californi_poppy_petal.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_californi_poppy_petal.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_leaf_california_poppy.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_leaf_california_poppy.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_california_poppy_pod.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_california_poppy_pod.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_corn_marigold_petal.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_corn_marigold_petal.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_corn_marigold_leaf_diffuse.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_corn_marigold_leaf_diffuse.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"FP_tickseed_petal.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\FP_tickseed_petal.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_seedpod_diffuse.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_seedpod_diffuse.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_seedpod_bump.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_seedpod_bump.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_Golden_Tickseed_flower.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_Golden_Tickseed_flower.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Shaderball_2017\Smuge_GW_006.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Shaderball_2017\Smuge_GW_006.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Shaderball_2017\Rust_Reflection_glossiness.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Shaderball_2017\Rust_Reflection_glossiness.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Shaderball_2017\GW_Grime_001.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Shaderball_2017\GW_Grime_001.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"C:\Mastering CGI\Shaderball_2017\GW_Grime_001.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Shaderball_2017\GW_Grime_001.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Kristian Made\Drillpipe\Scratchmaskcoursedrillpipe.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Kristian Made\Drillpipe\Scratchmaskcoursedrillpipe.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Kristian Made\Drillpipe\Scratchmaskfinedrillpipe.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Kristian Made\Drillpipe\Scratchmaskfinedrillpipe.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Metal\Base\MetalBase0121_9_L.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Metal\Base\MetalBase0121_9_L.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Metal\Base\MetalBase0123_L.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Metal\Base\MetalBase0123_L.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Grunge\Grungemaps\Grungemaps0043_25_L.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Grunge\Grungemaps\Grungemaps0043_25_L.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Grunge\Scratches\MetalScratches_more-0036__small_tile_KT.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Grunge\Scratches\MetalScratches_more-0036__small_tile_KT.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Grunge\Scratches\Scratch10_tile_small.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Grunge\Scratches\Scratch10_tile_small.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Grunge\Smudge\FingerPrints_Diffuse_GW_001.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Grunge\Smudge\FingerPrints_Diffuse_GW_001.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Rust\Plain Rust\Rust0176_2_H.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Rust\Plain Rust\Rust0176_2_H.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Metal\Bare\MetalBare0174_1_H.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Metal\Bare\MetalBare0174_1_H.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Kristian Made\Drillpipe\threads ao.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Kristian Made\Drillpipe\threads ao.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Metal\Brushed\Brushed metal.jpg", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Models\Pipes\stand\!Assets\Maps\Metal\Brushed\Brushed metal.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\Srvusafs01\OT-USA-MktgProd$\03_Anim\RS\Land\PipecatFX\0_io\FilesOut\Cable.pc2", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\03_Anim\RS\Land\PipecatFX\0_io\FilesOut\Cable.pc2"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock7.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock7.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock1.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock1.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock2.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock2.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock3.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock3.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock4.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock4.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock5.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock5.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock6.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock6.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_generic_rock_bump.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_generic_rock_bump.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Grunge\Grungemaps\Grungemaps0078_M_tile_JE.TGA", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Grunge\Grungemaps\Grungemaps0078_M_tile_JE.TGA"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Grunge\Grungemaps\Grungemaps0022_7_M_bump_JE.TGA", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Grunge\Grungemaps\Grungemaps0022_7_M_bump_JE.TGA"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Grunge\Scratches\Copy of Scratch11_tile_small.tga", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Grunge\Scratches\Copy of Scratch11_tile_small.tga"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\Maps\Grunge\Scratches\Scratch02-Tile.TGA", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\Maps\Grunge\Scratches\Scratch02-Tile.TGA"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone1.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone1.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone2.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone2.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone3.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone3.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone4.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone4.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone5.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone5.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone_normal1.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone_normal1.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone_normal2.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone_normal2.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone_normal3.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone_normal3.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone_normal4.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone_normal4.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_limestone_normal5.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_limestone_normal5.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grasstexture_mask.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grasstexture_mask.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grasstexture_difusse.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grasstexture_difusse.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grasstexture_difusse2.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grasstexture_difusse2.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grasstexture_difusse3.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grasstexture_difusse3.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grasstexture_difusse4.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grasstexture_difusse4.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grasstexture_normal.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grasstexture_normal.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_grasstexture_bump.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_grasstexture_bump.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_daisy_leaf_mask.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_daisy_leaf_mask.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_daisy_leaf_dif01.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_daisy_leaf_dif01.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_daisy_leaf_dif02.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_daisy_leaf_dif02.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_daisy_leaf_dif03.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_daisy_leaf_dif03.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_daisy_leaf_normal.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_daisy_leaf_normal.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_daisy_leaf_spec.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_daisy_leaf_spec.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_daisy_leaf_bak.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_daisy_leaf_bak.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock01bt.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock01bt.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_soil_02.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_soil_02.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_natur14l.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_natur14l.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock_spec.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock_spec.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"fp_rock_normal.jpg", @"c:\program files (x86)\itoo software\forest pack pro\maps\presets\fp_rock_normal.jpg"));
-                assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\03_Anim\RS\Land\PipecatFX\0_io\FilesIn\cadnav-151205112519\cadnav.com_model\Vehicle_B1128299\floodlight_generator.tga", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\03_Anim\RS\Land\PipecatFX\0_io\FilesIn\cadnav-151205112519\cadnav.com_model\Vehicle_B1128299\floodlight_generator.tga"));
+                // assetEnum.RecordAsset(new FakeAsset(@"\\srvusafs01\OT-USA-MktgProd$\_Assets\3D\HDRI\HDRI Skies\141-free-hdri-skies-com.hdr", @"D:\_azure\rendering\3dsmax\NOV\PipecatFX_FullMovie\_Assets\3D\HDRI\HDRI Skies\141-free-hdri-skies-com.hdr"));
             }
         }
 
