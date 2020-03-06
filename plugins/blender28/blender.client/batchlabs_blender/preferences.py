@@ -20,7 +20,7 @@ class UserPreferences(bpy.types.AddonPreferences):
                                               ('50', 'Critical', '')),
                                        name="Logging level",
                                        description="Level of logging detail",
-                                       default="10")
+                                       default="20")
 
     account: bpy.props.StringProperty(
         name="Batch Account",
