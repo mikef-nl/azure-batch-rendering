@@ -1,14 +1,16 @@
 import logging
 import os
 import re
-import bpy
-from ..constants import Constants
-from ..shared import BatchSettings
 
-class SubmitJobOperator(bpy.types.Operator):
-    bl_idname = "object.submit_job_operator"
-    bl_label = "SubmitJobOperator"
-    job_type = bpy.props.StringProperty()
+import bpy
+
+from batchlabs_blender.constants import Constants
+from batchlabs_blender.shared import BatchSettings
+
+class SUBMIT_JOB_OT_Operator(bpy.types.Operator):
+    bl_idname = Constants.OP_ID_SUBMIT_JOB
+    bl_label = "SUBMIT_JOB_OT_Operator"
+    job_type: bpy.props.StringProperty()
     
     _log = None
     _preferences = None
@@ -19,11 +21,11 @@ class SubmitJobOperator(bpy.types.Operator):
 
     def __init__(self):
         self._log = logging.getLogger(Constants.LOG_NAME)
-        self._preferences = BatchSettings.get_user_preferences().preferences
+        self._preferences = BatchSettings.get_user_preferences()
 
     def execute(self, context):
         # todo: check for and throw error if no job_type set
-        self._log.debug("SubmitJobOperator.execute: " + self.job_type)
+        self._log.debug("SUBMIT_JOB_OT_Operator.execute: " + self.job_type)
 
         handler = context.scene.batch_session.request_handler
         launch_url = str.format("market/blender/actions/{}/{}", self.job_type, "submit")
@@ -39,7 +41,7 @@ class SubmitJobOperator(bpy.types.Operator):
             arguments[Constants.KEY_ASSET_PATHS] = os.path.dirname(bpy.data.filepath)
             arguments[Constants.KEY_JOB_NAME] = sceneName
 
-        self._log.debug("SubmitJobOperator - passing args: " + str(arguments))
+        self._log.debug("SUBMIT_JOB_OT_Operator - passing args: " + str(arguments))
         handler.call_batch_labs(launch_url, arguments)
 
         return {"FINISHED"}
@@ -61,13 +63,12 @@ class SubmitJobOperator(bpy.types.Operator):
 
         # check that the filename is not too long, if it is then trim it
         if len(sansExtension) > self._maxUsableLength:
-            self._log.info("SubmitJobOperator: file name length is longer than: " + str(self._maxUsableLength) + ", trimming")
+            self._log.info("SUBMIT_JOB_OT_Operator: file name length is longer than: " + str(self._maxUsableLength) + ", trimming")
             sansExtension = sansExtension[0:self._maxUsableLength]
 
         # replace any start and end hyphens
         sansExtension = re.sub(r'^[-]|[-]+$', "", sansExtension)
-        self._log.info("SubmitJobOperator: after sanitizing filename: " + sansExtension)
-        self._log.info("SubmitJobOperator: returning: " + self._prefix + sansExtension)
+        self._log.info("SUBMIT_JOB_OT_Operator: after sanitizing filename: " + sansExtension)
+        self._log.info("SUBMIT_JOB_OT_Operator: returning: " + self._prefix + sansExtension)
 
         return self._prefix + sansExtension
-      

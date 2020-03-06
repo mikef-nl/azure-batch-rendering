@@ -1,27 +1,21 @@
 import logging
 
 import bpy
-from ..constants import Constants
-from ..shared import BatchSettings
 
-class DownloadRendersOperator(bpy.types.Operator):
-    """Open Batch Explorer to monitor your files"""
-    bl_idname = "object.download_renders_operator"
-    bl_label = "DownloadRendersOperator"
-    _preferences = None
+from batchlabs_blender.constants import Constants
 
+class DOWNLOAD_RENDERS_OT_Operator(bpy.types.Operator):
+    """ Manage Data """
+    
+    bl_idname = Constants.OP_ID_DOWNLOAD_RENDERS
+    bl_label = "DOWNLOAD_RENDERS_OT_Operator"
 
     def __init__(self):
         self.log = logging.getLogger(Constants.LOG_NAME)
-        self._preferences = BatchSettings.get_user_preferences().preferences
-
 
     def execute(self, context):
-        self.log.debug("DownloadRendersOperator.execute")
+        self.log.debug("DOWNLOAD_RENDERS_OT_Operator.execute")
         handler = context.scene.batch_session.request_handler
         handler.call_batch_labs("data")
-        arguments = {
-            Constants.KEY_ACCOUNT_ID: self._preferences.account,
-        }  
-        handler.call_batch_labs("pools", arguments)
+
         return {"FINISHED"}

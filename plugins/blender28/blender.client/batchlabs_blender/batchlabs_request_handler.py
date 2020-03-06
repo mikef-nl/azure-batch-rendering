@@ -1,10 +1,11 @@
-import json
+﻿import json
 import urllib.request
 from urllib.error import HTTPError
 import webbrowser
 
 import bpy
-from . constants import Constants
+
+from batchlabs_blender.constants import Constants
 
 class SubmitMenuOption:
     def __init__(self, key, name):
@@ -42,11 +43,9 @@ class BatchLabsRequestHandler(object):
         if not argument_dict:
             argument_dict = {}
 
-        print(self._preferences.account)
-        
         # add accountId if we have one in user settings
-        # if self._preferences.account:
-        #   argument_dict[Constants.KEY_ACCOUNT_ID] =  self._preferences.account[1].get("default")
+        if self._preferences.account:
+            argument_dict[Constants.KEY_ACCOUNT_ID] =  self._preferences.account
 
         # add any other parameters that were passed in via the argument_dict
         if argument_dict:

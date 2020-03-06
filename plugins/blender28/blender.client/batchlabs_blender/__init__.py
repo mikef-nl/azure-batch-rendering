@@ -1,11 +1,27 @@
-import importlib
+﻿import importlib
 import os
+import logging
+
 import bpy
 
+from bpy.app.handlers import persistent
+
+from batchlabs_blender.preferences import UserPreferences
+from batchlabs_blender.shared import BatchSettings
+from batchlabs_blender.constants import Constants
+
+from batchlabs_blender.menu import BATCH_LABS_MT_Submit_Menu
+from batchlabs_blender.menu import BATCH_LABS_MT_BlenderMenu
+
+from batchlabs_blender.op.download_renders_operator import DOWNLOAD_RENDERS_OT_Operator
+from batchlabs_blender.op.monitor_jobs_operator import MONITOR_JOBS_OT_Operator
+from batchlabs_blender.op.monitor_pools_operator import MONITOR_POOLS_OT_Operator
+from batchlabs_blender.op.submit_job_operator import SUBMIT_JOB_OT_Operator
+
 bl_info = {
-    "name" : "Batch-Blender-plugin",
+    "name": "BatchLabs Blender Plugin",
     "author": "Microsoft Corporation <bigcompute@microsoft.com>",
-    "version": (0, 1, 0),
+    "version": (0, 2, 0),
     "blender": (2, 80, 0),
     "location": "Render Menu",
     "description": "Render your Blender scene externally with Azure Batch and BatchLabs.",
@@ -14,20 +30,8 @@ bl_info = {
 
 _APP_DIR = os.path.dirname(__file__)
 
-
-from . menu import BatchLabsBlenderMenu, BatchLabsBlenderSubMenu
-from . shared import BatchSettings
-from . batchlabs_request_handler import BatchLabsRequestHandler
-from . preferences import UserPreferences
-from . op.monitor_pools_operator import MonitorPoolsOperator
-from . op.monitor_jobs_operator import MonitorJobsOperator
-from . op.download_renders_operator import DownloadRendersOperator
-from . op.submit_job_operator import SubmitJobOperator
-from . constants import Constants
-
-
-@bpy.app.handlers.persistent
-def start_session():
+@persistent
+def start_session(self):
     """
     Initializes the Batch session and registers all the property
     classes to the Blender context.
@@ -37,6 +41,7 @@ def start_session():
     Once the session has started (or reported an error), this function
     is removed from the event handlers.
     """
+    log = logging.getLogger(Constants.LOG_NAME)
     try:
         session = BatchSettings()
 
@@ -44,30 +49,43 @@ def start_session():
             return session
 
         bpy.types.Scene.batch_session = property(get_session)
+        log.info(property(get_session))
 
     except Exception as error:
         print("BatchLabs plugin failed to load.")
         print("Error: {0}".format(error))
         bpy.types.Scene.batch_error = error
 
-def menu_draw(self, context):
-    self.layout.menu(BatchLabsBlenderMenu.bl_idname)
+    finally:
+        bpy.app.handlers.depsgraph_update_post.remove(start_session)
 
 
-start_session()
+def menu_func(self, context):
+    """
+    Add the BatchLabs menu options to the 'Render' menu in the main toolbar
+    """
+    self.layout.menu("BATCH_LABS_MT_BlenderMenu")
 
-bpy.types.TOPBAR_MT_render.append(menu_draw)
+classes = ( UserPreferences, DOWNLOAD_RENDERS_OT_Operator, MONITOR_POOLS_OT_Operator, MONITOR_JOBS_OT_Operator, SUBMIT_JOB_OT_Operator, BATCH_LABS_MT_Submit_Menu, BATCH_LABS_MT_BlenderMenu )
+batch_lab_classes_register, batch_lab_classes_unregister = bpy.utils.register_classes_factory(classes)
+
+def register():
+    """
+    Register module and applicable classes.
+    Here we also register the User Preferences for the Addon, so it can
+    be configured in the Blender User Preferences window.
+    """
+    bpy.app.handlers.depsgraph_update_post.append(start_session)
+    batch_lab_classes_register()
+    bpy.types.TOPBAR_MT_render.append(menu_func)
 
 
-classes = (
-    BatchLabsBlenderMenu,
-    BatchLabsBlenderSubMenu,    
-    UserPreferences,
-    MonitorPoolsOperator,
-    MonitorJobsOperator,
-    DownloadRendersOperator, 
-    SubmitJobOperator,
-    
-)
+def unregister():
+    """
+    Unregister the addon if deselected from the User Preferences window.
+    """
+    batch_lab_classes_unregister()
+    bpy.types.TOPBAR_MT_render.remove(menu_func)
 
-register, unregister = bpy.utils.register_classes_factory(classes)
+if __name__ == "__main__":
+    register()

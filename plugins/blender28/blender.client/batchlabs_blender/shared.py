@@ -1,10 +1,12 @@
-import logging
+﻿import logging
 import os
 import uuid
+
 import bpy
-from . batchlabs_request_handler import BatchLabsRequestHandler
-from . constants import Constants
-from . preferences import UserPreferences
+
+from batchlabs_blender.batchlabs_request_handler import BatchLabsRequestHandler
+from batchlabs_blender.constants import Constants
+
 
 class BatchSettings(object):
     """
@@ -14,24 +16,18 @@ class BatchSettings(object):
     """
 
     def __init__(self):
-        self.session_id = uuid.uuid4()        
-        self.props = self._register_props()    
+        self.session_id = uuid.uuid4()
+        self.props = self._register_props()
         self.log = self._configure_logging()
-        try:
-            self.request_handler = BatchLabsRequestHandler(self.session_id,
-                                                           self.log,    
-                                                           self.props)
-        except:
-
-            print("Failed to create BatchLabsRequestHandler")
-            pass 
-
+        self.request_handler = BatchLabsRequestHandler(self.session_id,
+                                                       self.log,
+                                                       self.props)
         self.log.info("Initialised BatchSettings")
-
+        self.log.info(self.props)
 
     @staticmethod
     def get_user_preferences():
-        return bpy.context.preferences.addons[__package__]
+        return bpy.context.preferences.addons[__package__].preferences
     
     @staticmethod
     def _register_props():
@@ -42,18 +38,17 @@ class BatchSettings(object):
         :Returns:
             - :class:`.UserPreferences`
         """
-        props = UserPreferences
-        log_dir = props.log_dir[1].get("default")
-
-        if not os.path.isdir(log_dir):
+        props = BatchSettings.get_user_preferences()
+        if not os.path.isdir(props.log_dir):
             try:
-                os.mkdir(log_dir)
+                os.mkdir(props.log_dir)
             except:
                 raise EnvironmentError(
                     "Data directory not created at '{0}'.\n"
-                    "Please ensure you have adequate permissions.".format(log_dir))
-        return props
+                    "Please ensure you have adequate permissions.".format(
+                        props.log_dir))
 
+        return props
 
     def _configure_logging(self):
         """
@@ -62,7 +57,7 @@ class BatchSettings(object):
         handler to log to the Batch log file.
         """
         logger = logging.getLogger(Constants.LOG_NAME)
-        logger.setLevel(2)
+        logger.setLevel(int(self.props.log_level))
         console_format = logging.Formatter("Batch: [%(levelname)s] %(message)s")
         file_format = logging.Formatter(
             "%(asctime)-15s [%(levelname)s] %(module)s: %(message)s")
@@ -71,7 +66,7 @@ class BatchSettings(object):
         console_logging.setFormatter(console_format)
         logger.addHandler(console_logging)
 
-        logfile = os.path.join(self.props.log_dir[1].get("default"), "batched_blender.log")
+        logfile = os.path.join(self.props.log_dir, "batched_blender.log")
         file_logging = logging.FileHandler(logfile)
         file_logging.setFormatter(file_format)
         logger.addHandler(file_logging)
